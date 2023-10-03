@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:background="#03808F"
     android:elevation="8dp"
+    android:paddingStart="50dp"
     android:textAlignment="center"
     app:title="Ciné Journal"
     app:titleTextColor="#000000"
-    tools:visibility="visible"></androidx.appcompat.widget.Toolbar>
+    tools:visibility="visible"/>

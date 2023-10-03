@@ -13,6 +13,9 @@
         android:theme="@style/Theme.CineJournal"
         tools:targetApi="31">
         <activity
+            android:name=".APropos"
+            android:exported="false" />
+        <activity
             android:name=".ListeDeFilms"
             android:exported="true">
             <intent-filter>
