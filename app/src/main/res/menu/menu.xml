@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/aPropos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="À propos" />
+    <item
+        android:id="@+id/trouverUnFilm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Trouver un film" />
+    <item
+        android:id="@+id/toutSupprimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Tout supprimer" />
+    <item
+        android:id="@+id/tirerPar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Tirer par">
+        <menu>
+            <item
+                android:id="@+id/titre"
+                android:title="Titre" />
+
+            <item
+                android:id="@+id/note"
+                android:title="Note" />
+            <item
+                android:id="@+id/annee"
+                android:title="Année" />
+        </menu>
+
+    </item>
+
+
+
+
+
+</menu>
