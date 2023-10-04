@@ -11,11 +11,15 @@
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </include>
+
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewDescription"
         android:layout_width="185dp"
         android:layout_height="63dp"
         android:layout_marginTop="28dp"
@@ -28,24 +32,24 @@
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewCine"
         android:layout_width="370dp"
         android:layout_height="259dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
         app:srcCompat="@drawable/icon_foreground" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="352dp"
-        android:layout_height="249dp"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
+        android:id="@+id/textAPropos"
+        android:layout_width="343dp"
+        android:layout_height="137dp"
+        android:layout_marginTop="116dp"
+        android:text="Par Khalil Alhelou (1895560) et Elie Alfrieh (), dans le cadre de cours 420-5GM-RE, Automne 2023, Collège de Bois-de-Boulogne."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewCine" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,9 @@
     android:elevation="8dp"
     android:paddingStart="50dp"
     android:textAlignment="center"
+    android:visibility="visible"
     app:title="Ciné Journal"
     app:titleTextColor="#000000"
-    tools:visibility="visible"/>
+
+    tools:visibility="visible" />
+
