@@ -63,4 +63,19 @@
         app:layout_constraintTop_toBottomOf="@+id/textAPropos"
         app:layout_constraintVertical_bias="0.054" />
 
+    <Button
+        android:id="@+id/retour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="28dp"
+        android:background="#03808F"
+        android:backgroundTint="#03808F"
+        android:text="Retour"
+        android:textColorHighlight="#03808F"
+        android:textColorHint="#03808F"
+        android:textColorLink="#03808F"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
