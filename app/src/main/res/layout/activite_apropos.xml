@@ -20,9 +20,9 @@
 
     <TextView
         android:id="@+id/textViewDescription"
-        android:layout_width="185dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="171dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="10dp"
         android:text="Ciné Journal"
         android:textAlignment="center"
         android:textColor="#7A7979"
@@ -33,11 +33,10 @@
 
     <ImageView
         android:id="@+id/imageViewCine"
-        android:layout_width="370dp"
-        android:layout_height="259dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="162dp"
+        android:layout_height="111dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
         app:srcCompat="@drawable/icon_foreground" />
@@ -46,7 +45,7 @@
         android:id="@+id/textAPropos"
         android:layout_width="347dp"
         android:layout_height="57dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="24dp"
         android:text="Par Khalil Alhelou (1895560) et Elie Alfrieh (2067396), dans le cadre de cours 420-5GM-RE, Automne 2023, Collège de Bois-de-Boulogne."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,10 +55,12 @@
         android:id="@+id/textAPropos2"
         android:layout_width="347dp"
         android:layout_height="57dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Cette application sert à journalisé les films que vous écoutez et combien vous les appréciez"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAPropos" />
+        app:layout_constraintTop_toBottomOf="@+id/textAPropos"
+        app:layout_constraintVertical_bias="0.054" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

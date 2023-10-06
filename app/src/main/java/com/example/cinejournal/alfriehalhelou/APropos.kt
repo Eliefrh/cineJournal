@@ -12,5 +12,7 @@ class APropos : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activite_apropos)
 
+
+
     }
 }
