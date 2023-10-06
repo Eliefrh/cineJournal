@@ -44,12 +44,22 @@
 
     <TextView
         android:id="@+id/textAPropos"
-        android:layout_width="343dp"
-        android:layout_height="137dp"
+        android:layout_width="347dp"
+        android:layout_height="57dp"
         android:layout_marginTop="116dp"
-        android:text="Par Khalil Alhelou (1895560) et Elie Alfrieh (), dans le cadre de cours 420-5GM-RE, Automne 2023, Collège de Bois-de-Boulogne."
+        android:text="Par Khalil Alhelou (1895560) et Elie Alfrieh (2067396), dans le cadre de cours 420-5GM-RE, Automne 2023, Collège de Bois-de-Boulogne."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewCine" />
+
+    <TextView
+        android:id="@+id/textAPropos2"
+        android:layout_width="347dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="32dp"
+        android:text="Cette application sert à journalisé les films que vous écoutez et combien vous les appréciez"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textAPropos" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
