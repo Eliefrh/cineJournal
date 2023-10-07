@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:background="#03808F"
     android:elevation="8dp"
-    android:paddingStart="50dp"
-    android:textAlignment="center"
+    android:paddingStart="0dp"
     app:title="Ciné Journal"
     app:titleTextColor="#000000"
 />
