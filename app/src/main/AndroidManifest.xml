@@ -13,9 +13,15 @@
         android:theme="@style/Theme.CineJournal"
         tools:targetApi="31">
         <activity
-            android:name=".APropos"
-            android:parentActivityName=".ListeDeFilms"
+            android:name=".RechercheFilm"
             android:exported="false" />
+        <activity
+            android:name=".AjouterEditerFilm"
+            android:exported="false" />
+        <activity
+            android:name=".APropos"
+            android:exported="false"
+            android:parentActivityName=".ListeDeFilms" />
         <activity
             android:name=".ListeDeFilms"
             android:exported="true"

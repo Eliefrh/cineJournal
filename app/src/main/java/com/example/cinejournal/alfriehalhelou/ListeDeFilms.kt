@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
@@ -20,7 +21,12 @@ class ListeDeFilms : AppCompatActivity() {
         var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        var ajouter: Button = findViewById(R.id.ajouter)
+        ajouter.setOnClickListener() {
+            val intent = Intent(this, AjouterEditerFilm::class.java)
+            startActivity(intent)
 
+        }
 
     }
 
@@ -32,23 +38,29 @@ class ListeDeFilms : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.aPropos -> {
-                Log.d("MonTag", "Clic sur A Propos")
+                Log.d("MonTag", "Clic sur À Propos")
                 val intent = Intent(this, APropos::class.java);
                 startActivity(intent)
-                return true
             }
-            R.id.trouverUnFilm -> {
 
+            R.id.trouverUnFilm -> {
+//                Log.d("MonTag", "Clic sur Trouver un film")
+//                val intent = Intent(this, RechercheFilm::class.java);
+//                startActivity(intent)
             }
+
             R.id.toutSupprimer -> {
 
             }
+
             R.id.titre -> {
 
             }
+
             R.id.note -> {
 
             }
+
             R.id.annee -> {
 
             }
