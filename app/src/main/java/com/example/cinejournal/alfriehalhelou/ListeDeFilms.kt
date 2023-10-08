@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,14 @@ class ListeDeFilms : AppCompatActivity() {
 
         var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+
+        var titre: TextView = findViewById(R.id.mes_films)
+        titre.text = "Mes films"
+
+        var tri : TextView = findViewById(R.id.tri)
+        //tri.text = "Trier par ${}"
+
 
         recyclerView = findViewById(R.id.listeFilms)
         val filmsListe = listOf(
