@@ -3,22 +3,21 @@ package com.example.cinejournal.alfriehalhelou
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class FilmAdapteur(val ctx: Context, val activity: ListeDeFilms, var films: List<ItemFilm>) :
-    RecyclerView.Adapter<ItemFilmHolder>() {
+    RecyclerView.Adapter<`ItemFilmHolder(Main)`>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemFilmHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): `ItemFilmHolder(Main)` {
         val view = LayoutInflater.from(ctx).inflate(R.layout.liste_films_item, parent, false)
-        return ItemFilmHolder(view)
+        return `ItemFilmHolder(Main)`(view)
     }
 
     override fun getItemCount(): Int {
         return films.size
     }
 
-    override fun onBindViewHolder(holder: ItemFilmHolder, position: Int) {
+    override fun onBindViewHolder(holder: `ItemFilmHolder(Main)`, position: Int) {
         val film = films[position]
         holder.imagFilm.setImageResource(film.image)
         holder.nomFilm.text = film.nom

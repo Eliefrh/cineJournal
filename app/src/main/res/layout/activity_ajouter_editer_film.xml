@@ -14,65 +14,171 @@
 
     <TextView
         android:id="@+id/textViewNouveauFilm"
-        android:layout_width="192dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="184dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
         android:text="Nouveau Film"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_ajouter_editer" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="161dp" />
-
     <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/editTextTitreFilm"
+        android:layout_width="246dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
+        android:hint="Entrez le titre"
         android:inputType="text"
-        android:text="Name"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="207dp" />
+        android:textColor="#037F8E"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextViewTitre" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="238dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNote" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="282dp" />
+        android:id="@+id/textViewNote"
+        android:layout_width="43sp"
+        android:layout_height="16sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:text="Note"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextAnneeFilm" />
+
+    <TextView
+        android:id="@+id/textViewSlogan"
+        android:layout_width="53dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:text="Slogan"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTitreFilm" />
+
+    <TextView
+        android:id="@+id/TextViewTitre"
+        android:layout_width="43dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:text="Titre"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNouveauFilm" />
 
     <EditText
-        android:id="@+id/editTextText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/editTextSloganFilm"
+        android:layout_width="245dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
+        android:hint="Entrez votre slogan"
         android:inputType="text"
-        android:text="Name"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="323dp" />
+        android:textColor="#037F8E"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSlogan" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="396dp" />
+        android:id="@+id/textViewAnnee"
+        android:layout_width="41dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:text="Année"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSloganFilm" />
 
     <EditText
-        android:id="@+id/editTextNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/editTextAnneeFilm"
+        android:layout_width="241dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
+        android:hint="Entrez l'année"
         android:inputType="number"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="436dp" />
+        android:textColor="#037F8E"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnnee" />
+
+    <ImageView
+        android:id="@+id/imageNouveauFilm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/buttonAjouterImage"
+        android:layout_width="113dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="464dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="#037F8E"
+        android:drawableLeft="@android:drawable/ic_menu_add"
+        android:drawableTint="#FFFF00 "
+        android:text="Image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_ajouter_editer" />
+
+    <Button
+        android:id="@+id/buttonAnnuler"
+        android:layout_width="171dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#BF0E01"
+        android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+        android:drawableTint="#040404"
+        android:text="Annuler"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSauvegarder"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonSauvegarder"
+        android:layout_width="171dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#037F8E"
+        android:drawableLeft="@android:drawable/ic_menu_save"
+        android:drawableTint="#1E1E1D"
+        android:text="Sauvegarder"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAjouterImage"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
