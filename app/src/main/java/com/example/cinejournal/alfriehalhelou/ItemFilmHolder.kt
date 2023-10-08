@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
-class `ItemFilmHolder(Main)`(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ItemFilmHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val layout: ConstraintLayout
     val imagFilm: ImageView
     val nomFilm: TextView
