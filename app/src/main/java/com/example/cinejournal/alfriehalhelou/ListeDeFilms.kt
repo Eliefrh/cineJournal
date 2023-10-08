@@ -12,8 +12,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
 
 class ListeDeFilms : AppCompatActivity() {
+
+    lateinit var recyclerView: RecyclerView
+    lateinit var adapteur: FilmAdapteur
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activite_liste_film)
@@ -21,12 +25,27 @@ class ListeDeFilms : AppCompatActivity() {
         var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        recyclerView = findViewById(R.id.listeFilms)
+        val filmsListe = listOf(
+            ItemFilm(R.drawable.icon_foreground, "Titre 1", "Contenu de l'article 1", 4.0f),
+            ItemFilm(R.drawable.icon_foreground, "Titre 2", "Contenu de l'article 2", 3.0f),
+            ItemFilm(R.drawable.icon_foreground, "Titre 3", "Contenu de l'article 3", 2.0f),
+            ItemFilm(R.drawable.icon_foreground, "Titre 4", "Contenu de l'article 4", 1.0f),
+            ItemFilm(R.drawable.icon_foreground, "Titre 5", "Contenu de l'article 5", 4.5f),
+            ItemFilm(R.drawable.icon_foreground, "Titre 6", "Contenu de l'article 6", 3.5f),
+            // Ajoutez d'autres articles ici
+        )
+
+        adapteur = FilmAdapteur(applicationContext, this, filmsListe)
+        recyclerView.adapter = adapteur
+
+
         var ajouter: Button = findViewById(R.id.ajouter)
         ajouter.setOnClickListener() {
             val intent = Intent(this, AjouterEditerFilm::class.java)
             startActivity(intent)
-
         }
+
 
     }
 
