@@ -17,8 +17,7 @@
             android:exported="false" />
         <activity
             android:name=".AjouterEditerFilm"
-            android:exported="false"
-            android:parentActivityName=".ListeDeFilms" />
+            android:exported="false" />
         <activity
             android:name=".APropos"
             android:exported="false"

@@ -1,5 +1,6 @@
 package com.example.cinejournal.alfriehalhelou
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -25,8 +26,6 @@ class AjouterEditerFilm : AppCompatActivity() {
 
         var toolbar: Toolbar = findViewById(R.id.toolbar_ajouter_editer)
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = "Ajouter/Éditer un film"
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
 
         modifierNomFilm = findViewById(R.id.editTextTitreFilm)
@@ -49,6 +48,8 @@ class AjouterEditerFilm : AppCompatActivity() {
         }
 
         boutonAnnuler.setOnClickListener() {
+            val intent = Intent(this, ListeDeFilms::class.java);
+            startActivity(intent)
 
         }
     }
