@@ -1,14 +1,13 @@
 package com.example.cinejournal.alfriehalhelou
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -117,6 +116,10 @@ class ListeDeFilms : AppCompatActivity() {
                         AppDatabase.getDatabase(applicationContext)
 
                     database.FilmDao().deleteAllData()
+
+                    val intent = intent
+                    finish()
+                    startActivity(intent)
 
                 }
             }
