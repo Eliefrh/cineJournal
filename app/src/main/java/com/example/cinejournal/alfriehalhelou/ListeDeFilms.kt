@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -35,12 +34,18 @@ class ListeDeFilms : AppCompatActivity() {
         //tri.text = "Trier par ${}"
 
 
-        val films = Film(null, "hello", "it's me", null, null,null)
+        val films = Film(null, "hello", "it's me", 2015, 3.5f, null)
 
         lifecycleScope.launch(Dispatchers.IO) {
             val database: AppDatabase =
                 AppDatabase.getDatabase(applicationContext)
             database.FilmDao().insertAll(films)
+            var liste = database.FilmDao().getAll()
+
+
+            adapteur = FilmAdapteur(applicationContext, activity = this@ListeDeFilms, liste)
+            recyclerView.adapter = adapteur
+
 
             var film = database.FilmDao().findByName(
                 "hello",
@@ -49,6 +54,7 @@ class ListeDeFilms : AppCompatActivity() {
             runOnUiThread {
                 Log.d("film", films.toString())
             }
+
         }
 
 
@@ -56,35 +62,12 @@ class ListeDeFilms : AppCompatActivity() {
         lifecycleScope.launch {
             recyclerView = findViewById(R.id.listeFilms)
 
-            val filmsListe  = withContext(Dispatchers.IO) {
+            val filmsListe = withContext(Dispatchers.IO) {
                 AppDatabase.getDatabase(applicationContext).FilmDao().getAll()
                 return@withContext
             }
 
         }
-
-
-        val filmsListe  = listOf {
-
-
-//            ItemFilm(null, "Titre 1", "Contenu de l'article 1", 4.0f),
-//            ItemFilm(null, "Titre 2", "Contenu de l'article 2", 3.0f),
-//            ItemFilm(null, "Titre 3", "Contenu de l'article 3", 2.0f),
-//            ItemFilm(null, "Titre 4", "Contenu de l'article 4", 1.0f),
-//            ItemFilm(null, "Titre 5", "Contenu de l'article 5", 4.5f),
-//            ItemFilm(null, "Titre 6", "Contenu de l'article 6", 3.5f),
-  //          database.FilmDao().getAll()
-//
-//
-//                // Ajoutez d'autres articles ici
-        }
-
-        adapteur = FilmAdapteur(applicationContext,this , filmsListe )
-        recyclerView.adapter = adapteur
-
-
-
-
 
 
         var ajouter: Button = findViewById(R.id.ajouter)

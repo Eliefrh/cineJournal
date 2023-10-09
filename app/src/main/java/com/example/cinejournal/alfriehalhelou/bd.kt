@@ -22,17 +22,17 @@ data class Film(
     val titre: String?,
     val slogan: String?,
     val annee: Int?,
-    val note: Int?,
-    val image: Bitmap?
+    val note: Float?,
+    val image: Int?
 )
 
 @Dao
 interface FilmDao {
     @Query("SELECT * FROM Film")
-    suspend fun getAll(): List<Film>
+    suspend fun getAll(): List<ItemFilm>
 
     @Query("SELECT * FROM Film WHERE uid IN (:userIds)")
-    suspend fun loadAllByIds(userIds: IntArray): List<Film>
+    suspend fun loadAllByIds(userIds: IntArray): List<ItemFilm>
 
     @Query(
         "SELECT * FROM Film WHERE titre LIKE :titre AND " + "slogan LIKE :slogan LIMIT 1"
@@ -49,7 +49,7 @@ interface FilmDao {
     suspend fun delete(Film: Film)
 }
 
-@Database(entities = [Film::class], version = 1)
+@Database(entities = [Film::class], version = 3)
 
 @TypeConverters(convertisseurs::class)
 
