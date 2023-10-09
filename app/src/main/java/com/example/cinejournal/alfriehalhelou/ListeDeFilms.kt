@@ -68,6 +68,11 @@ class ListeDeFilms : AppCompatActivity() {
 
        val recycleThread =( lifecycleScope.launch {
             recyclerView = findViewById(R.id.listeFilms)
+            val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
+            var liste = database.FilmDao().getAll()
+            adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), liste)
+            recyclerView.adapter = adapteur
+
 
             val filmsListe = withContext(Dispatchers.IO) {
                 AppDatabase.getDatabase(applicationContext).FilmDao().getAll()

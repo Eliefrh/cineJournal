@@ -53,7 +53,7 @@ interface FilmDao {
 
 }
 
-@Database(entities = [Film::class], version = 3)
+@Database(entities = [Film::class], version = 5)
 
 @TypeConverters(convertisseurs::class)
 
