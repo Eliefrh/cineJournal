@@ -47,6 +47,10 @@ interface FilmDao {
 
     @Delete
     suspend fun delete(Film: Film)
+
+    @Query("DELETE  FROM Film")
+    suspend fun deleteAllData()
+
 }
 
 @Database(entities = [Film::class], version = 3)

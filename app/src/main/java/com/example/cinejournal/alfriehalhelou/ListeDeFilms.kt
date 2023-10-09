@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,10 @@ class ListeDeFilms : AppCompatActivity() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapteur: FilmAdapteur
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activite_liste_film)
@@ -36,30 +41,32 @@ class ListeDeFilms : AppCompatActivity() {
 
         val films = Film(null, "hello", "it's me", 2015, 3.5f, null)
 
+        fun recycleThread(){
         lifecycleScope.launch(Dispatchers.IO) {
             val database: AppDatabase =
                 AppDatabase.getDatabase(applicationContext)
             database.FilmDao().insertAll(films)
             var liste = database.FilmDao().getAll()
-
+            // database.FilmDao().delete()
+            runOnUiThread {
+                Log.d("film", "Films sont ajouté dans la lite")
+            }
 
             adapteur = FilmAdapteur(applicationContext, activity = this@ListeDeFilms, liste)
             recyclerView.adapter = adapteur
 
 
-            var film = database.FilmDao().findByName(
-                "hello",
-                "it's me"
-            )
-            runOnUiThread {
-                Log.d("film", films.toString())
-            }
-
+//            var film = database.FilmDao().findByName(
+//                "hello",
+//                "it's me"
+//            )
+//
+        }
         }
 
 
 
-        lifecycleScope.launch {
+       val recycleThread =( lifecycleScope.launch {
             recyclerView = findViewById(R.id.listeFilms)
 
             val filmsListe = withContext(Dispatchers.IO) {
@@ -67,7 +74,7 @@ class ListeDeFilms : AppCompatActivity() {
                 return@withContext
             }
 
-        }
+        })
 
 
         var ajouter: Button = findViewById(R.id.ajouter)
@@ -100,7 +107,13 @@ class ListeDeFilms : AppCompatActivity() {
             }
 
             R.id.toutSupprimer -> {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val database: AppDatabase =
+                        AppDatabase.getDatabase(applicationContext)
 
+                    database.FilmDao().deleteAllData()
+
+                }
             }
 
             R.id.titre -> {
@@ -118,4 +131,6 @@ class ListeDeFilms : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 }
