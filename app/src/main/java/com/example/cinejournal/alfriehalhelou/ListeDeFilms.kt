@@ -1,18 +1,19 @@
 package com.example.cinejournal.alfriehalhelou
 
 import android.content.Intent
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ListeDeFilms : AppCompatActivity() {
 
@@ -25,23 +26,53 @@ class ListeDeFilms : AppCompatActivity() {
         var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        recyclerView = findViewById(R.id.listeFilms)
-        val filmsListe = listOf(
-            ItemFilm(R.drawable.icon_foreground, "Titre 1", "Contenu de l'article 1", 4.0f),
-            ItemFilm(R.drawable.icon_foreground, "Titre 2", "Contenu de l'article 2", 3.0f),
-            ItemFilm(R.drawable.icon_foreground, "Titre 3", "Contenu de l'article 3", 2.0f),
-            ItemFilm(R.drawable.icon_foreground, "Titre 4", "Contenu de l'article 4", 1.0f),
-            ItemFilm(R.drawable.icon_foreground, "Titre 5", "Contenu de l'article 5", 4.5f),
-            ItemFilm(R.drawable.icon_foreground, "Titre 6", "Contenu de l'article 6", 3.5f),
-            // Ajoutez d'autres articles ici
-        )
 
-        adapteur = FilmAdapteur(applicationContext, this, filmsListe)
-        recyclerView.adapter = adapteur
+        var titre: TextView = findViewById(R.id.mes_films)
+        titre.text = "Mes films"
+
+        var tri: TextView = findViewById(R.id.tri)
+        //tri.text = "Trier par ${}"
+
+
+        val films = Film(null, "hello", "it's me", 2015, 3.5f, null)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val database: AppDatabase =
+                AppDatabase.getDatabase(applicationContext)
+            database.FilmDao().insertAll(films)
+            var liste = database.FilmDao().getAll()
+
+
+            adapteur = FilmAdapteur(applicationContext, activity = this@ListeDeFilms, liste)
+            recyclerView.adapter = adapteur
+
+
+            var film = database.FilmDao().findByName(
+                "hello",
+                "it's me"
+            )
+            runOnUiThread {
+                Log.d("film", films.toString())
+            }
+
+        }
+
+
+
+        lifecycleScope.launch {
+            recyclerView = findViewById(R.id.listeFilms)
+
+            val filmsListe = withContext(Dispatchers.IO) {
+                AppDatabase.getDatabase(applicationContext).FilmDao().getAll()
+                return@withContext
+            }
+
+        }
 
 
         var ajouter: Button = findViewById(R.id.ajouter)
-        ajouter.setOnClickListener() {
+        ajouter.setOnClickListener()
+        {
             val intent = Intent(this, AjouterEditerFilm::class.java)
             startActivity(intent)
         }
