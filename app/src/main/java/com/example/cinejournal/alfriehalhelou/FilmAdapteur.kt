@@ -24,10 +24,6 @@ class FilmAdapteur(val ctx: Context, val activity: ListeDeFilms, var films: List
         holder.nomFilm.text = film.titre
         holder.sloganFilm.text = film.slogan
         holder.noteFilm.rating = film.note
-
-//        holder.layout.setOnClickListener {
-//            Toast.makeText(ctx, "On a cliqué sur le film ${film.nom}", Toast.LENGTH_SHORT).show()
-//        }
     }
 }
 

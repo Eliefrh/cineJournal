@@ -36,31 +36,14 @@ class ListeDeFilms : AppCompatActivity() {
 
         val films = Film(null, "hello", "it's me", 2015, 3.5f, null)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            val database: AppDatabase =
-                AppDatabase.getDatabase(applicationContext)
-            database.FilmDao().insertAll(films)
-            var liste = database.FilmDao().getAll()
-
-
-            adapteur = FilmAdapteur(applicationContext, activity = this@ListeDeFilms, liste)
-            recyclerView.adapter = adapteur
-
-
-            var film = database.FilmDao().findByName(
-                "hello",
-                "it's me"
-            )
-            runOnUiThread {
-                Log.d("film", films.toString())
-            }
-
-        }
-
-
 
         lifecycleScope.launch {
             recyclerView = findViewById(R.id.listeFilms)
+            val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
+            var liste = database.FilmDao().getAll()
+            adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), liste)
+            recyclerView.adapter = adapteur
+
 
             val filmsListe = withContext(Dispatchers.IO) {
                 AppDatabase.getDatabase(applicationContext).FilmDao().getAll()
