@@ -1,8 +1,10 @@
 package com.example.cinejournal.alfriehalhelou
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
 class FilmAdapteur(val ctx: Context, val activity: ListeDeFilms, var films: List<ItemFilm>) :
