@@ -2,8 +2,10 @@ package com.example.cinejournal.alfriehalhelou
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -13,12 +15,22 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.properties.Delegates
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
+
 
 class AjouterEditerFilm : AppCompatActivity() {
 
@@ -32,8 +44,16 @@ class AjouterEditerFilm : AppCompatActivity() {
     lateinit var boutonAjouterImage: Button
     lateinit var boutonAnnuler: Button
     lateinit var boutonSauvegarder: Button
+    lateinit var imageView: ImageView
 
 
+    private fun creerUriPhoto(): Uri {
+        val timeStamp: String =
+            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val photoFile =
+            File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
+        return photoFile.toUri()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ajouter_editer_film)
@@ -52,9 +72,39 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonSauvegarder = findViewById(R.id.buttonSauvegarder)
 
 
+
+        val selectionPhoto =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
+                if (uri != null) {
+
+                    val imageLocale = creerUriPhoto()
+                    val inputStream = contentResolver.openInputStream(uri)
+                    val outputStream = contentResolver.openOutputStream(imageLocale)
+
+                    inputStream?.use { input ->
+                        outputStream.use { output ->
+                            output?.let { input.copyTo(it) }
+                        }
+                    }
+
+                    imageView.setImageURI(imageLocale)
+
+                    // On fait quelque chose avec l'image reçue sous forme d'URI
+                    imageView.setImageURI(uri)
+
+                }
+            }
+        imageView = findViewById(R.id.imageNouveauFilm)
+
         boutonAjouterImage.setOnClickListener() {
 
-        }
+            selectionPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+
+
+
+            }
+
+
 
         boutonSauvegarder.setOnClickListener() {
 
@@ -81,5 +131,8 @@ class AjouterEditerFilm : AppCompatActivity() {
             val intent = Intent(this, ListeDeFilms::class.java);
             startActivity(intent)
         }
+
+
+
     }
 }
