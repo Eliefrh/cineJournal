@@ -132,6 +132,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                     "Ajoutez au moins le titre du film",
                     LENGTH_SHORT
                 )
+                toast.show()
             }
 
         }
