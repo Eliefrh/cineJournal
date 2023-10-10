@@ -1,5 +1,6 @@
 package com.example.cinejournal.alfriehalhelou
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
+import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
@@ -60,17 +63,23 @@ class AjouterEditerFilm : AppCompatActivity() {
             val annee = modifierAnneeFilm.text.toString().toInt()
             val note = modifierNoteFilm.rating
             val films = Film(null, titre, slogan, annee, note, null)
-            lifecycleScope.launch(Dispatchers.IO) {
-                val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
-                database.FilmDao().insertAll(films)
-            }
-            val intent = Intent(this, ListeDeFilms::class.java);
-            startActivity(intent)
+            if (titre != "") {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
+                    database.FilmDao().insertAll(films)
+                }
+                val intent = Intent(this, ListeDeFilms::class.java);
+                startActivity(intent)
 
+            }else{
+              val toast=  Toast.makeText(applicationContext,"Ajoutez au moins le titre du film", LENGTH_SHORT)
+                toast.show()
+            }
         }
 
         boutonAnnuler.setOnClickListener() {
-
+            val intent = Intent(this, ListeDeFilms::class.java);
+            startActivity(intent)
         }
     }
 }

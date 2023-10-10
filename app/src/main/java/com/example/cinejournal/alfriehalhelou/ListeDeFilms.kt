@@ -21,8 +21,6 @@ class ListeDeFilms : AppCompatActivity() {
     lateinit var adapteur: FilmAdapteur
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activite_liste_film)
@@ -40,19 +38,19 @@ class ListeDeFilms : AppCompatActivity() {
 
         val films = Film(null, "hello", "it's me", 2015, 3.5f, null)
 
-        fun recycleThread(){
-        lifecycleScope.launch(Dispatchers.IO) {
-            val database: AppDatabase =
-                AppDatabase.getDatabase(applicationContext)
-            database.FilmDao().insertAll(films)
-            var liste = database.FilmDao().getAll()
-            // database.FilmDao().delete()
-            runOnUiThread {
-                Log.d("film", "Films sont ajouté dans la lite")
-            }
+        fun recycleThread() {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val database: AppDatabase =
+                    AppDatabase.getDatabase(applicationContext)
+                database.FilmDao().insertAll(films)
+                var liste = database.FilmDao().getAll()
+                // database.FilmDao().delete()
+                runOnUiThread {
+                    Log.d("film", "Films sont ajouté dans la lite")
+                }
 
-            adapteur = FilmAdapteur(applicationContext, activity = this@ListeDeFilms, liste)
-            recyclerView.adapter = adapteur
+                adapteur = FilmAdapteur(applicationContext, activity = this@ListeDeFilms, liste)
+                recyclerView.adapter = adapteur
 
 
 //            var film = database.FilmDao().findByName(
@@ -60,12 +58,11 @@ class ListeDeFilms : AppCompatActivity() {
 //                "it's me"
 //            )
 //
+            }
         }
-        }
 
 
-
-       val recycleThread =( lifecycleScope.launch {
+        val recycleThread = (lifecycleScope.launch {
             recyclerView = findViewById(R.id.listeFilms)
             val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
             var liste = database.FilmDao().getAll()
