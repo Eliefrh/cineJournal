@@ -55,8 +55,6 @@ interface FilmDao {
 
 @Database(entities = [Film::class], version = 5)
 
-@TypeConverters(convertisseurs::class)
-
 abstract class AppDatabase : RoomDatabase() {
     abstract fun FilmDao(): FilmDao
 

@@ -72,7 +72,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                 startActivity(intent)
 
             }else{
-              val toast=  Toast.makeText(applicationContext,"Ajoutez au moins le titre du film", LENGTH_SHORT)
+              val toast =  Toast.makeText(applicationContext,"Ajoutez au moins le titre du film", LENGTH_SHORT)
                 toast.show()
             }
         }
