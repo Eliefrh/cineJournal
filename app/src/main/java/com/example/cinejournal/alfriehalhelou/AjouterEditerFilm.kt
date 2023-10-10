@@ -54,6 +54,7 @@ class AjouterEditerFilm : AppCompatActivity() {
             File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
         return photoFile.toUri()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ajouter_editer_film)
@@ -70,7 +71,6 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonAjouterImage = findViewById(R.id.buttonAjouterImage)
         boutonAnnuler = findViewById(R.id.buttonAnnuler)
         boutonSauvegarder = findViewById(R.id.buttonSauvegarder)
-
 
 
         val selectionPhoto =
@@ -101,28 +101,37 @@ class AjouterEditerFilm : AppCompatActivity() {
             selectionPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 
 
-
-            }
-
+        }
 
 
-        boutonSauvegarder.setOnClickListener() {
+
+        boutonSauvegarder.setOnClickListener {
 
             val titre = modifierNomFilm.text.toString()
             val slogan = modifierSloganFilm.text.toString()
-            val annee = modifierAnneeFilm.text.toString().toInt()
+            val annee = null
+            if (annee != "") {
+                modifierAnneeFilm.text.toString().toIntOrNull()
+            }
             val note = modifierNoteFilm.rating
             val films = Film(null, titre, slogan, annee, note, null)
+
+            Log.d("AAA", "$titre, $slogan, $annee, $note")
+
             if (titre != "") {
                 lifecycleScope.launch(Dispatchers.IO) {
                     val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
                     database.FilmDao().insertAll(films)
                 }
+
                 val intent = Intent(this, ListeDeFilms::class.java);
                 startActivity(intent)
-
-            }else{
-              val toast=  Toast.makeText(applicationContext,"Ajoutez au moins le titre du film", LENGTH_SHORT)
+            } else {
+                val toast = Toast.makeText(
+                    applicationContext,
+                    "Ajoutez au moins le titre du film",
+                    LENGTH_SHORT
+                )
                 toast.show()
             }
         }
@@ -131,7 +140,6 @@ class AjouterEditerFilm : AppCompatActivity() {
             val intent = Intent(this, ListeDeFilms::class.java);
             startActivity(intent)
         }
-
 
 
     }
