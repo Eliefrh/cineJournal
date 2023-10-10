@@ -103,8 +103,8 @@ class ListeDeFilms : AppCompatActivity() {
 
             R.id.trouverUnFilm -> {
 //                Log.d("MonTag", "Clic sur Trouver un film")
-//                val intent = Intent(this, RechercheFilm::class.java);
-//                startActivity(intent)
+                val intent = Intent(this, RechercheFilm::class.java);
+                startActivity(intent)
             }
 
             R.id.toutSupprimer -> {

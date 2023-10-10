@@ -1,12 +1,13 @@
 package com.example.cinejournal.alfriehalhelou
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class FilmAdapteur(val ctx: Context, val activity: ListeDeFilms, var films: List<ItemFilm>) :
+class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<ItemFilm>) :
     RecyclerView.Adapter<ItemFilmHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemFilmHolder {
