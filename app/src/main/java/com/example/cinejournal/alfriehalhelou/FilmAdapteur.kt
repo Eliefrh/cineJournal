@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<ItemFilm>) :
@@ -21,6 +22,12 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
 
     override fun onBindViewHolder(holder: ItemFilmHolder, position: Int) {
         val film = films[position]
+
+        holder.layout.setOnClickListener {
+            // TODO: Toast qui affiche film.titre ou position
+            Toast.makeText(ctx, "$position", Toast.LENGTH_SHORT).show()
+        }
+
         holder.imagFilm.setImageResource(film.image)
         holder.nomFilm.text = film.titre
         holder.sloganFilm.text = film.slogan

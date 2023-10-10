@@ -108,16 +108,11 @@ class ListeDeFilms : AppCompatActivity() {
             }
 
             R.id.toutSupprimer -> {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val database: AppDatabase =
-                        AppDatabase.getDatabase(applicationContext)
+                lifecycleScope.launch {
+                    deleteAll()
 
-                    database.FilmDao().deleteAllData()
-
-                    val intent = intent
-                    finish()
-                    startActivity(intent)
-
+                    adapteur.films = listOf()
+                    adapteur.notifyDataSetChanged()
                 }
             }
 
@@ -135,6 +130,13 @@ class ListeDeFilms : AppCompatActivity() {
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private suspend fun deleteAll() = withContext(Dispatchers.IO) {
+        val database: AppDatabase =
+            AppDatabase.getDatabase(applicationContext)
+
+        database.FilmDao().deleteAllData()
     }
 
 

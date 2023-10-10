@@ -109,10 +109,7 @@ class AjouterEditerFilm : AppCompatActivity() {
 
             val titre = modifierNomFilm.text.toString()
             val slogan = modifierSloganFilm.text.toString()
-            val annee = null
-            if (annee != "") {
-                modifierAnneeFilm.text.toString().toIntOrNull()
-            }
+            val annee = modifierAnneeFilm.text.toString().toIntOrNull()
             val note = modifierNoteFilm.rating
             val films = Film(null, titre, slogan, annee, note, null)
 
@@ -134,14 +131,11 @@ class AjouterEditerFilm : AppCompatActivity() {
                 )
                 toast.show()
             }
-
         }
 
         boutonAnnuler.setOnClickListener() {
             val intent = Intent(this, ListeDeFilms::class.java);
             startActivity(intent)
         }
-
-
     }
 }
