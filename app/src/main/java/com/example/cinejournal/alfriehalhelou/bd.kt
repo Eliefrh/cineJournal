@@ -19,11 +19,11 @@ import androidx.room.Update
 @Entity
 data class Film(
     @PrimaryKey(autoGenerate = true) val uid: Int?,
-    val titre: String?,
-    val slogan: String?,
-    val annee: Int?,
-    val note: Float?,
-    val image: Int?
+    var titre: String?,
+    var slogan: String?,
+    var annee: Int?,
+    var note: Float?,
+    var image: Int?
 )
 
 @Dao
@@ -33,6 +33,9 @@ interface FilmDao {
 
     @Query("SELECT * FROM Film WHERE uid IN (:userIds)")
     suspend fun loadAllByIds(userIds: IntArray): List<ItemFilm>
+
+    @Query("SELECT * FROM Film WHERE uid = :filmId")
+    suspend fun loadById(filmId: Int): Film
 
     @Query(
         "SELECT * FROM Film WHERE titre LIKE :titre AND " + "slogan LIKE :slogan LIMIT 1"

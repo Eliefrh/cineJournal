@@ -1,5 +1,6 @@
 package com.example.cinejournal.alfriehalhelou
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -30,12 +31,15 @@ import java.util.Locale
 import kotlin.properties.Delegates
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.room.Database
+import kotlinx.coroutines.withContext
 
 
 class AjouterEditerFilm : AppCompatActivity() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapteur: FilmAdapteur
+    var film: Film? = null
     lateinit var modifierNomFilm: EditText
     lateinit var modifierSloganFilm: EditText
     lateinit var modifierAnneeFilm: EditText
@@ -61,7 +65,8 @@ class AjouterEditerFilm : AppCompatActivity() {
 
         var toolbar: Toolbar = findViewById(R.id.toolbar_ajouter_editer)
         setSupportActionBar(toolbar)
-
+        val database: AppDatabase =
+            AppDatabase.getDatabase(applicationContext)
 
         modifierNomFilm = findViewById(R.id.editTextTitreFilm)
         modifierSloganFilm = findViewById(R.id.editTextSloganFilm)
@@ -103,7 +108,26 @@ class AjouterEditerFilm : AppCompatActivity() {
 
         }
 
+        //database = AppDatabase.getDatabase(this).FilmDao()
+        val intent = intent
+        val filmId = intent.getIntExtra("FILM_ID", -1)
+        val anneeFilm = film?.annee?.toString() ?: ""
 
+        if (filmId != -1) {
+            // Si l'ID du film est valide, c'est une édition
+            lifecycleScope.launch {
+                film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
+
+                film?.let {
+                    val anneeFilm = film?.annee?.toString() ?: ""
+                    // Mettez à jour les champs avec les données du film
+                    modifierNomFilm.setText(it.titre)
+                    modifierSloganFilm.setText(it.slogan)
+                    modifierAnneeFilm.setText(anneeFilm)
+                    modifierNoteFilm.rating = it.note ?: 0.0f
+                }
+            }
+        }
 
         boutonSauvegarder.setOnClickListener {
 
@@ -111,16 +135,30 @@ class AjouterEditerFilm : AppCompatActivity() {
             val slogan = modifierSloganFilm.text.toString()
             val annee = modifierAnneeFilm.text.toString().toIntOrNull()
             val note = modifierNoteFilm.rating
-            val films = Film(null, titre, slogan, annee, note, null)
-
             Log.d("AAA", "$titre, $slogan, $annee, $note")
 
             if (titre != "") {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
-                    database.FilmDao().insertAll(films)
+                    if (film == null) {
+                        val nouveauFilm = Film(null, titre, slogan, annee, note, null)
+                        withContext(Dispatchers.IO) {
+                            database.FilmDao().insertAll(nouveauFilm)
+                        }
+                    } else {
+                        film?.let {
+                            it.titre = titre
+                            it.slogan = slogan
+                            it.annee = annee
+                            it.note = note
+//                            it.image = image
+                            withContext(Dispatchers.IO) {
+                                database.FilmDao().updateAll(it)
+                            }
+                        }
+                    }
+                    setResult(Activity.RESULT_OK)
+                    finish()
                 }
-
                 val intent = Intent(this, ListeDeFilms::class.java);
                 startActivity(intent)
             } else {

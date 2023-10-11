@@ -2,6 +2,7 @@ package com.example.cinejournal.alfriehalhelou
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,7 +26,10 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
 
         holder.layout.setOnClickListener {
             // TODO: Toast qui affiche film.titre ou position
-            Toast.makeText(ctx, "$position", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(ctx, "$position", Toast.LENGTH_SHORT).show()
+            val intent = Intent(ctx, AjouterEditerFilm::class.java)
+            intent.putExtra("FILM_ID", film.uid)
+            ctx.startActivity(intent)
         }
 
         holder.imagFilm.setImageResource(film.image)
