@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ListeDeFilms : AppCompatActivity() {
+    lateinit var films: Film
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapteur: FilmAdapteur
@@ -36,44 +37,12 @@ class ListeDeFilms : AppCompatActivity() {
         //tri.text = "Trier par ${}"
 
 
-        val films = Film(null, "hello", "it's me", 2015, 3.5f, null)
-
-        fun recycleThread() {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val database: AppDatabase =
-                    AppDatabase.getDatabase(applicationContext)
-                database.FilmDao().insertAll(films)
-                var liste = database.FilmDao().getAll()
-                // database.FilmDao().delete()
-                runOnUiThread {
-                    Log.d("film", "Films sont ajouté dans la lite")
-                }
-
-                adapteur = FilmAdapteur(applicationContext, activity = this@ListeDeFilms, liste)
-                recyclerView.adapter = adapteur
-
-
-//            var film = database.FilmDao().findByName(
-//                "hello",
-//                "it's me"
-//            )
-//
-            }
-        }
-
-
         val recycleThread = (lifecycleScope.launch {
             recyclerView = findViewById(R.id.listeFilms)
             val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
             var liste = database.FilmDao().getAll()
             adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), liste)
             recyclerView.adapter = adapteur
-
-
-            val filmsListe = withContext(Dispatchers.IO) {
-                AppDatabase.getDatabase(applicationContext).FilmDao().getAll()
-                return@withContext
-            }
 
         })
 
@@ -102,7 +71,7 @@ class ListeDeFilms : AppCompatActivity() {
             }
 
             R.id.trouverUnFilm -> {
-//                Log.d("MonTag", "Clic sur Trouver un film")
+                Log.d("MonTag", "Clic sur Trouver un film")
                 val intent = Intent(this, RechercheFilm::class.java);
                 startActivity(intent)
             }
@@ -117,17 +86,37 @@ class ListeDeFilms : AppCompatActivity() {
             }
 
             R.id.titre -> {
-
+                lifecycleScope.launch {
+                    val filmsTries = withContext(Dispatchers.IO) {
+                        val database: AppDatabase =
+                            AppDatabase.getDatabase(applicationContext)
+                        database.FilmDao().trierParTitre()
+                    }
+                    adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
+                }
             }
 
             R.id.note -> {
-
+                lifecycleScope.launch {
+                    val filmsTries = withContext(Dispatchers.IO) {
+                        val database: AppDatabase =
+                            AppDatabase.getDatabase(applicationContext)
+                        database.FilmDao().trierParNote()
+                    }
+                    adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
+                }
             }
 
             R.id.annee -> {
-
+                lifecycleScope.launch {
+                    val filmsTries = withContext(Dispatchers.IO) {
+                        val database: AppDatabase =
+                            AppDatabase.getDatabase(applicationContext)
+                        database.FilmDao().trierParAnnee()
+                    }
+                    adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
+                }
             }
-
         }
         return super.onOptionsItemSelected(item)
     }
@@ -138,6 +127,4 @@ class ListeDeFilms : AppCompatActivity() {
 
         database.FilmDao().deleteAllData()
     }
-
-
 }

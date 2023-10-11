@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<ItemFilm>) :
@@ -36,6 +35,11 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
         holder.nomFilm.text = film.titre
         holder.sloganFilm.text = film.slogan
         holder.noteFilm.rating = film.note
+    }
+
+    fun mettreAJour(films: List<ItemFilm>) {
+        this.films = films
+        notifyDataSetChanged()
     }
 }
 

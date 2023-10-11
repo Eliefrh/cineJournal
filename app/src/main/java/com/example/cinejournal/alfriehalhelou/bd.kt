@@ -37,10 +37,17 @@ interface FilmDao {
     @Query("SELECT * FROM Film WHERE uid = :filmId")
     suspend fun loadById(filmId: Int): Film
 
-    @Query(
-        "SELECT * FROM Film WHERE titre LIKE :titre AND " + "slogan LIKE :slogan LIMIT 1"
-    )
+    @Query("SELECT * FROM Film WHERE titre LIKE :titre AND " + "slogan LIKE :slogan LIMIT 1")
     suspend fun findByName(titre: String, slogan: String?): Film
+
+    @Query("SELECT * FROM Film ORDER BY titre ASC")
+    suspend fun trierParTitre(): List<ItemFilm>
+
+    @Query("SELECT * FROM Film ORDER BY note DESC")
+    suspend fun trierParNote(): List<ItemFilm>
+
+    @Query("SELECT * FROM Film ORDER BY annee ASC")
+    suspend fun trierParAnnee(): List<ItemFilm>
 
     @Insert
     suspend fun insertAll(vararg Films: Film)
