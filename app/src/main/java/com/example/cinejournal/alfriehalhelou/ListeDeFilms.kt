@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -40,11 +41,12 @@ class ListeDeFilms : AppCompatActivity() {
             recyclerView = findViewById(R.id.listeFilms)
             val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
             var liste = database.FilmDao().getAll()
-            adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), liste)
+
+
+            //adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), [image.imagesss])  // liste
             recyclerView.adapter = adapteur
 
         })
-
 
         var ajouter: Button = findViewById(R.id.ajouter)
         ajouter.setOnClickListener()

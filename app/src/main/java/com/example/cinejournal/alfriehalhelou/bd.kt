@@ -31,6 +31,8 @@ data class Film(
 interface FilmDao {
     @Query("SELECT * FROM Film")
     suspend fun getAll(): List<ItemFilm>
+    @Query("SELECT image FROM Film")
+    suspend fun getImage(): String
 
     @Query("SELECT * FROM Film WHERE uid IN (:userIds)")
     suspend fun loadAllByIds(userIds: IntArray): List<ItemFilm>
