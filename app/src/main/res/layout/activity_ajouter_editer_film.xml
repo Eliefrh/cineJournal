@@ -130,8 +130,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAnnuler"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAjouterImage"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+        app:layout_constraintVertical_bias="0.575"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button

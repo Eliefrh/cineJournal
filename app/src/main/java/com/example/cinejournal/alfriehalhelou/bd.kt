@@ -3,6 +3,7 @@ package com.example.cinejournal.alfriehalhelou
 import android.content.Context
 import android.graphics.Bitmap
 import android.media.Image
+import android.widget.ImageView
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Delete
@@ -23,7 +24,7 @@ data class Film(
     var slogan: String?,
     var annee: Int?,
     var note: Float?,
-    var image: Int?
+    var image: String
 )
 
 @Dao
@@ -63,7 +64,7 @@ interface FilmDao {
 
 }
 
-@Database(entities = [Film::class], version = 5)
+@Database(entities = [Film::class], version = 7)
 
 abstract class AppDatabase : RoomDatabase() {
     abstract fun FilmDao(): FilmDao

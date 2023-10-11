@@ -20,5 +20,6 @@ class ItemFilmHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         nomFilm = itemView.findViewById(R.id.affichageTitreFilm)
         sloganFilm = itemView.findViewById(R.id.afficherSloganFilm)
         noteFilm = itemView.findViewById(R.id.afficherNoteFilm)
+
     }
 }

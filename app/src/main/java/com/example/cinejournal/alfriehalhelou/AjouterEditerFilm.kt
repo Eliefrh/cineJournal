@@ -56,7 +56,9 @@ class AjouterEditerFilm : AppCompatActivity() {
             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val photoFile =
             File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
-        return photoFile.toUri()
+        val imageUri = photoFile.toUri()
+        imageNouveauFilm.setImageURI(imageUri)
+        return imageUri
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +97,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                     imageView.setImageURI(imageLocale)
 
                     // On fait quelque chose avec l'image reçue sous forme d'URI
-                    imageView.setImageURI(uri)
+                  val uri =  imageView.setImageURI(uri)
 
                 }
             }
@@ -135,12 +137,13 @@ class AjouterEditerFilm : AppCompatActivity() {
             val slogan = modifierSloganFilm.text.toString()
             val annee = modifierAnneeFilm.text.toString().toIntOrNull()
             val note = modifierNoteFilm.rating
+            val image = creerUriPhoto().toString()
             Log.d("AAA", "$titre, $slogan, $annee, $note")
 
             if (titre != "") {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
-                        val nouveauFilm = Film(null, titre, slogan, annee, note, null)
+                        val nouveauFilm = Film(null, titre, slogan, annee, note, image)
                         withContext(Dispatchers.IO) {
                             database.FilmDao().insertAll(nouveauFilm)
                         }
@@ -150,7 +153,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                             it.slogan = slogan
                             it.annee = annee
                             it.note = note
-//                            it.image = image
+                            it.image = imageNouveauFilm.toString()
                             withContext(Dispatchers.IO) {
                                 database.FilmDao().updateAll(it)
                             }

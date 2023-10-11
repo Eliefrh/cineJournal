@@ -34,7 +34,6 @@ class ListeDeFilms : AppCompatActivity() {
         titre.text = "Mes films"
 
         var tri: TextView = findViewById(R.id.tri)
-        //tri.text = "Trier par ${}"
 
 
         val recycleThread = (lifecycleScope.launch {
