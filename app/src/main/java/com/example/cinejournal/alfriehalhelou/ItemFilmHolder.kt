@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ItemFilmHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val layout: ConstraintLayout
-    val imagFilm: ImageView
+    var imagFilm: ImageView
     val nomFilm: TextView
     val sloganFilm: TextView
     val noteFilm: RatingBar

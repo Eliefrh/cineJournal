@@ -3,6 +3,7 @@ package com.example.cinejournal.alfriehalhelou
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +20,8 @@ import android.widget.Toast.makeText
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -48,7 +51,7 @@ class AjouterEditerFilm : AppCompatActivity() {
     lateinit var boutonAjouterImage: Button
     lateinit var boutonAnnuler: Button
     lateinit var boutonSauvegarder: Button
-    lateinit var imageView: ImageView
+    //lateinit var imageView: ImageView
 
 
     private fun creerUriPhoto(): Uri {
@@ -56,7 +59,10 @@ class AjouterEditerFilm : AppCompatActivity() {
             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val photoFile =
             File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
+        Log.d("Elie photofile", photoFile.toString())
         val imageUri = photoFile.toUri()
+        Log.d("Elie imageUri", imageUri.toString())
+
         imageNouveauFilm.setImageURI(imageUri)
         return imageUri
     }
@@ -87,6 +93,9 @@ class AjouterEditerFilm : AppCompatActivity() {
                     val imageLocale = creerUriPhoto()
                     val inputStream = contentResolver.openInputStream(uri)
                     val outputStream = contentResolver.openOutputStream(imageLocale)
+                    Log.d("Elie input", uri.toString())
+                    Log.d("Elie output", imageLocale.toString())
+
 
                     inputStream?.use { input ->
                         outputStream.use { output ->
@@ -94,14 +103,14 @@ class AjouterEditerFilm : AppCompatActivity() {
                         }
                     }
 
-                    imageView.setImageURI(imageLocale)
+                    //imageNouveauFilm.setImageURI(imageLocale)
 
                     // On fait quelque chose avec l'image reçue sous forme d'URI
-                  val uri =  imageView.setImageURI(uri)
+                  //  val uri = imageNouveauFilm.setImageURI(uri)
 
                 }
             }
-        imageView = findViewById(R.id.imageNouveauFilm)
+        //imageView = findViewById(R.id.imageNouveauFilm)
 
         boutonAjouterImage.setOnClickListener() {
 
@@ -127,6 +136,9 @@ class AjouterEditerFilm : AppCompatActivity() {
                     modifierSloganFilm.setText(it.slogan)
                     modifierAnneeFilm.setText(anneeFilm)
                     modifierNoteFilm.rating = it.note ?: 0.0f
+                    imageNouveauFilm.setImageURI(creerUriPhoto())
+
+
                 }
             }
         }
@@ -146,6 +158,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                         val nouveauFilm = Film(null, titre, slogan, annee, note, image)
                         withContext(Dispatchers.IO) {
                             database.FilmDao().insertAll(nouveauFilm)
+                            imageNouveauFilm.setImageURI(creerUriPhoto())
                         }
                     } else {
                         film?.let {
@@ -155,7 +168,9 @@ class AjouterEditerFilm : AppCompatActivity() {
                             it.note = note
                             it.image = imageNouveauFilm.toString()
                             withContext(Dispatchers.IO) {
+                                imageNouveauFilm.setImageURI(creerUriPhoto())
                                 database.FilmDao().updateAll(it)
+
                             }
                         }
                     }

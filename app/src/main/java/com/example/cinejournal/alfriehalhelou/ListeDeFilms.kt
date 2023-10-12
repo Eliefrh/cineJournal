@@ -1,7 +1,9 @@
 package com.example.cinejournal.alfriehalhelou
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -10,18 +12,31 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ListeDeFilms : AppCompatActivity() {
     lateinit var films: Film
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapteur: FilmAdapteur
-
+    private fun creerUriPhoto(): Uri {
+        val timeStamp: String =
+            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val photoFile =
+            File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
+        val imageUri = photoFile.toUri()
+        //  imageNouveauFilm.setImageURI(imageUri)
+        return imageUri
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +56,9 @@ class ListeDeFilms : AppCompatActivity() {
             recyclerView = findViewById(R.id.listeFilms)
             val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
             var liste = database.FilmDao().getAll()
+            Log.d("AAA", liste.toString())
+            adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), liste)  // liste
 
-
-            //adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), [image.imagesss])  // liste
             recyclerView.adapter = adapteur
 
         })
@@ -128,4 +143,5 @@ class ListeDeFilms : AppCompatActivity() {
 
         database.FilmDao().deleteAllData()
     }
+
 }
