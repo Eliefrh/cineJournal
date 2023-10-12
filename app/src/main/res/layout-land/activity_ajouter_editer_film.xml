@@ -11,4 +11,177 @@
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textViewNouveauFilm"
+        android:layout_width="184dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Nouveau Film"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_ajouter_editer" />
+
+    <TextView
+        android:id="@+id/textViewNote"
+        android:layout_width="43sp"
+        android:layout_height="16sp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="292dp"
+        android:text="Note"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_ajouter_editer" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="238dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.803"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNote" />
+
+    <EditText
+        android:id="@+id/editTextAnneeFilm"
+        android:layout_width="241dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Entrez l'année"
+        android:inputType="number"
+        android:textColor="#037F8E"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnnee" />
+
+    <TextView
+        android:id="@+id/TextViewTitre"
+        android:layout_width="43dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Titre"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNouveauFilm" />
+
+    <EditText
+        android:id="@+id/editTextTitreFilm"
+        android:layout_width="246dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Entrez le titre"
+        android:inputType="text"
+        android:textColor="#037F8E"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextViewTitre" />
+
+    <TextView
+        android:id="@+id/textViewSlogan"
+        android:layout_width="53dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Slogan"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTitreFilm" />
+
+    <EditText
+        android:id="@+id/editTextSloganFilm"
+        android:layout_width="245dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Entrez votre slogan"
+        android:inputType="text"
+        android:textColor="#037F8E"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSlogan" />
+
+    <TextView
+        android:id="@+id/textViewAnnee"
+        android:layout_width="41dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Année"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSloganFilm" />
+
+    <ImageView
+        android:id="@+id/imageNouveauFilm"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAnnuler"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAjouterImage"
+        app:layout_constraintHorizontal_bias="0.757"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/buttonAjouterImage"
+        android:layout_width="113dp"
+        android:layout_height="53dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#037F8E"
+        android:drawableLeft="@android:drawable/ic_menu_add"
+        android:drawableTint="#FFFF00 "
+        android:text="Image"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSauvegarder"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/buttonAnnuler"
+        android:layout_width="171dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#BF0E01"
+        android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+        android:drawableTint="#040404"
+        android:text="Annuler"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSauvegarder"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonSauvegarder"
+        android:layout_width="171dp"
+        android:layout_height="53dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#037F8E"
+        android:drawableLeft="@android:drawable/ic_menu_save"
+        android:drawableTint="#1E1E1D"
+        android:text="Sauvegarder"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

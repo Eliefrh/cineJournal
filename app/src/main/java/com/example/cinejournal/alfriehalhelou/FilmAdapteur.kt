@@ -46,7 +46,7 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
 
 
         holder.imagFilm
-       //setImageResource(film.image, holder.imagFilm)
+        //setImageResource(film.image, holder.imagFilm)
         holder.nomFilm.text = film.titre
         holder.sloganFilm.text = film.slogan
         holder.noteFilm.rating = film.note

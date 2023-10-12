@@ -170,7 +170,6 @@ class ListeDeFilms : AppCompatActivity() {
         database.FilmDao().deleteAllData()
 
 
-
     }
 
 }

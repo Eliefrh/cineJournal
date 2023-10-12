@@ -27,8 +27,8 @@ class RechercheFilm : AppCompatActivity() {
             lifecycleScope.launch(Dispatchers.IO) {
                 val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
                 val filmsTrouves = database.FilmDao().findByName(chercheFilm, chercheFilm)
-//                adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), filmsTrouves)
-//                recyclerView.adapter = adapteur
+                //    adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), filmsTrouves)
+                //    recyclerView.adapter = adapteur
             }
 
 

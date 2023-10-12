@@ -103,10 +103,10 @@ class AjouterEditerFilm : AppCompatActivity() {
                         }
                     }
 
-                    //imageNouveauFilm.setImageURI(imageLocale)
+                    imageNouveauFilm.setImageURI(imageLocale)
 
                     // On fait quelque chose avec l'image reçue sous forme d'URI
-                  //  val uri = imageNouveauFilm.setImageURI(uri)
+                    //  val uri = imageNouveauFilm.setImageURI(uri)
 
                 }
             }
