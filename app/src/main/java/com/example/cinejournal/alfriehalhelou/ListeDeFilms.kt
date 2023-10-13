@@ -133,6 +133,7 @@ class ListeDeFilms : AppCompatActivity() {
                     adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
                 }
             }
+
             R.id.note -> {
                 var tri: TextView = findViewById(R.id.tri)
                 tri.text = "Trié par note"

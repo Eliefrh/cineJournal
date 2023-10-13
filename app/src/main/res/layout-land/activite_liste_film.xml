@@ -17,8 +17,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listeFilms"
-        android:layout_width="356dp"
-        android:layout_height="265dp"
+        android:layout_width="710dp"
+        android:layout_height="244dp"
         android:layout_marginTop="56dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"

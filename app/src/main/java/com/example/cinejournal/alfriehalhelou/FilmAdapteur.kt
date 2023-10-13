@@ -45,7 +45,7 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
             ctx.startActivity(intent)
         }
 
-        holder.nomFilm.text = film.titre +  " (" + film.annee + ")"
+        holder.nomFilm.text = film.titre + " (" + film.annee + ")"
         holder.sloganFilm.text = film.slogan
         holder.noteFilm.rating = film.note
 
