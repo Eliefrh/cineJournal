@@ -52,8 +52,7 @@ class AjouterEditerFilm : AppCompatActivity() {
     lateinit var boutonAnnuler: Button
     lateinit var boutonSauvegarder: Button
     lateinit var modifierImageFilm: ImageView
-    lateinit var  image : Uri
-
+    lateinit var image: Uri
 
 
     private fun creerUriPhoto(): Uri {
@@ -86,7 +85,6 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonAnnuler = findViewById(R.id.buttonAnnuler)
         boutonSauvegarder = findViewById(R.id.buttonSauvegarder)
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
-
 
 
         val selectionPhoto =
@@ -125,6 +123,7 @@ class AjouterEditerFilm : AppCompatActivity() {
         val intent = intent
         val filmId = intent.getIntExtra("FILM_ID", -1)
         val anneeFilm = film?.annee?.toString() ?: ""
+        image = Uri.EMPTY
 
         if (filmId != -1) {
             // Si l'ID du film est valide, c'est une édition
@@ -169,10 +168,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                             it.slogan = slogan
                             it.annee = annee
                             it.note = note
-                            it.image = image.toString()
-                            // Glide.with(itemView.context).load(film.imageUri).into(imagFilm)
+
                             withContext(Dispatchers.IO) {
-                                //imageNouveauFilm.setImageURI(creerUriPhoto())
                                 database.FilmDao().updateAll(it)
 
                             }
@@ -186,7 +183,7 @@ class AjouterEditerFilm : AppCompatActivity() {
             } else {
                 val toast = Toast.makeText(
                     applicationContext,
-                    "Ajoutez au moins le titre du film",
+                    "Remplissez toutes les champs svp",
                     LENGTH_SHORT
                 )
                 toast.show()
