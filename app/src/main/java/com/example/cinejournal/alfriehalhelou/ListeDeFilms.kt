@@ -37,7 +37,6 @@ class ListeDeFilms : AppCompatActivity() {
         val photoFile =
             File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
         val imageUri = photoFile.toUri()
-        //  imageNouveauFilm.setImageURI(imageUri)
         return imageUri
     }
 
@@ -48,7 +47,6 @@ class ListeDeFilms : AppCompatActivity() {
         var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-
         var titre: TextView = findViewById(R.id.mes_films)
         titre.text = "Mes films"
 
@@ -56,31 +54,6 @@ class ListeDeFilms : AppCompatActivity() {
         tri.text = "Trié par l'ordre d'ajout"
 
         var pageVide: TextView = findViewById(R.id.pageVide)
-//        pageVide.visibility= View.VISIBLE
-
-
-        val recycleThread = (lifecycleScope.launch {
-            recyclerView = findViewById(R.id.listeFilms)
-            val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
-            var liste = database.FilmDao().getAll()
-            if (liste.isEmpty()) {
-                pageVide.visibility = View.VISIBLE
-            } else {
-                pageVide.visibility = View.INVISIBLE
-
-            }
-            Log.d("AAA", liste.toString())
-            adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), liste)  // liste
-
-            recyclerView.adapter = adapteur
-
-        })
-
-//        if (recyclerView != null) {
-//            pageVide.visibility = View.VISIBLE
-//        } else {
-//            pageVide.visibility = View.INVISIBLE
-//        }
 
         var ajouter: Button = findViewById(R.id.ajouter)
         ajouter.setOnClickListener()
@@ -89,6 +62,20 @@ class ListeDeFilms : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+        val recycleThread = (lifecycleScope.launch {
+            recyclerView = findViewById(R.id.listeFilms)
+            var liste = chargerFilms()
+
+            if (liste.isEmpty()) {
+                pageVide.visibility = View.VISIBLE
+            } else {
+                pageVide.visibility = View.INVISIBLE
+            }
+            Log.d("Elie liste", liste.toString())
+            adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), liste)
+            recyclerView.adapter = adapteur
+        })
 
     }
 
@@ -121,18 +108,14 @@ class ListeDeFilms : AppCompatActivity() {
                     setButton(
                         AlertDialog.BUTTON_POSITIVE, "oui",
                         DialogInterface.OnClickListener { dialog, id ->
-
                             lifecycleScope.launch {
                                 deleteAll()
                             }
-
                             pageVide.visibility = View.VISIBLE
-
                             adapteur.films = listOf()
                             adapteur.notifyDataSetChanged()
                         }
                     )
-
                     setButton(
                         AlertDialog.BUTTON_NEGATIVE, "non",
                         DialogInterface.OnClickListener { dialog, id -> })
@@ -145,27 +128,20 @@ class ListeDeFilms : AppCompatActivity() {
                 tri.text = "Trié par titre"
                 lifecycleScope.launch {
                     val filmsTries = withContext(Dispatchers.IO) {
-                        val database: AppDatabase =
-                            AppDatabase.getDatabase(applicationContext)
-                        database.FilmDao().trierParTitre()
+                        trierParTitre()
                     }
                     adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
                 }
             }
-
             R.id.note -> {
                 var tri: TextView = findViewById(R.id.tri)
                 tri.text = "Trié par note"
                 lifecycleScope.launch {
                     val filmsTries = withContext(Dispatchers.IO) {
-                        val database: AppDatabase =
-                            AppDatabase.getDatabase(applicationContext)
-                        database.FilmDao().trierParNote()
+                        trierParNote()
                     }
                     adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
-
                 }
-
             }
 
             R.id.annee -> {
@@ -173,24 +149,44 @@ class ListeDeFilms : AppCompatActivity() {
                 tri.text = "Trié par année"
                 lifecycleScope.launch {
                     val filmsTries = withContext(Dispatchers.IO) {
-                        val database: AppDatabase =
-                            AppDatabase.getDatabase(applicationContext)
-                        database.FilmDao().trierParAnnee()
+                        trierParAnnee()
                     }
                     adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
                 }
             }
         }
+
         return super.onOptionsItemSelected(item)
     }
 
     private suspend fun deleteAll() = withContext(Dispatchers.IO) {
         val database: AppDatabase =
             AppDatabase.getDatabase(applicationContext)
-
         database.FilmDao().deleteAllData()
+    }
 
+    private suspend fun trierParTitre() = withContext(Dispatchers.IO) {
+        val database: AppDatabase =
+            AppDatabase.getDatabase(applicationContext)
+        database.FilmDao().trierParTitre()
+    }
 
+    private suspend fun trierParNote() = withContext(Dispatchers.IO) {
+        val database: AppDatabase =
+            AppDatabase.getDatabase(applicationContext)
+        database.FilmDao().trierParNote()
+    }
+
+    private suspend fun trierParAnnee() = withContext(Dispatchers.IO) {
+        val database: AppDatabase =
+            AppDatabase.getDatabase(applicationContext)
+        database.FilmDao().trierParAnnee()
+    }
+
+    private suspend fun chargerFilms() = withContext(Dispatchers.IO) {
+        val database: AppDatabase =
+            AppDatabase.getDatabase(applicationContext)
+        database.FilmDao().getAll()
     }
 
 }
