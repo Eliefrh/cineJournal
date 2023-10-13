@@ -14,8 +14,8 @@
 
     <TextView
         android:id="@+id/textViewNouveauFilm"
-        android:layout_width="184dp"
-        android:layout_height="45dp"
+        android:layout_width="182dp"
+        android:layout_height="28dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:text="Nouveau Film"
@@ -50,7 +50,7 @@
         android:layout_width="241dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Entrez l'année"
         android:inputType="number"
@@ -118,7 +118,7 @@
         android:layout_width="41dp"
         android:layout_height="21dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:text="Année"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -127,8 +127,8 @@
 
     <ImageView
         android:id="@+id/imageNouveauFilm"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="131dp"
+        android:layout_height="107dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
