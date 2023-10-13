@@ -24,8 +24,6 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
         val film = films[position]
 
         holder.layout.setOnClickListener {
-            // TODO: Toast qui affiche film.titre ou position
-            //Toast.makeText(ctx, "$position", Toast.LENGTH_SHORT).show()
             val intent = Intent(ctx, AjouterEditerFilm::class.java)
             intent.putExtra("FILM_ID", film.uid)
             ctx.startActivity(intent)
