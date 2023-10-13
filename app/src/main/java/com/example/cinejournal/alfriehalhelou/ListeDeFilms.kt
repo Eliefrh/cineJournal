@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ListeDeFilms : AppCompatActivity() {
-    lateinit var films: Film
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapteur: FilmAdapteur
@@ -33,19 +32,15 @@ class ListeDeFilms : AppCompatActivity() {
         var titre: TextView = findViewById(R.id.mes_films)
         titre.text = "Mes films"
 
-        var tri: TextView = findViewById(R.id.tri)
-        //tri.text = "Trier par ${}"
 
-
-        val recycleThread = (lifecycleScope.launch {
+        lifecycleScope.launch {
             recyclerView = findViewById(R.id.listeFilms)
             val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
             var liste = database.FilmDao().getAll()
             adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), liste)
             recyclerView.adapter = adapteur
 
-        })
-
+        }
 
         var ajouter: Button = findViewById(R.id.ajouter)
         ajouter.setOnClickListener()
@@ -53,8 +48,6 @@ class ListeDeFilms : AppCompatActivity() {
             val intent = Intent(this, AjouterEditerFilm::class.java)
             startActivity(intent)
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -92,7 +85,7 @@ class ListeDeFilms : AppCompatActivity() {
                             AppDatabase.getDatabase(applicationContext)
                         database.FilmDao().trierParTitre()
                     }
-                    adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
+                    adapteur.mettreAJour(filmsTries)
                 }
             }
 
@@ -103,7 +96,7 @@ class ListeDeFilms : AppCompatActivity() {
                             AppDatabase.getDatabase(applicationContext)
                         database.FilmDao().trierParNote()
                     }
-                    adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
+                    adapteur.mettreAJour(filmsTries)
                 }
             }
 
@@ -114,7 +107,7 @@ class ListeDeFilms : AppCompatActivity() {
                             AppDatabase.getDatabase(applicationContext)
                         database.FilmDao().trierParAnnee()
                     }
-                    adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
+                    adapteur.mettreAJour(filmsTries)
                 }
             }
         }
@@ -127,4 +120,5 @@ class ListeDeFilms : AppCompatActivity() {
 
         database.FilmDao().deleteAllData()
     }
+
 }

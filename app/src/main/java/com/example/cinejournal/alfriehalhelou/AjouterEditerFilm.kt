@@ -1,7 +1,6 @@
 package com.example.cinejournal.alfriehalhelou
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -78,6 +77,7 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonSauvegarder = findViewById(R.id.buttonSauvegarder)
 
 
+
         val selectionPhoto =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
                 if (uri != null) {
@@ -108,10 +108,9 @@ class AjouterEditerFilm : AppCompatActivity() {
 
         }
 
-        //database = AppDatabase.getDatabase(this).FilmDao()
+        // Récupération de l'ID du film (s'il s'agit d'une édition)
         val intent = intent
         val filmId = intent.getIntExtra("FILM_ID", -1)
-        val anneeFilm = film?.annee?.toString() ?: ""
 
         if (filmId != -1) {
             // Si l'ID du film est valide, c'est une édition
