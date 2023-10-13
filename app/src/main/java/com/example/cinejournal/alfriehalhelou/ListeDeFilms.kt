@@ -1,5 +1,6 @@
 package com.example.cinejournal.alfriehalhelou
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
@@ -110,13 +112,32 @@ class ListeDeFilms : AppCompatActivity() {
             }
 
             R.id.toutSupprimer -> {
-                lifecycleScope.launch {
-                    deleteAll()
-                    var pageVide: TextView = findViewById(R.id.pageVide)
-                    pageVide.visibility = View.VISIBLE
-                    adapteur.films = listOf()
-                    adapteur.notifyDataSetChanged()
-                }
+                var pageVide: TextView = findViewById(R.id.pageVide)
+
+                val alert = AlertDialog.Builder(this).create()
+                alert.setTitle("Supprimer Tout")
+                alert.setMessage("Êtes-vous sûre???")
+                alert.apply {
+                    setButton(
+                        AlertDialog.BUTTON_POSITIVE, "oui",
+                        DialogInterface.OnClickListener { dialog, id ->
+
+                            lifecycleScope.launch {
+                                deleteAll()
+                            }
+
+                            pageVide.visibility = View.VISIBLE
+
+                            adapteur.films = listOf()
+                            adapteur.notifyDataSetChanged()
+                        }
+                    )
+
+                    setButton(
+                        AlertDialog.BUTTON_NEGATIVE, "non",
+                        DialogInterface.OnClickListener { dialog, id -> })
+                }.show()
+
             }
 
             R.id.titre -> {
