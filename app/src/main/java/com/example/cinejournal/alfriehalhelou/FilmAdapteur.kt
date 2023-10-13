@@ -44,16 +44,12 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ctx.startActivity(intent)
         }
-        val imagePath = "/storage/self/primary/DCIM/Camera/IMG_20231011_112906.jpg"
-        val imageUri = Uri.parse("file://$imagePath")
-        holder.imagFilm.setImageURI(imageUri)
-        //holder.imagFilm.setImageURI("/storage/self/primary/DCIM/Camera/IMG_20231011_112906.jpg".toUri())
-      //  Log.d("imagFilm" , holder.imagFilm.toString())
-        Log.d("imagFilm" , holder.imagFilm.setImageURI(imageUri).toString() )
-        //setImageResource(film.image, holder.imagFilm)
+
         holder.nomFilm.text = film.titre
         holder.sloganFilm.text = film.slogan
         holder.noteFilm.rating = film.note
+
+        holder.imagFilm.setImageURI(Uri.parse(film.image))
     }
 
     fun mettreAJour(films: List<ItemFilm>) {
