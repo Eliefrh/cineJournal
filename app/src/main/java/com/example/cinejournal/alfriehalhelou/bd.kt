@@ -1,9 +1,6 @@
 package com.example.cinejournal.alfriehalhelou
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.media.Image
-import android.widget.ImageView
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Delete
@@ -13,8 +10,6 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
 import androidx.room.Update
 
 @Entity

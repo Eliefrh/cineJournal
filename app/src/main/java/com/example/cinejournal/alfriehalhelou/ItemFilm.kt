@@ -1,8 +1,5 @@
 package com.example.cinejournal.alfriehalhelou
 
-import android.graphics.Bitmap
-import android.widget.ImageView
-
 data class ItemFilm(
     val uid: Int,
     val titre: String,

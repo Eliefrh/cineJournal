@@ -1,6 +1,5 @@
 package com.example.cinejournal.alfriehalhelou
 
-import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
