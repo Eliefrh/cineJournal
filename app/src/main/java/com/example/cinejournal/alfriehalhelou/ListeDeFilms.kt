@@ -1,5 +1,6 @@
 package com.example.cinejournal.alfriehalhelou
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
@@ -55,6 +57,10 @@ class ListeDeFilms : AppCompatActivity() {
         return true
     }
 
+    private fun setButton(buttonNegative: Int, s: String) {
+
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.aPropos -> {
@@ -70,12 +76,22 @@ class ListeDeFilms : AppCompatActivity() {
             }
 
             R.id.toutSupprimer -> {
-                lifecycleScope.launch {
-                    deleteAll()
+                val alert = AlertDialog.Builder(this).create()
+                alert.setTitle("Supprimer Tout")
+                alert.setMessage("Êtes-vous sûre???")
+                alert.apply {
+                    setButton(AlertDialog.BUTTON_POSITIVE, "oui",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        lifecycleScope.launch {
+                            deleteAll()
+                        }
+                        adapteur.films = listOf()
+                        adapteur.notifyDataSetChanged()
+                    })
+                    setButton(AlertDialog.BUTTON_NEGATIVE, "non",
+                        DialogInterface.OnClickListener { dialog, id -> })
+                }.show()
 
-                    adapteur.films = listOf()
-                    adapteur.notifyDataSetChanged()
-                }
             }
 
             R.id.titre -> {
