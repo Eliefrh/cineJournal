@@ -41,6 +41,7 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
             //Toast.makeText(ctx, "$position", Toast.LENGTH_SHORT).show()
             val intent = Intent(ctx, AjouterEditerFilm::class.java)
             intent.putExtra("FILM_ID", film.uid)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ctx.startActivity(intent)
         }
         val imagePath = "/storage/self/primary/DCIM/Camera/IMG_20231011_112906.jpg"
