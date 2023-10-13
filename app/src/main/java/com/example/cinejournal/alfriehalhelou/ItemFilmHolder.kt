@@ -1,5 +1,6 @@
 package com.example.cinejournal.alfriehalhelou
 
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
@@ -13,6 +14,7 @@ class ItemFilmHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val nomFilm: TextView
     val sloganFilm: TextView
     val noteFilm: RatingBar
+
 
     init {
         layout = itemView.findViewById(R.id.layout)

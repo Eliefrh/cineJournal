@@ -51,7 +51,6 @@ class AjouterEditerFilm : AppCompatActivity() {
     lateinit var boutonAjouterImage: Button
     lateinit var boutonAnnuler: Button
     lateinit var boutonSauvegarder: Button
-    //lateinit var imageView: ImageView
 
 
     private fun creerUriPhoto(): Uri {
@@ -63,7 +62,7 @@ class AjouterEditerFilm : AppCompatActivity() {
         val imageUri = photoFile.toUri()
         Log.d("Elie imageUri", imageUri.toString())
 
-        imageNouveauFilm.setImageURI(imageUri)
+       imageNouveauFilm.setImageURI(imageUri)
         return imageUri
     }
 
@@ -103,7 +102,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                         }
                     }
 
-                    imageNouveauFilm.setImageURI(imageLocale)
+                  imageNouveauFilm.setImageURI(imageLocale)
 
                     // On fait quelque chose avec l'image reçue sous forme d'URI
                     //  val uri = imageNouveauFilm.setImageURI(uri)
@@ -136,7 +135,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                     modifierSloganFilm.setText(it.slogan)
                     modifierAnneeFilm.setText(anneeFilm)
                     modifierNoteFilm.rating = it.note ?: 0.0f
-                    imageNouveauFilm.setImageURI(creerUriPhoto())
+                  //  imageNouveauFilm.setImageURI("/storage/self/primary/DCIM/Camera/IMG_20231011_112906.jpg".toUri())
 
 
                 }
@@ -149,16 +148,17 @@ class AjouterEditerFilm : AppCompatActivity() {
             val slogan = modifierSloganFilm.text.toString()
             val annee = modifierAnneeFilm.text.toString().toIntOrNull()
             val note = modifierNoteFilm.rating
-            val image = creerUriPhoto().toString()
-            Log.d("AAA", "$titre, $slogan, $annee, $note")
+            val image = imageNouveauFilm.setImageURI(creerUriPhoto())
+        //    Log.d("AAA", "$titre, $slogan, $annee, $note")
 
             if (titre != "") {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
-                        val nouveauFilm = Film(null, titre, slogan, annee, note, image)
+                       // val imageUriString= ("/storage/self/primary/DCIM/Camera/IMG_20231011_112906.jpg").toUri().toString()
+                        val nouveauFilm = Film(null, titre, slogan, annee, note, creerUriPhoto().toString())
                         withContext(Dispatchers.IO) {
                             database.FilmDao().insertAll(nouveauFilm)
-                            imageNouveauFilm.setImageURI(creerUriPhoto())
+                           // imageNouveauFilm.setImageURI(creerUriPhoto())
                         }
                     } else {
                         film?.let {
@@ -167,8 +167,9 @@ class AjouterEditerFilm : AppCompatActivity() {
                             it.annee = annee
                             it.note = note
                             it.image = imageNouveauFilm.toString()
+                           // Glide.with(itemView.context).load(film.imageUri).into(imagFilm)
                             withContext(Dispatchers.IO) {
-                                imageNouveauFilm.setImageURI(creerUriPhoto())
+                                //imageNouveauFilm.setImageURI(creerUriPhoto())
                                 database.FilmDao().updateAll(it)
 
                             }

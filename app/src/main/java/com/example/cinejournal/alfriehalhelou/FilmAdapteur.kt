@@ -43,9 +43,12 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
             intent.putExtra("FILM_ID", film.uid)
             ctx.startActivity(intent)
         }
-
-
-        holder.imagFilm
+        val imagePath = "/storage/self/primary/DCIM/Camera/IMG_20231011_112906.jpg"
+        val imageUri = Uri.parse("file://$imagePath")
+        holder.imagFilm.setImageURI(imageUri)
+        //holder.imagFilm.setImageURI("/storage/self/primary/DCIM/Camera/IMG_20231011_112906.jpg".toUri())
+      //  Log.d("imagFilm" , holder.imagFilm.toString())
+        Log.d("imagFilm" , holder.imagFilm.setImageURI(imageUri).toString() )
         //setImageResource(film.image, holder.imagFilm)
         holder.nomFilm.text = film.titre
         holder.sloganFilm.text = film.slogan
