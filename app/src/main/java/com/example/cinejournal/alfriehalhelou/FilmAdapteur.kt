@@ -45,11 +45,6 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
         this.films = films
         notifyDataSetChanged()
     }
-//    fun setImageResource(uri: String, imageView: ImageView) {
-//        Picasso.get()
-//            .load(Uri.parse(uri))
-//            .into(imageView)
-//    }
 }
 
 

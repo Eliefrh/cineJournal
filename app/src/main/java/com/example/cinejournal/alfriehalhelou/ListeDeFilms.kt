@@ -1,5 +1,11 @@
 package com.example.cinejournal.alfriehalhelou
 
+/**Application = ciné journal
+ **fait par : Elie Alfrieh et Khalil Alhelou
+ **Dans le cadre du cours : Application mobile
+ **Description : une application android qui permet de noter, gérer et archiver des films que vous
+ * deja regardé
+ **/
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -38,6 +44,8 @@ class ListeDeFilms : AppCompatActivity() {
         return imageUri
     }
 
+    //s'assurer que le tri est toujours (en revenant sur la page)afficher et que les films sont
+    //trier de la meme facon declarer dans les preferences
     override fun onResume() {
         super.onResume()
         prefsTri = preferencesTri(this)
@@ -73,13 +81,15 @@ class ListeDeFilms : AppCompatActivity() {
 
         var pageVide: TextView = findViewById(R.id.pageVide)
 
+        //ouvrir page ajouterFilm
         var ajouter: Button = findViewById(R.id.ajouter)
         ajouter.setOnClickListener() {
             val intent = Intent(this, AjouterEditerFilm::class.java)
             startActivity(intent)
         }
 
-
+        //charger les films a partir de notre BD et controler l'affichage du text liste qui contient
+        //pas des films
         val recycleThread = (lifecycleScope.launch {
             recyclerView = findViewById(R.id.listeFilms)
             var liste = chargerFilms()
@@ -96,6 +106,7 @@ class ListeDeFilms : AppCompatActivity() {
 
     }
 
+    //inflater pour afficher le menu de l'application
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
@@ -103,18 +114,21 @@ class ListeDeFilms : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            //ouvrir page a propos
             R.id.aPropos -> {
                 Log.d("MonTag", "Clic sur À Propos")
                 val intent = Intent(this, APropos::class.java);
                 startActivity(intent)
             }
-
+            //affichage de la page de recherche
             R.id.trouverUnFilm -> {
                 Log.d("MonTag", "Clic sur Trouver un film")
                 val intent = Intent(this, RechercheFilm::class.java);
                 startActivity(intent)
             }
 
+            //afficher un alert pour demander d'effacer le contenu
+            //supprimer tous ce qu'il est dans la base de donnees
             R.id.toutSupprimer -> {
                 var pageVide: TextView = findViewById(R.id.pageVide)
 
@@ -139,6 +153,8 @@ class ListeDeFilms : AppCompatActivity() {
 
             }
 
+            //trier l'affichage en ordre alphabétique
+            //ajout dans les preferences
             R.id.titre -> {
                 val tri = "Trié par titre"
                 prefsTri.setTriPreference(tri)
@@ -150,7 +166,8 @@ class ListeDeFilms : AppCompatActivity() {
                     adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
                 }
             }
-
+            //trier l'affichage par note
+            //ajout dans les preferences
             R.id.note -> {
                 val tri = "Trié par note"
                 prefsTri.setTriPreference(tri)
@@ -162,7 +179,8 @@ class ListeDeFilms : AppCompatActivity() {
                     adapteur.mettreAJour(filmsTries) // Mettre à jour la liste de films
                 }
             }
-
+            //trier l'affichage par annee
+            //ajout dans les preferences
             R.id.annee -> {
                 val tri = "Trié par annee"
                 prefsTri.setTriPreference(tri)
@@ -203,6 +221,7 @@ class ListeDeFilms : AppCompatActivity() {
         database.FilmDao().getAll()
     }
 
+    //une fonction pour avoir les preferance et manipuler le tri
     private fun trierEtMettreAJour(tri: String) {
         when (tri) {
             "Trié par titre" -> {

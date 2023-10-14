@@ -79,13 +79,11 @@ class AjouterEditerFilm : AppCompatActivity() {
         val selectionPhoto =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
                 if (uri != null) {
-
                     val imageLocale = creerUriPhoto()
                     val inputStream = contentResolver.openInputStream(uri)
                     val outputStream = contentResolver.openOutputStream(imageLocale)
                     Log.d("Elie input", uri.toString())
                     Log.d("Elie output", imageLocale.toString())
-
 
                     inputStream?.use { input ->
                         outputStream.use { output ->
@@ -107,7 +105,6 @@ class AjouterEditerFilm : AppCompatActivity() {
         val intent = intent
         val filmId = intent.getIntExtra("FILM_ID", -1)
         val anneeFilm = film?.annee?.toString() ?: ""
-        // image = Uri.EMPTY
 
         if (filmId != -1) {
 
@@ -127,19 +124,19 @@ class AjouterEditerFilm : AppCompatActivity() {
                     Log.d("Elie uri", image.toString())
                     modifierImageFilm.setImageURI(Uri.parse(image.toString()))
 
-
                 }
             }
         }
 
+        //listener boutonsauvegarder
+        //faire un film et l'inserer dans la base de donnees
+        //s'assurer que les champs principale sont remplis
         boutonSauvegarder.setOnClickListener {
 
             val titre = modifierNomFilm.text.toString()
             val slogan = modifierSloganFilm.text.toString()
             val annee = modifierAnneeFilm.text.toString().toIntOrNull()
             val note = modifierNoteFilm.rating
-
-
 
             if (titre != "" && annee != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
