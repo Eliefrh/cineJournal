@@ -27,21 +27,42 @@ import java.util.Locale
 
 class ListeDeFilms : AppCompatActivity() {
     lateinit var films: Film
-
+    lateinit var prefsTri: preferencesTri
     lateinit var recyclerView: RecyclerView
     lateinit var adapteur: FilmAdapteur
     private fun creerUriPhoto(): Uri {
         val timeStamp: String =
             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val photoFile =
-            File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
+        val photoFile = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
         val imageUri = photoFile.toUri()
         return imageUri
+    }
+
+    override fun onResume() {
+        super.onResume()
+        prefsTri = preferencesTri(this)
+        val triEnCours = prefsTri.getTriPreference()
+        Log.d("Trie", triEnCours)
+        var tri: TextView = findViewById(R.id.tri)
+        tri.text = triEnCours
+        trierEtMettreAJour(triEnCours)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activite_liste_film)
+
+        prefsTri = preferencesTri(this)
+        val triEnCours = prefsTri.getTriPreference()
+        Log.d("Trie", triEnCours)
+        var tri: TextView = findViewById(R.id.tri)
+        tri.text = triEnCours
+        trierEtMettreAJour(triEnCours)
+
+        recyclerView = findViewById(R.id.listeFilms)
+        adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), listOf())
+        recyclerView.adapter = adapteur
+
 
         var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -49,14 +70,11 @@ class ListeDeFilms : AppCompatActivity() {
         var titre: TextView = findViewById(R.id.mes_films)
         titre.text = "Mes films"
 
-        var tri: TextView = findViewById(R.id.tri)
-        tri.text = "Trié par l'ordre d'ajout"
 
         var pageVide: TextView = findViewById(R.id.pageVide)
 
         var ajouter: Button = findViewById(R.id.ajouter)
-        ajouter.setOnClickListener()
-        {
+        ajouter.setOnClickListener() {
             val intent = Intent(this, AjouterEditerFilm::class.java)
             startActivity(intent)
         }
@@ -104,8 +122,8 @@ class ListeDeFilms : AppCompatActivity() {
                 alert.setTitle("Supprimer Tout")
                 alert.setMessage("Êtes-vous sûre???")
                 alert.apply {
-                    setButton(
-                        AlertDialog.BUTTON_POSITIVE, "oui",
+                    setButton(AlertDialog.BUTTON_POSITIVE,
+                        "oui",
                         DialogInterface.OnClickListener { dialog, id ->
                             lifecycleScope.launch {
                                 deleteAll()
@@ -113,18 +131,18 @@ class ListeDeFilms : AppCompatActivity() {
                             pageVide.visibility = View.VISIBLE
                             adapteur.films = listOf()
                             adapteur.notifyDataSetChanged()
-                        }
-                    )
-                    setButton(
-                        AlertDialog.BUTTON_NEGATIVE, "non",
+                        })
+                    setButton(AlertDialog.BUTTON_NEGATIVE,
+                        "non",
                         DialogInterface.OnClickListener { dialog, id -> })
                 }.show()
 
             }
 
             R.id.titre -> {
-                var tri: TextView = findViewById(R.id.tri)
-                tri.text = "Trié par titre"
+                val tri = "Trié par titre"
+                prefsTri.setTriPreference(tri)
+                trierEtMettreAJour(tri)
                 lifecycleScope.launch {
                     val filmsTries = withContext(Dispatchers.IO) {
                         trierParTitre()
@@ -134,8 +152,9 @@ class ListeDeFilms : AppCompatActivity() {
             }
 
             R.id.note -> {
-                var tri: TextView = findViewById(R.id.tri)
-                tri.text = "Trié par note"
+                val tri = "Trié par note"
+                prefsTri.setTriPreference(tri)
+                trierEtMettreAJour(tri)
                 lifecycleScope.launch {
                     val filmsTries = withContext(Dispatchers.IO) {
                         trierParNote()
@@ -145,8 +164,9 @@ class ListeDeFilms : AppCompatActivity() {
             }
 
             R.id.annee -> {
-                var tri: TextView = findViewById(R.id.tri)
-                tri.text = "Trié par année"
+                val tri = "Trié par annee"
+                prefsTri.setTriPreference(tri)
+                trierEtMettreAJour(tri)
                 lifecycleScope.launch {
                     val filmsTries = withContext(Dispatchers.IO) {
                         trierParAnnee()
@@ -160,33 +180,70 @@ class ListeDeFilms : AppCompatActivity() {
     }
 
     private suspend fun deleteAll() = withContext(Dispatchers.IO) {
-        val database: AppDatabase =
-            AppDatabase.getDatabase(applicationContext)
+        val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
         database.FilmDao().deleteAllData()
     }
 
     private suspend fun trierParTitre() = withContext(Dispatchers.IO) {
-        val database: AppDatabase =
-            AppDatabase.getDatabase(applicationContext)
+        val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
         database.FilmDao().trierParTitre()
     }
 
     private suspend fun trierParNote() = withContext(Dispatchers.IO) {
-        val database: AppDatabase =
-            AppDatabase.getDatabase(applicationContext)
+        val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
         database.FilmDao().trierParNote()
     }
 
     private suspend fun trierParAnnee() = withContext(Dispatchers.IO) {
-        val database: AppDatabase =
-            AppDatabase.getDatabase(applicationContext)
+        val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
         database.FilmDao().trierParAnnee()
     }
 
     private suspend fun chargerFilms() = withContext(Dispatchers.IO) {
-        val database: AppDatabase =
-            AppDatabase.getDatabase(applicationContext)
+        val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
         database.FilmDao().getAll()
+    }
+
+    private fun trierEtMettreAJour(tri: String) {
+        when (tri) {
+            "Trié par titre" -> {
+                lifecycleScope.launch {
+                    val filmsTries = withContext(Dispatchers.IO) {
+                        trierParTitre()
+                    }
+                    adapteur.mettreAJour(filmsTries)
+                    var tri: TextView = findViewById(R.id.tri)
+                    tri.text = prefsTri.getTriPreference()
+                }
+            }
+
+            "Trié par note" -> {
+
+                lifecycleScope.launch {
+                    val filmsTries = withContext(Dispatchers.IO) {
+                        trierParNote()
+                    }
+                    adapteur.mettreAJour(filmsTries)
+                    var tri: TextView = findViewById(R.id.tri)
+                    tri.text = prefsTri.getTriPreference()
+                }
+            }
+
+            "Trié par annee" -> {
+                lifecycleScope.launch {
+                    val filmsTries = withContext(Dispatchers.IO) {
+                        trierParAnnee()
+                    }
+                    adapteur.mettreAJour(filmsTries)
+                    var tri: TextView = findViewById(R.id.tri)
+                    tri.text = prefsTri.getTriPreference()
+
+                }
+
+            }
+
+
+        }
     }
 
 }
