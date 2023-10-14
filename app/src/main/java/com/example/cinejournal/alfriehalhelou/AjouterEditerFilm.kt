@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.result.PickVisualMediaRequest
@@ -44,7 +45,7 @@ class AjouterEditerFilm : AppCompatActivity() {
     lateinit var modifierImageFilm: ImageView
     lateinit var image: Uri
 
-
+    //creation d'uri pour l'image choisi
     private fun creerUriPhoto(): Uri {
         val timeStamp: String =
             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
@@ -100,26 +101,23 @@ class AjouterEditerFilm : AppCompatActivity() {
 
                 }
             }
-        //imageView = findViewById(R.id.imageNouveauFilm)
 
         boutonAjouterImage.setOnClickListener() {
-
             selectionPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-
-
         }
 
-        //database = AppDatabase.getDatabase(this).FilmDao()
         val intent = intent
         val filmId = intent.getIntExtra("FILM_ID", -1)
         val anneeFilm = film?.annee?.toString() ?: ""
         image = Uri.EMPTY
 
         if (filmId != -1) {
+
             // Si l'ID du film est valide, c'est une édition
             lifecycleScope.launch {
                 film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
-
+                var text: TextView = findViewById(R.id.textViewNouveauFilm)
+                text.text = "Modifier Un Film"
                 film?.let {
                     val anneeFilm = film?.annee?.toString() ?: ""
                     // Mettez à jour les champs avec les données du film
@@ -142,9 +140,8 @@ class AjouterEditerFilm : AppCompatActivity() {
             val note = modifierNoteFilm.rating
 
 
-            //    Log.d("AAA", "$titre, $slogan, $annee, $note")
 
-            if (titre != "") {
+            if (titre != "" && annee != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
                         val nouveauFilm =
@@ -158,10 +155,10 @@ class AjouterEditerFilm : AppCompatActivity() {
                             it.slogan = slogan
                             it.annee = annee
                             it.note = note
+                            it.image = image.toString()
 
                             withContext(Dispatchers.IO) {
                                 database.FilmDao().updateAll(it)
-
                             }
                         }
                     }
@@ -173,13 +170,13 @@ class AjouterEditerFilm : AppCompatActivity() {
             } else {
                 val toast = Toast.makeText(
                     applicationContext,
-                    "Remplissez toutes les champs svp",
+                    "Remplissez au moins les champs avec un etoile (*) svp",
                     LENGTH_SHORT
                 )
                 toast.show()
             }
         }
-
+        
         boutonAnnuler.setOnClickListener() {
             val intent = Intent(this, ListeDeFilms::class.java);
             startActivity(intent)

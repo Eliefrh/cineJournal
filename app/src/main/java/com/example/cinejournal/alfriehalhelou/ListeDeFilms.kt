@@ -175,7 +175,6 @@ class ListeDeFilms : AppCompatActivity() {
                 }
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
