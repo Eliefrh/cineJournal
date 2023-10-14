@@ -49,8 +49,7 @@ class AjouterEditerFilm : AppCompatActivity() {
     private fun creerUriPhoto(): Uri {
         val timeStamp: String =
             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val photoFile =
-            File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
+        val photoFile = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "$timeStamp.jpg")
         Log.d("Elie photofile", photoFile.toString())
         val imageUri = photoFile.toUri()
         Log.d("Elie imageUri", imageUri.toString())
@@ -64,8 +63,7 @@ class AjouterEditerFilm : AppCompatActivity() {
 
         var toolbar: Toolbar = findViewById(R.id.toolbar_ajouter_editer)
         setSupportActionBar(toolbar)
-        val database: AppDatabase =
-            AppDatabase.getDatabase(applicationContext)
+        val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
 
         modifierNomFilm = findViewById(R.id.editTextTitreFilm)
         modifierSloganFilm = findViewById(R.id.editTextSloganFilm)
@@ -109,7 +107,7 @@ class AjouterEditerFilm : AppCompatActivity() {
         val intent = intent
         val filmId = intent.getIntExtra("FILM_ID", -1)
         val anneeFilm = film?.annee?.toString() ?: ""
-        image = Uri.EMPTY
+        // image = Uri.EMPTY
 
         if (filmId != -1) {
 
@@ -125,7 +123,9 @@ class AjouterEditerFilm : AppCompatActivity() {
                     modifierSloganFilm.setText(it.slogan)
                     modifierAnneeFilm.setText(anneeFilm)
                     modifierNoteFilm.rating = it.note ?: 0.0f
-                    imageNouveauFilm.setImageURI(Uri.parse(it.image))
+                    image = database.FilmDao().getImage().toUri()
+                    Log.d("Elie uri", image.toString())
+                    modifierImageFilm.setImageURI(Uri.parse(image.toString()))
 
 
                 }
@@ -144,8 +144,7 @@ class AjouterEditerFilm : AppCompatActivity() {
             if (titre != "" && annee != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
-                        val nouveauFilm =
-                            Film(null, titre, slogan, annee, note, image.toString())
+                        val nouveauFilm = Film(null, titre, slogan, annee, note, image.toString())
                         withContext(Dispatchers.IO) {
                             database.FilmDao().insertAll(nouveauFilm)
                         }
@@ -176,7 +175,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                 toast.show()
             }
         }
-        
+
         boutonAnnuler.setOnClickListener() {
             val intent = Intent(this, ListeDeFilms::class.java);
             startActivity(intent)
