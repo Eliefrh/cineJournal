@@ -1,6 +1,7 @@
 package com.example.cinejournal.alfriehalhelou
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RechercheFilm : AppCompatActivity() {
 
@@ -26,6 +28,8 @@ class RechercheFilm : AppCompatActivity() {
         val butounRechercher: ImageButton = findViewById(R.id.imageButtonRechercher)
         val barDeRecherche: EditText = findViewById(R.id.editTextRecherche)
 
+        // le jeton de l'API
+        val cle = BuildConfig.API_KEY_TMBD
 
         butounRechercher.setOnClickListener {
             val chercheFilm = barDeRecherche.text.toString()
@@ -37,6 +41,24 @@ class RechercheFilm : AppCompatActivity() {
             }
 
 
+        }
+
+        lifecycleScope.launch {
+            val reponse = withContext(Dispatchers.IO) {
+                ApiClient.apiService.getMovieById(11)
+            }
+            Log.d("Elie",ApiClient.apiService.getMovieById(11).toString())
+
+            if (!reponse.isSuccessful) return@launch
+
+            if (reponse.body() == null)
+                return@launch
+
+//            val Film = reponse.body()!!
+//            Log.d("university", Film.toString())
+//            contenu.text = """
+//                account_id ${Film}
+//            """.trimIndent()
         }
     }
 
