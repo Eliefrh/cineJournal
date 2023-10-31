@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,6 +17,8 @@ class RechercheFilm : AppCompatActivity() {
     lateinit var db: AppDatabase
     lateinit var adapteur: FilmAdapteur
     lateinit var filmDao: FilmDao
+    lateinit var recyclerView: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recherche_film)
@@ -54,11 +57,10 @@ class RechercheFilm : AppCompatActivity() {
             if (reponse.body() == null)
                 return@launch
 
-//            val Film = reponse.body()!!
-//            Log.d("university", Film.toString())
-//            contenu.text = """
-//                account_id ${Film}
-//            """.trimIndent()
+            val Film = reponse.body()!!
+            Log.d("Film", Film.toString())
+
+//              recyclerView.adapter = listOf<String>(ApiClient.apiService.getMovieById(11))
         }
     }
 

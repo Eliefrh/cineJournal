@@ -23,12 +23,21 @@ data class Films(
      *
      * @SerializedName("nomDansLAPI")
      */
-    @SerializedName("state-province") val stateProvince: String,
-    val country: String,
-    val domains: List<String>,
-    @SerializedName("web_pages") val webPages: List<String>,
-    @SerializedName("alpha_two_code") val alphaTwoCode: String,
-    val name: String
+    val adult: Boolean,
+    val backdrop_path : String,
+//    val belongs_to_collection :<String>,
+    val budget : Int,
+// val genres :List<String>,
+    val id : String,
+    val name : String
+
+
+//    @SerializedName("state-province") val stateProvince: String,
+//    val country: String,
+//    val domains: List<String>,
+//    @SerializedName("web_pages") val webPages: List<String>,
+//    @SerializedName("alpha_two_code") val alphaTwoCode: String,
+//    val name: String
 
 )
 
