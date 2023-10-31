@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -18,13 +20,22 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
     buildTypes {
+        val API_KEY_TMBD = gradleLocalProperties(rootDir).getProperty("API_KEY_TMBD")
+        debug {
+            buildConfigField("String", "API_KEY_TMBD", API_KEY_TMBD)
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "API_KEY_TMBD", API_KEY_TMBD)
         }
     }
     compileOptions {
