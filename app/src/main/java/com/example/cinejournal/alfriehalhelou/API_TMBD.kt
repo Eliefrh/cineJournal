@@ -25,19 +25,10 @@ data class Films(
      */
     val adult: Boolean,
     val backdrop_path : String,
-//    val belongs_to_collection :<String>,
     val budget : Int,
-// val genres :List<String>,
     val id : String,
     val name : String
 
-
-//    @SerializedName("state-province") val stateProvince: String,
-//    val country: String,
-//    val domains: List<String>,
-//    @SerializedName("web_pages") val webPages: List<String>,
-//    @SerializedName("alpha_two_code") val alphaTwoCode: String,
-//    val name: String
 
 )
 
@@ -122,15 +113,7 @@ object ApiClient {
     }
 
     private val retrofit: Retrofit by lazy {
-        /**
-         *  Le patron Builder est utilisé ici
-         *  Voir: https://refactoring.guru/design-patterns/builder
-         *
-         * Un Builder est un objet de configuration dont les méthodes sont typiquement chaînables
-         *
-         * C'est une bonne alternative à définir un constructeur avec 2178643 arguments,
-         * qui sont tous possiblement optionnels
-         */
+
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(httpClient)
