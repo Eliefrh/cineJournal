@@ -36,32 +36,62 @@ class RechercheFilm : AppCompatActivity() {
 
         butounRechercher.setOnClickListener {
             val chercheFilm = barDeRecherche.text.toString()
-            lifecycleScope.launch(Dispatchers.IO) {
-                val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
-                val filmsTrouves = database.FilmDao().findByName(chercheFilm, chercheFilm)
-                //    adapteur = FilmAdapteur(applicationContext, ListeDeFilms(), filmsTrouves)
-                //    recyclerView.adapter = adapteur
+
+            lifecycleScope.launch {
+                val reponse = withContext(Dispatchers.IO) {
+                    ApiClient.apiService.getFilmBySearch(chercheFilm)
+                }
+                Log.d("Elie recerche de film", reponse.toString())
+
+                if (!reponse.isSuccessful) return@launch
+
+                if (reponse.body() == null)
+                    return@launch
+
+                val Film = reponse.body()!!
+                Log.d("Film", Film.toString())
+
+
             }
-
-
         }
 
-        lifecycleScope.launch {
-            val reponse = withContext(Dispatchers.IO) {
-                ApiClient.apiService.getMovieById(11)
-            }
-            Log.d("Elie",ApiClient.apiService.getMovieById(11).toString())
 
-            if (!reponse.isSuccessful) return@launch
-
-            if (reponse.body() == null)
-                return@launch
-
-            val Film = reponse.body()!!
-            Log.d("Film", Film.toString())
-
-//              recyclerView.adapter = listOf<String>(ApiClient.apiService.getMovieById(11))
-        }
     }
+
+//        lifecycleScope.launch {
+//            val reponse = withContext(Dispatchers.IO) {
+//                ApiClient.apiService.getMovieById(11)
+//            }
+//            Log.d("Elie",ApiClient.apiService.getMovieById(11).toString())
+//
+//            if (!reponse.isSuccessful) return@launch
+//
+//            if (reponse.body() == null)
+//                return@launch
+//
+//            val Film = reponse.body()!!
+//            Log.d("Film", Film.toString())
+//
+////              recyclerView.adapter = listOf<String>(ApiClient.apiService.getMovieById(11))
+//        }
+
+
+//        lifecycleScope.launch {
+//            val reponse = withContext(Dispatchers.IO) {
+//                ApiClient.apiService.getFilmBySearch("Matrix")
+//            }
+//            Log.d("Elie recerche de film",reponse.toString())
+//
+//            if (!reponse.isSuccessful) return@launch
+//
+//            if (reponse.body() == null)
+//                return@launch
+//
+//            val Film = reponse.body()!!
+//            Log.d("Film", Film.toString())
+//
+//
+//        }
+//    }
 
 }

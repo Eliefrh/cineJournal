@@ -16,6 +16,7 @@ import retrofit2.http.Query
 /**
  * Ensemble de data class pour représenter les données fournies par l'API
  */
+
 data class Films(
     /**
      * Dans le cas où on veut donner un nom plus clair à notre classe
@@ -24,12 +25,30 @@ data class Films(
      * @SerializedName("nomDansLAPI")
      */
     val adult: Boolean,
-    val backdrop_path : String,
-    val budget : Int,
-    val id : String,
-    val name : String
+    val backdrop_path: String,
+//    val budget : Int,
+//    val id : String,
+//    val name : String
+    val id: Int,
+    val original_language: String,
+    val original_title: String,
+    val overview: String,
+    val popularity: Double,
+    val poster_path: String,
+    val release_date: String,
+    val title: String,
+    val video: Boolean,
+    val vote_average: Double,
+    val vote_count: Int
 
 
+)
+
+data class ApiResponse(
+    val page: Int,
+    val results: List<Films>,
+    val total_pages: Int,
+    val total_results: Int
 )
 
 
@@ -42,7 +61,21 @@ data class Films(
  */
 interface ApiService {
     @GET("movie/{movie_id}")
-    suspend fun getMovieById (@Path("movie_id") movieId: Int): Response<Films>
+    suspend fun getMovieById(@Path("movie_id") movieId: Int): Response<Films>
+
+
+    @GET("search/movie")
+    suspend fun getFilmBySearch(
+        @Query("query") query: String,
+        @Query("include_adult") includeAdult: Boolean? = null,
+        @Query("language") language: String? = null,
+        @Query("primary_release_year") primaryReleaseYear: String? = null,
+        @Query("page") page: Int? = null,
+        @Query("region") region: String? = null,
+        @Query("year") year: String? = null
+    ): Response<ApiResponse>
+}
+
     /**
      * Méthode avec un paramètre à injecter dans l'URL, par exemple :
      *
@@ -67,7 +100,7 @@ interface ApiService {
      *
      * D'autres méthodes HTTP sont également possibles, à vous de fouiller dans la doc
      */
-}
+
 
 /**
  * Objet d'accès à l'API : essentiellement équivalent au singleton qui donnait accès à la BD dans le cas de Room
