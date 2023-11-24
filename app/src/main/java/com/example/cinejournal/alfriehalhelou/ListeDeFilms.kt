@@ -31,7 +31,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ListeDeFilms : AppCompatActivity() {
+class
+ListeDeFilms : AppCompatActivity() {
     lateinit var films: Film
     lateinit var prefsTri: preferencesTri
     lateinit var recyclerView: RecyclerView

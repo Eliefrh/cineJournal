@@ -18,7 +18,10 @@
         <activity
             android:name=".RechercheFilm"
             android:exported="false"
-            android:parentActivityName=".ListeDeFilms" />
+            android:parentActivityName=".ListeDeFilms"
+            android:windowSoftInputMode="adjustResize"/>
+
+
         <activity
             android:name=".AjouterEditerFilm"
             android:exported="false" />
