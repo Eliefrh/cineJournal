@@ -1,4 +1,4 @@
-package com.example.cinejournal.alfriehalhelou
+package ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou
 
 import android.os.Bundle
 import android.util.Log
@@ -16,11 +16,8 @@ import kotlinx.coroutines.withContext
 
 class RechercheFilm : AppCompatActivity() {
 
-    lateinit var db: AppDatabase
-    lateinit var adapteur: FilmAdapteur
-
-    //    lateinit var filmDao: FilmDao
-    lateinit var recyclerView: RecyclerView
+    private lateinit var adapteur: FilmAdapteur
+    private lateinit var recyclerView: RecyclerView
 
 
     private fun mapApiResultToItemFilms(apiResponse: ApiResponse): List<ItemFilm> {
@@ -36,22 +33,6 @@ class RechercheFilm : AppCompatActivity() {
         }
     }
 
-    //    private fun getYearFromReleaseDate(releaseDate: String): Int {
-//        return try {
-//            releaseDate.substring(0, 4).toInt()
-//        } catch (e: Exception) {
-//            0
-//        }
-//    }
-//
-//    // Fonction pour obtenir le chemin d'image complet
-//    private fun getFullImagePath(posterPath: String?): String {
-//        return if (!posterPath.isNullOrBlank()) {
-//            "https://image.tmdb.org/t/p/w500$posterPath"
-//        } else {
-//            ""
-//        }
-//    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recherche_film)
@@ -68,7 +49,7 @@ class RechercheFilm : AppCompatActivity() {
 
 
         // le jeton de l'API
-        val cle = BuildConfig.API_KEY_TMBD
+        BuildConfig.API_KEY_TMBD
 
         butounRechercher.setOnClickListener {
             val chercheFilm = barDeRecherche.text.toString()
@@ -106,41 +87,5 @@ class RechercheFilm : AppCompatActivity() {
 
 
     }
-
-//        lifecycleScope.launch {
-//            val reponse = withContext(Dispatchers.IO) {
-//                ApiClient.apiService.getMovieById(11)
-//            }
-//            Log.d("Elie",ApiClient.apiService.getMovieById(11).toString())
-//
-//            if (!reponse.isSuccessful) return@launch
-//
-//            if (reponse.body() == null)
-//                return@launch
-//
-//            val Film = reponse.body()!!
-//            Log.d("Film", Film.toString())
-//
-////              recyclerView.adapter = listOf<String>(ApiClient.apiService.getMovieById(11))
-//        }
-
-
-//        lifecycleScope.launch {
-//            val reponse = withContext(Dispatchers.IO) {
-//                ApiClient.apiService.getFilmBySearch("Matrix")
-//            }
-//            Log.d("Elie recerche de film",reponse.toString())
-//
-//            if (!reponse.isSuccessful) return@launch
-//
-//            if (reponse.body() == null)
-//                return@launch
-//
-//            val Film = reponse.body()!!
-//            Log.d("Film", Film.toString())
-//
-//
-//        }
-//    }
 
 }

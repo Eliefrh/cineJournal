@@ -1,4 +1,4 @@
-package com.example.cinejournal.alfriehalhelou
+package ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

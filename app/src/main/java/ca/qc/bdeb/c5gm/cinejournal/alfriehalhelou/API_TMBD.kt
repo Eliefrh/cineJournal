@@ -1,4 +1,4 @@
-package com.example.cinejournal.alfriehalhelou
+package ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

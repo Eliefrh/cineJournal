@@ -1,4 +1,4 @@
-package com.example.cinejournal.alfriehalhelou
+package ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou
 
 data class ItemFilm(
     val uid: Int,

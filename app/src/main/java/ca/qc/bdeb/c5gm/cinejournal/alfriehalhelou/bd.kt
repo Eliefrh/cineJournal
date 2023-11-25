@@ -1,4 +1,4 @@
-package com.example.cinejournal.alfriehalhelou
+package ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou
 
 import android.content.Context
 import androidx.room.Dao

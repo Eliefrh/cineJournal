@@ -1,5 +1,6 @@
-package com.example.cinejournal.alfriehalhelou
+package ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -19,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,21 +29,21 @@ import java.util.Date
 import java.util.Locale
 
 
+@Suppress("NAME_SHADOWING")
 class AjouterEditerFilm : AppCompatActivity() {
 
-    lateinit var recyclerView: RecyclerView
-    lateinit var adapteur: FilmAdapteur
+
     var film: Film? = null
-    lateinit var modifierNomFilm: EditText
-    lateinit var modifierSloganFilm: EditText
-    lateinit var modifierAnneeFilm: EditText
-    lateinit var modifierNoteFilm: RatingBar
-    lateinit var imageNouveauFilm: ImageView
-    lateinit var boutonAjouterImage: Button
-    lateinit var boutonAnnuler: Button
-    lateinit var boutonSauvegarder: Button
-    lateinit var modifierImageFilm: ImageView
-    lateinit var image: Uri
+    private lateinit var modifierNomFilm: EditText
+    private lateinit var modifierSloganFilm: EditText
+    private lateinit var modifierAnneeFilm: EditText
+    private lateinit var modifierNoteFilm: RatingBar
+    private lateinit var imageNouveauFilm: ImageView
+    private lateinit var boutonAjouterImage: Button
+    private lateinit var boutonAnnuler: Button
+    private lateinit var boutonSauvegarder: Button
+    private lateinit var modifierImageFilm: ImageView
+    private lateinit var image: Uri
 
     //creation d'uri pour l'image choisi
     private fun creerUriPhoto(): Uri {
@@ -57,11 +57,12 @@ class AjouterEditerFilm : AppCompatActivity() {
         return imageUri
     }
 
+    @SuppressLint("SetTextI18n", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ajouter_editer_film)
 
-        var toolbar: Toolbar = findViewById(R.id.toolbar_ajouter_editer)
+        val toolbar: Toolbar = findViewById(R.id.toolbar_ajouter_editer)
         setSupportActionBar(toolbar)
         val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
 
@@ -74,7 +75,7 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonAnnuler = findViewById(R.id.buttonAnnuler)
         boutonSauvegarder = findViewById(R.id.buttonSauvegarder)
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
-        var text: TextView = findViewById(R.id.textViewNouveauFilm)
+        val text: TextView = findViewById(R.id.textViewNouveauFilm)
 
 
 
@@ -100,13 +101,13 @@ class AjouterEditerFilm : AppCompatActivity() {
                 }
             }
 
-        boutonAjouterImage.setOnClickListener() {
+        boutonAjouterImage.setOnClickListener {
             selectionPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
         val intent = intent
         val filmId = intent.getIntExtra("FILM_ID", -1)
-        val anneeFilm = film?.annee?.toString() ?: ""
+        film?.annee?.toString() ?: ""
 
         if (filmId != -1) {
 
@@ -183,7 +184,7 @@ class AjouterEditerFilm : AppCompatActivity() {
 
 
 
-                val intent = Intent(this, ListeDeFilms::class.java);
+                val intent = Intent(this, ListeDeFilms::class.java)
                 startActivity(intent)
             } else {
                 val toast = Toast.makeText(
@@ -195,8 +196,8 @@ class AjouterEditerFilm : AppCompatActivity() {
             }
         }
 
-        boutonAnnuler.setOnClickListener() {
-            val intent = Intent(this, ListeDeFilms::class.java);
+        boutonAnnuler.setOnClickListener {
+            val intent = Intent(this, ListeDeFilms::class.java)
             startActivity(intent)
         }
     }

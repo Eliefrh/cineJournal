@@ -1,4 +1,4 @@
-package com.example.cinejournal.alfriehalhelou
+package ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou
 
 /**Application = ciné journal
  **fait par : Elie Alfrieh et Khalil Alhelou
