@@ -43,7 +43,7 @@ class AjouterEditerFilm : AppCompatActivity() {
     private lateinit var boutonAnnuler: Button
     private lateinit var boutonSauvegarder: Button
     private lateinit var modifierImageFilm: ImageView
-    private lateinit var image: Uri
+    private var image: Uri? = null
 
     //creation d'uri pour l'image choisi
     private fun creerUriPhoto(): Uri {
@@ -76,7 +76,6 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonSauvegarder = findViewById(R.id.buttonSauvegarder)
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
         val text: TextView = findViewById(R.id.textViewNouveauFilm)
-
 
 
         val selectionPhoto =
@@ -122,9 +121,12 @@ class AjouterEditerFilm : AppCompatActivity() {
                     modifierSloganFilm.setText(it.slogan)
                     modifierAnneeFilm.setText(anneeFilm)
                     modifierNoteFilm.rating = it.note ?: 0.0f
-                    image = database.FilmDao().getImage().toUri()
-                    Log.d("Elie uri", image.toString())
+                    image = database.FilmDao().getImage(filmId)?.toUri()
                     modifierImageFilm.setImageURI(Uri.parse(image.toString()))
+
+//
+//                    Log.d("Elie uri", image.toString())
+
 
                 }
             }
@@ -180,8 +182,6 @@ class AjouterEditerFilm : AppCompatActivity() {
                     )
                     toast.show()
                 }
-
-
 
 
                 val intent = Intent(this, ListeDeFilms::class.java)
