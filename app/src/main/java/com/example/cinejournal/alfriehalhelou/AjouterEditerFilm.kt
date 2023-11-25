@@ -74,6 +74,8 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonAnnuler = findViewById(R.id.buttonAnnuler)
         boutonSauvegarder = findViewById(R.id.buttonSauvegarder)
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
+        var text: TextView = findViewById(R.id.textViewNouveauFilm)
+
 
 
         val selectionPhoto =
@@ -111,7 +113,6 @@ class AjouterEditerFilm : AppCompatActivity() {
             // Si l'ID du film est valide, c'est une édition
             lifecycleScope.launch {
                 film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
-                var text: TextView = findViewById(R.id.textViewNouveauFilm)
                 text.text = "Modifier Un Film"
                 film?.let {
                     val anneeFilm = film?.annee?.toString() ?: ""
@@ -161,6 +162,27 @@ class AjouterEditerFilm : AppCompatActivity() {
                     setResult(Activity.RESULT_OK)
                     finish()
                 }
+
+                //correction du premiere tp ( affichage de toast en cas de succes)
+                if (text.text == "Modifier Un Film") {
+                    val toast = Toast.makeText(
+                        applicationContext,
+                        "Film modifié avec succès",
+                        LENGTH_SHORT
+                    )
+                    toast.show()
+                } else {
+                    val toast = Toast.makeText(
+                        applicationContext,
+                        "Film ajouté avec succès",
+                        LENGTH_SHORT
+                    )
+                    toast.show()
+                }
+
+
+
+
                 val intent = Intent(this, ListeDeFilms::class.java);
                 startActivity(intent)
             } else {
