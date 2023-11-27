@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ItemFilmHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val layout: ConstraintLayout
-    val imagFilm: ImageView
+    var imagFilm: ImageView
     val nomFilm: TextView
     val sloganFilm: TextView
     val noteFilm: RatingBar
+
 
     init {
         layout = itemView.findViewById(R.id.layout)
@@ -20,5 +21,6 @@ class ItemFilmHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         nomFilm = itemView.findViewById(R.id.affichageTitreFilm)
         sloganFilm = itemView.findViewById(R.id.afficherSloganFilm)
         noteFilm = itemView.findViewById(R.id.afficherNoteFilm)
+
     }
 }

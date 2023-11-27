@@ -8,6 +8,5 @@
     android:elevation="8dp"
     android:paddingStart="0dp"
     app:title="Ciné Journal"
-    app:titleTextColor="#000000"
-/>
+    app:titleTextColor="#000000" />
 

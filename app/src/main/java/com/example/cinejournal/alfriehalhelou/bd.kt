@@ -1,8 +1,6 @@
 package com.example.cinejournal.alfriehalhelou
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.media.Image
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Delete
@@ -12,8 +10,6 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
 import androidx.room.Update
 
 @Entity
@@ -23,13 +19,16 @@ data class Film(
     var slogan: String?,
     var annee: Int?,
     var note: Float?,
-    var image: Int?
+    var image: String
 )
 
 @Dao
 interface FilmDao {
     @Query("SELECT * FROM Film")
     suspend fun getAll(): List<ItemFilm>
+
+    @Query("SELECT image FROM Film")
+    suspend fun getImage(): String
 
     @Query("SELECT * FROM Film WHERE uid IN (:userIds)")
     suspend fun loadAllByIds(userIds: IntArray): List<ItemFilm>
@@ -63,7 +62,7 @@ interface FilmDao {
 
 }
 
-@Database(entities = [Film::class], version = 5)
+@Database(entities = [Film::class], version = 7)
 
 abstract class AppDatabase : RoomDatabase() {
     abstract fun FilmDao(): FilmDao

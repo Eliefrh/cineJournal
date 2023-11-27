@@ -1,7 +1,7 @@
 package com.example.cinejournal.alfriehalhelou
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
 
@@ -13,9 +13,9 @@ class APropos : AppCompatActivity() {
         //SupportActionBar avec un fleche pour revenir a la page principale
         //parentActivityName est ajouté dans AndroidManifest.xml pour retourner a la page parente
 
-        var toolbar : Toolbar = findViewById(R.id.toolbar_apropos)
+        var toolbar: Toolbar = findViewById(R.id.toolbar_apropos)
         setSupportActionBar(toolbar)
-        supportActionBar!!.title="À propos"
+        supportActionBar!!.title = "À propos"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
 
