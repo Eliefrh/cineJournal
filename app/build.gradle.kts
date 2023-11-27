@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cinejournal.alfriehalhelou"
+    namespace = "ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.cinejournal.alfriehalhelou"
+        applicationId = "ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou"
         minSdk = 26
         targetSdk = 33
         versionCode = 1

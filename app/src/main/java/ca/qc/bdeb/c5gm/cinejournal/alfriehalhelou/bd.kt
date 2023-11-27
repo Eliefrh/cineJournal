@@ -1,4 +1,4 @@
-package com.example.cinejournal.alfriehalhelou
+package ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou
 
 import android.content.Context
 import androidx.room.Dao
@@ -27,8 +27,8 @@ interface FilmDao {
     @Query("SELECT * FROM Film")
     suspend fun getAll(): List<ItemFilm>
 
-    @Query("SELECT image FROM Film")
-    suspend fun getImage(): String
+    @Query("SELECT image FROM Film WHERE uid = :filmId")
+    suspend fun getImage(filmId: Int): String?
 
     @Query("SELECT * FROM Film WHERE uid IN (:userIds)")
     suspend fun loadAllByIds(userIds: IntArray): List<ItemFilm>
