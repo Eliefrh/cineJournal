@@ -7,16 +7,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class FilmViewModel : ViewModel() {
+
+     var dejaCharge = false
+
+
     private val _selectedImageUri = MutableLiveData<Uri?>()
-    val selectedImageUri: LiveData<Uri?> get() = _selectedImageUri
+    val selectedImageUri: MutableLiveData<Uri?> get() = _selectedImageUri
+
+
     private val _filmTitle = MutableLiveData<String?>()
     val filmTitle: MutableLiveData<String?> get() = _filmTitle
     private val _filmSlogan = MutableLiveData<String?>()
     val filmSlogan: MutableLiveData<String?> get() = _filmSlogan
     private val _filmYear = MutableLiveData<Int>()
-    val filmYear: LiveData<Int> get() = _filmYear
+    val filmYear: MutableLiveData<Int> get() = _filmYear
     private val _filmRating = MutableLiveData<Float>()
-    val filmRating: LiveData<Float> get() = _filmRating
+    val filmRating: MutableLiveData<Float> get() = _filmRating
 
     fun initializeWithFilmData(film: Film) {
         _selectedImageUri.value = film.image.toUri()
@@ -24,7 +30,11 @@ class FilmViewModel : ViewModel() {
         _filmSlogan.value = film.slogan
         _filmYear.value = film.annee ?: 0
         _filmRating.value = film.note ?: 0.0f
+
+        dejaCharge = true
     }
+
+    fun estDejaCharge() = dejaCharge
 
     fun updateSelectedImageUri(uri: Uri?) {
         _selectedImageUri.value = uri

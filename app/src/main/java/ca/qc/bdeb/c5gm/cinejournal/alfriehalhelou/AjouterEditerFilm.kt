@@ -16,6 +16,7 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
@@ -33,40 +34,41 @@ import java.util.Locale
 @Suppress("NAME_SHADOWING")
 class AjouterEditerFilm : AppCompatActivity() {
 
-    override fun onResume() {
-        super.onResume()
+//    override fun onResume() {
+//        super.onResume()
+//
+//        filmViewModel.selectedImageUri.observe(this) { uri ->
+//            uri?.let {
+//                imageNouveauFilm.setImageURI(it)
+//                // filmViewModel.updateSelectedImageUri(it)
+//            }
+//        }
+//        filmViewModel.filmTitle.observe(this) { title ->
+//            title?.let {
+//                modifierNomFilm.setText(it)
+//                // filmViewModel.updateFilmTitle(it)
+//            }
+//        }
+//        filmViewModel.filmSlogan.observe(this) { slogan ->
+//            slogan?.let {
+//                modifierSloganFilm.setText(it)
+//                //  filmViewModel.updateFilmSlogan(it)
+//            }
+//        }
+//        filmViewModel.filmYear.observe(this) { year ->
+//            year?.let {
+//                modifierAnneeFilm.setText(it.toString())
+//                //filmViewModel.updateFilmYear(it)
+//            }
+//        }
+//        filmViewModel.filmRating.observe(this) { rating ->
+//            rating?.let {
+//                modifierNoteFilm.rating = it
+//                //filmViewModel.updateFilmRating(it)
+//            }
+//        }
+//    }
 
-        filmViewModel.selectedImageUri.observe(this) { uri ->
-            uri?.let {
-                imageNouveauFilm.setImageURI(it)
-                // filmViewModel.updateSelectedImageUri(it)
-            }
-        }
-        filmViewModel.filmTitle.observe(this) { title ->
-            title?.let {
-                modifierNomFilm.setText(it)
-                // filmViewModel.updateFilmTitle(it)
-            }
-        }
-        filmViewModel.filmSlogan.observe(this) { slogan ->
-            slogan?.let {
-                modifierSloganFilm.setText(it)
-                //  filmViewModel.updateFilmSlogan(it)
-            }
-        }
-        filmViewModel.filmYear.observe(this) { year ->
-            year?.let {
-                modifierAnneeFilm.setText(it.toString())
-                //filmViewModel.updateFilmYear(it)
-            }
-        }
-        filmViewModel.filmRating.observe(this) { rating ->
-            rating?.let {
-                modifierNoteFilm.rating = it
-                //filmViewModel.updateFilmRating(it)
-            }
-        }
-    }
 
     var film: Film? = null
     private lateinit var modifierNomFilm: EditText
@@ -81,7 +83,10 @@ class AjouterEditerFilm : AppCompatActivity() {
     private var image: Uri? = null
 
 
-    private lateinit var filmViewModel: FilmViewModel
+    //private lateinit var filmViewModel: FilmViewModel
+
+
+    val data: FilmViewModel by viewModels()
 
     //creation d'uri pour l'image choisi
     private fun creerUriPhoto(): Uri {
@@ -115,7 +120,27 @@ class AjouterEditerFilm : AppCompatActivity() {
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
         val text: TextView = findViewById(R.id.textViewNouveauFilm)
 
-        filmViewModel = ViewModelProvider(this)[FilmViewModel::class.java]
+
+//        data.filmTitle.observe(this) { title ->
+//            title?.let {
+//                data.filmTitle.value = it
+//            }
+//        }
+//        data.filmSlogan.observe(this) { slogan ->
+//            slogan?.let {
+//                data.filmSlogan.value = it
+//            }
+//        }
+//            data.filmYear.observe(this) { year ->
+//                year?.let {
+//                    data.filmYear.value = it
+//                }
+//            }
+//            data.filmRating.observe(this) { rating ->
+//                rating?.let {
+//                    data.filmRating.value = it
+//                }
+//            }
 
 
         val selectionPhoto =
@@ -134,9 +159,9 @@ class AjouterEditerFilm : AppCompatActivity() {
                     }
 
 
-                    filmViewModel.updateSelectedImageUri(imageLocale)
-                    imageNouveauFilm.setImageURI(filmViewModel.selectedImageUri.value)
-                    image = filmViewModel.selectedImageUri.value
+                    data.updateSelectedImageUri(imageLocale)
+                    imageNouveauFilm.setImageURI(data.selectedImageUri.value)
+                    image = data.selectedImageUri.value
                     Log.d("AAA", imageLocale.toString())
 
 
@@ -151,7 +176,20 @@ class AjouterEditerFilm : AppCompatActivity() {
         val filmId = intent.getIntExtra("FILM_ID", -1)
         film?.annee?.toString() ?: ""
 
+        imageNouveauFilm.setImageURI(data.selectedImageUri.value)
+
+
         if (filmId != -1) {
+            if (!data.estDejaCharge()) {
+                lifecycleScope.launch {
+                    film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
+                    film?.let {
+
+                        data.initializeWithFilmData(it)
+
+                    }
+                }
+            }
 
             // Si l'ID du film est valide, c'est une édition
             lifecycleScope.launch {
@@ -159,27 +197,32 @@ class AjouterEditerFilm : AppCompatActivity() {
                 text.text = "Modifier Un Film"
 
                 film?.let {
-                    filmViewModel.initializeWithFilmData(it)
+                    Toast.makeText(applicationContext, "AAAAAAAAAAAA", Toast.LENGTH_SHORT).show();
+                    Log.d("Elie uri 1 ", image.toString())
 
                     val anneeFilm = film?.annee?.toString() ?: ""
                     // Mettez à jour les champs avec les données du film
-                    modifierNomFilm.setText(filmViewModel.filmTitle.value)
-                    modifierSloganFilm.setText(filmViewModel.filmSlogan.value)
-                    modifierAnneeFilm.setText(filmViewModel.filmYear.value.toString())
-                    modifierNoteFilm.rating = filmViewModel.filmRating.value ?: 0.0f
-                    filmViewModel.updateSelectedImageUri(image)
-                    image = filmViewModel.selectedImageUri.value
+                    modifierNomFilm.setText(data.filmTitle.value)
+                    modifierSloganFilm.setText(data.filmSlogan.value)
+                    modifierAnneeFilm.setText(data.filmYear.value.toString())
+                    modifierNoteFilm.rating = data.filmRating.value ?: 0.0f
+                    //filmViewModel.updateSelectedImageUri(image)
+//                    filmViewModel.selectedImageUri.value =
+//                        database.FilmDao().getImage(filmId).toString().toUri()
+                    image = data.selectedImageUri.value
                     //database.FilmDao().getImage(filmId).toString().toUri()
                     imageNouveauFilm.setImageURI(image)
 
-//
-//                    Log.d("Elie uri", image.toString())
+                    Log.d("Elie uri", image.toString())
 
 
                 }
 
             }
         }
+
+        data.dejaCharge = false
+
 
         //listener boutonsauvegarder
         //faire un film et l'inserer dans la base de donnees
@@ -213,6 +256,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                     }
                     setResult(Activity.RESULT_OK)
                     finish()
+                    data.dejaCharge = false
                 }
 
                 //correction du premiere tp ( affichage de toast en cas de succes)
@@ -248,6 +292,8 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonAnnuler.setOnClickListener {
             val intent = Intent(this, ListeDeFilms::class.java)
             startActivity(intent)
+            data.dejaCharge = false
+
         }
     }
 }
