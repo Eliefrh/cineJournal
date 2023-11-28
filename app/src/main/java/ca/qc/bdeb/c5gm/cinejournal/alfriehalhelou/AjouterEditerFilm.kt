@@ -70,6 +70,9 @@ class AjouterEditerFilm : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
 
+
+
+
         modifierNomFilm = findViewById(R.id.editTextTitreFilm)
         modifierSloganFilm = findViewById(R.id.editTextSloganFilm)
         modifierAnneeFilm = findViewById(R.id.editTextAnneeFilm)
@@ -81,6 +84,7 @@ class AjouterEditerFilm : AppCompatActivity() {
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
         val text: TextView = findViewById(R.id.textViewNouveauFilm)
         imageNouveauFilm.setImageURI(data.selectedImageUri.value)
+        //modifierSloganFilm.setText(data.filmSlogan.value.toString())
 
 
         val selectionPhoto =
@@ -101,6 +105,7 @@ class AjouterEditerFilm : AppCompatActivity() {
 
                     data.updateSelectedImageUri(imageLocale)
                     imageNouveauFilm.setImageURI(data.selectedImageUri.value)
+                    modifierSloganFilm.setText(data.filmSlogan.value.toString())
                     image = data.selectedImageUri.value
                     Log.d("AAA", imageLocale.toString())
 
@@ -120,26 +125,16 @@ class AjouterEditerFilm : AppCompatActivity() {
 
 
         if (filmId != -1) {
-//                film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
-//                film?.let {
-//
-//                    data.initializeWithFilmData(it)
-//
-//
-//                }
-
             // Si l'ID du film est valide, c'est une édition
             lifecycleScope.launch {
                 film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
+
                 if (!data.estDejaCharge()) {
-
                     film?.let {
-
                         data.initializeWithFilmData(it)
-
-
                     }
                 }
+
                 text.text = "Modifier Un Film"
 
                 film?.let {
@@ -151,11 +146,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                     modifierSloganFilm.setText(data.filmSlogan.value)
                     modifierAnneeFilm.setText(data.filmYear.value.toString())
                     modifierNoteFilm.rating = data.filmRating.value ?: 0.0f
-                    //filmViewModel.updateSelectedImageUri(image)
-//                    filmViewModel.selectedImageUri.value =
-//                        database.FilmDao().getImage(filmId).toString().toUri()
                     image = data.selectedImageUri.value
-                    //database.FilmDao().getImage(filmId).toString().toUri()
                     imageNouveauFilm.setImageURI(image)
 
                     Log.d("Elie uri", image.toString())
@@ -168,7 +159,6 @@ class AjouterEditerFilm : AppCompatActivity() {
 
             }
         }
-//        data.dejaCharge = false
 
 
         //listener boutonsauvegarder
@@ -180,6 +170,7 @@ class AjouterEditerFilm : AppCompatActivity() {
             val slogan = modifierSloganFilm.text.toString()
             val annee = modifierAnneeFilm.text.toString().toIntOrNull()
             val note = modifierNoteFilm.rating
+            val image = data.selectedImageUri.value
             data.dejaCharge = false
 
 
