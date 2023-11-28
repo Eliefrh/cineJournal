@@ -20,7 +20,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,41 +33,6 @@ import java.util.Locale
 @Suppress("NAME_SHADOWING")
 class AjouterEditerFilm : AppCompatActivity() {
 
-//    override fun onResume() {
-//        super.onResume()
-//
-//        filmViewModel.selectedImageUri.observe(this) { uri ->
-//            uri?.let {
-//                imageNouveauFilm.setImageURI(it)
-//                // filmViewModel.updateSelectedImageUri(it)
-//            }
-//        }
-//        filmViewModel.filmTitle.observe(this) { title ->
-//            title?.let {
-//                modifierNomFilm.setText(it)
-//                // filmViewModel.updateFilmTitle(it)
-//            }
-//        }
-//        filmViewModel.filmSlogan.observe(this) { slogan ->
-//            slogan?.let {
-//                modifierSloganFilm.setText(it)
-//                //  filmViewModel.updateFilmSlogan(it)
-//            }
-//        }
-//        filmViewModel.filmYear.observe(this) { year ->
-//            year?.let {
-//                modifierAnneeFilm.setText(it.toString())
-//                //filmViewModel.updateFilmYear(it)
-//            }
-//        }
-//        filmViewModel.filmRating.observe(this) { rating ->
-//            rating?.let {
-//                modifierNoteFilm.rating = it
-//                //filmViewModel.updateFilmRating(it)
-//            }
-//        }
-//    }
-
 
     var film: Film? = null
     private lateinit var modifierNomFilm: EditText
@@ -81,9 +45,6 @@ class AjouterEditerFilm : AppCompatActivity() {
     private lateinit var boutonSauvegarder: Button
     private lateinit var modifierImageFilm: ImageView
     private var image: Uri? = null
-
-
-    //private lateinit var filmViewModel: FilmViewModel
 
 
     val data: FilmViewModel by viewModels()
@@ -119,28 +80,7 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonSauvegarder = findViewById(R.id.buttonSauvegarder)
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
         val text: TextView = findViewById(R.id.textViewNouveauFilm)
-
-
-//        data.filmTitle.observe(this) { title ->
-//            title?.let {
-//                data.filmTitle.value = it
-//            }
-//        }
-//        data.filmSlogan.observe(this) { slogan ->
-//            slogan?.let {
-//                data.filmSlogan.value = it
-//            }
-//        }
-//            data.filmYear.observe(this) { year ->
-//                year?.let {
-//                    data.filmYear.value = it
-//                }
-//            }
-//            data.filmRating.observe(this) { rating ->
-//                rating?.let {
-//                    data.filmRating.value = it
-//                }
-//            }
+        imageNouveauFilm.setImageURI(data.selectedImageUri.value)
 
 
         val selectionPhoto =
@@ -180,24 +120,29 @@ class AjouterEditerFilm : AppCompatActivity() {
 
 
         if (filmId != -1) {
-            if (!data.estDejaCharge()) {
-                lifecycleScope.launch {
-                    film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
-                    film?.let {
-
-                        data.initializeWithFilmData(it)
-
-                    }
-                }
-            }
+//                film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
+//                film?.let {
+//
+//                    data.initializeWithFilmData(it)
+//
+//
+//                }
 
             // Si l'ID du film est valide, c'est une édition
             lifecycleScope.launch {
                 film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
+                if (!data.estDejaCharge()) {
+
+                    film?.let {
+
+                        data.initializeWithFilmData(it)
+
+
+                    }
+                }
                 text.text = "Modifier Un Film"
 
                 film?.let {
-                    Toast.makeText(applicationContext, "AAAAAAAAAAAA", Toast.LENGTH_SHORT).show();
                     Log.d("Elie uri 1 ", image.toString())
 
                     val anneeFilm = film?.annee?.toString() ?: ""
@@ -218,10 +163,12 @@ class AjouterEditerFilm : AppCompatActivity() {
 
                 }
 
+                data.filmSlogan.value = modifierSloganFilm.text.toString()
+
+
             }
         }
-
-        data.dejaCharge = false
+//        data.dejaCharge = false
 
 
         //listener boutonsauvegarder
@@ -233,11 +180,14 @@ class AjouterEditerFilm : AppCompatActivity() {
             val slogan = modifierSloganFilm.text.toString()
             val annee = modifierAnneeFilm.text.toString().toIntOrNull()
             val note = modifierNoteFilm.rating
+            data.dejaCharge = false
+
 
             if (titre != "" && annee != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
-                        val nouveauFilm = Film(null, titre, slogan, annee, note, image.toString())
+                        val nouveauFilm =
+                            Film(null, titre, slogan, annee, note, image.toString())
                         withContext(Dispatchers.IO) {
                             database.FilmDao().insertAll(nouveauFilm)
                         }
@@ -256,11 +206,12 @@ class AjouterEditerFilm : AppCompatActivity() {
                     }
                     setResult(Activity.RESULT_OK)
                     finish()
-                    data.dejaCharge = false
                 }
 
                 //correction du premiere tp ( affichage de toast en cas de succes)
                 if (text.text == "Modifier Un Film") {
+                    data.dejaCharge = false
+
                     val toast = Toast.makeText(
                         applicationContext,
                         "Film modifié avec succès",
@@ -268,6 +219,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                     )
                     toast.show()
                 } else {
+                    data.dejaCharge = false
+
                     val toast = Toast.makeText(
                         applicationContext,
                         "Film ajouté avec succès",
@@ -280,6 +233,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                 val intent = Intent(this, ListeDeFilms::class.java)
                 startActivity(intent)
             } else {
+                data.dejaCharge = false
+
                 val toast = Toast.makeText(
                     applicationContext,
                     "Remplissez au moins les champs avec un etoile (*) svp",
@@ -287,13 +242,17 @@ class AjouterEditerFilm : AppCompatActivity() {
                 )
                 toast.show()
             }
-        }
-
-        boutonAnnuler.setOnClickListener {
-            val intent = Intent(this, ListeDeFilms::class.java)
-            startActivity(intent)
             data.dejaCharge = false
 
         }
+
+        boutonAnnuler.setOnClickListener {
+            data.dejaCharge = false
+            val intent = Intent(this, ListeDeFilms::class.java)
+            startActivity(intent)
+
+        }
     }
+
+
 }
