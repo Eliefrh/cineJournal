@@ -19,7 +19,9 @@ data class Film(
     var slogan: String?,
     var annee: Int?,
     var note: Float?,
-    var image: String
+    var image: String,
+    var latitude: Float?,
+    var longitude: Float?
 )
 
 @Dao
@@ -29,6 +31,11 @@ interface FilmDao {
 
     @Query("SELECT image FROM Film WHERE uid = :filmId")
     suspend fun getImage(filmId: Int): String?
+
+//    @Query("SELECT latitude, longitude FROM Film WHERE uid = :filmId")
+//    suspend fun getPosition(filmId: Int): Film
+
+
 
     @Query("SELECT * FROM Film WHERE uid IN (:userIds)")
     suspend fun loadAllByIds(userIds: IntArray): List<ItemFilm>
@@ -62,7 +69,7 @@ interface FilmDao {
 
 }
 
-@Database(entities = [Film::class], version = 7)
+@Database(entities = [Film::class], version = 16)
 
 abstract class AppDatabase : RoomDatabase() {
     abstract fun FilmDao(): FilmDao

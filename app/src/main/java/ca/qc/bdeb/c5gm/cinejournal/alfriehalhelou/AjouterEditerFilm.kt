@@ -34,6 +34,7 @@ class AjouterEditerFilm : AppCompatActivity() {
 
 
     var film: Film? = null
+    private lateinit var boutonPosition: Button
     private lateinit var modifierNomFilm: EditText
     private lateinit var modifierSloganFilm: EditText
     private lateinit var modifierAnneeFilm: EditText
@@ -77,6 +78,17 @@ class AjouterEditerFilm : AppCompatActivity() {
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
         val text: TextView = findViewById(R.id.textViewNouveauFilm)
 
+        var textLatitude: TextView = findViewById(R.id.textViewLatitude)
+        var textLongitude: TextView = findViewById(R.id.textViewLongitude)
+
+        boutonPosition = findViewById(R.id.buttonObtenirPosition)
+        boutonPosition.setOnClickListener(){
+            val intent = Intent(this, MapActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_MAP)
+            intent.putExtra("FILM_ID", film?.uid)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            this.startActivity(intent)
+        }
 
         val selectionPhoto =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
@@ -122,6 +134,9 @@ class AjouterEditerFilm : AppCompatActivity() {
                     modifierAnneeFilm.setText(anneeFilm)
                     modifierNoteFilm.rating = it.note ?: 0.0f
                     image = database.FilmDao().getImage(filmId)?.toUri()
+                    textLatitude.text = (it.latitude?: 0.0f).toString()
+                    textLongitude.text = (it.longitude?: 0.0f).toString()
+
                     modifierImageFilm.setImageURI(Uri.parse(image.toString()))
 
 //
@@ -141,11 +156,14 @@ class AjouterEditerFilm : AppCompatActivity() {
             val slogan = modifierSloganFilm.text.toString()
             val annee = modifierAnneeFilm.text.toString().toIntOrNull()
             val note = modifierNoteFilm.rating
+            val latitude = textLatitude.text.toString().toFloatOrNull()
+            val longitude = textLongitude.text.toString().toFloatOrNull()
 
             if (titre != "" && annee != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
-                        val nouveauFilm = Film(null, titre, slogan, annee, note, image.toString())
+                        val nouveauFilm = Film(null, titre, slogan, annee, note, image.toString(),
+                            latitude, longitude)
                         withContext(Dispatchers.IO) {
                             database.FilmDao().insertAll(nouveauFilm)
                         }
@@ -156,6 +174,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                             it.annee = annee
                             it.note = note
                             it.image = image.toString()
+                            it.latitude = latitude
+                            it.longitude = longitude
 
                             withContext(Dispatchers.IO) {
                                 database.FilmDao().updateAll(it)
@@ -201,4 +221,32 @@ class AjouterEditerFilm : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        var textLatitude: TextView = findViewById(R.id.textViewLatitude)
+        var textLongitude:TextView = findViewById(R.id.textViewLongitude)
+        if (requestCode == REQUEST_CODE_MAP && resultCode == Activity.RESULT_OK) {
+            // Récupérer les données retournées par l'activité MapActivity
+            val latitude = data?.getDoubleExtra("latitude", 0.0)
+            val longitude = data?.getDoubleExtra("longitude", 0.0)
+
+            // Faire quelque chose avec les données (sauvegarde, affichage, etc.)
+            if (latitude != null && longitude != null) {
+                // Exemple : Afficher les données dans un Toast
+
+                textLatitude.text = latitude.toString()
+                textLongitude.text = longitude.toString()
+
+                val message = "Latitude: $latitude\nLongitude: $longitude"
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    companion object {
+        private const val REQUEST_CODE_MAP = 1
+    }
+
 }

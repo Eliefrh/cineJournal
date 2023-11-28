@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapActivity">
+
+    <Button
+        android:id="@+id/buttonMyLocationView"
+        android:layout_width="43dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="49dp"
+        android:background="@drawable/baseline_my_location_24"
+        android:importantForContentCapture="auto"
+        android:textColor="#00FFFFFF"
+        android:textColorHint="#00FBFBFB"
+        android:textSize="10dp"
+        app:icon="@drawable/baseline_my_location_24"
+        app:iconGravity="textEnd"
+        app:iconPadding="0dp"
+        app:iconSize="20dp"
+        app:iconTint="#0C0000"
+        app:layout_constraintBottom_toTopOf="@+id/osmmap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_map"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonObtenirLocation"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="#037F8E"
+        android:text="Obtenir la position"
+        android:textColor="#F9FBE7"
+        app:layout_constraintBottom_toTopOf="@+id/osmmap"
+        app:layout_constraintEnd_toStartOf="@+id/buttonMyLocationView"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_map"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/osmmap"
+        android:layout_width="382dp"
+        android:layout_height="591dp"
+        android:layout_marginTop="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_map"
+        app:layout_constraintVertical_bias="0.819">
+
+    </org.osmdroid.views.MapView>
+
+    <include
+        android:id="@+id/toolbar_map"
+        layout="@layout/toolbar"
+        android:layout_width="415dp"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

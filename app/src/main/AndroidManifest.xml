@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou">
 
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,12 +19,14 @@
         android:theme="@style/Theme.CineJournal"
         tools:targetApi="31">
         <activity
+            android:name=".MapActivity"
+            android:exported="false"
+            android:parentActivityName=".AjouterEditerFilm" />
+        <activity
             android:name=".RechercheFilm"
             android:exported="false"
             android:parentActivityName=".ListeDeFilms"
-            android:windowSoftInputMode="adjustResize"/>
-
-
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".AjouterEditerFilm"
             android:exported="false" />
@@ -40,8 +44,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
-
 
 </manifest>

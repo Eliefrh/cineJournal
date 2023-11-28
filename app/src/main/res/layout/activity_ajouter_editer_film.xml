@@ -14,9 +14,9 @@
 
     <TextView
         android:id="@+id/textViewNouveauFilm"
-        android:layout_width="297dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="28dp"
+        android:layout_width="244dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Nouveau Film"
         android:textSize="24sp"
@@ -25,10 +25,10 @@
 
     <EditText
         android:id="@+id/editTextTitreFilm"
-        android:layout_width="246dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="216dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Entrez le titre"
         android:inputType="text"
@@ -42,7 +42,7 @@
         android:id="@+id/ratingBar"
         android:layout_width="238dp"
         android:layout_height="43dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewNote" />
@@ -51,7 +51,7 @@
         android:id="@+id/textViewNote"
         android:layout_width="43sp"
         android:layout_height="16sp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:text="Note"
         android:textSize="14sp"
@@ -63,7 +63,7 @@
         android:id="@+id/textViewSlogan"
         android:layout_width="53dp"
         android:layout_height="19dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:text="Slogan"
         android:textSize="14sp"
@@ -75,7 +75,7 @@
         android:id="@+id/TextViewTitre"
         android:layout_width="43dp"
         android:layout_height="16dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:text="Titre *"
         android:textSize="14sp"
@@ -85,9 +85,9 @@
 
     <EditText
         android:id="@+id/editTextSloganFilm"
-        android:layout_width="245dp"
+        android:layout_width="216dp"
         android:layout_height="48dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="Entrez votre slogan"
@@ -102,7 +102,7 @@
         android:id="@+id/textViewAnnee"
         android:layout_width="54dp"
         android:layout_height="23dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:text="Année *"
         android:textSize="14sp"
@@ -112,9 +112,9 @@
 
     <EditText
         android:id="@+id/editTextAnneeFilm"
-        android:layout_width="241dp"
+        android:layout_width="216dp"
         android:layout_height="48dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="Entrez l'année"
@@ -126,8 +126,8 @@
 
     <ImageView
         android:id="@+id/imageNouveauFilm"
-        android:layout_width="165dp"
-        android:layout_height="170dp"
+        android:layout_width="155dp"
+        android:layout_height="136dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonAnnuler"
@@ -135,7 +135,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBar"
-        app:layout_constraintVertical_bias="0.575"
+        app:layout_constraintVertical_bias="0.0"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
@@ -184,5 +184,48 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonAjouterImage"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonObtenirPosition"
+        android:layout_width="45dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/location_film"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.702"
+        app:layout_constraintStart_toEndOf="@+id/textViewNouveauFilm"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_ajouter_editer" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="66dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="12dp"
+        android:text="Position"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toEndOf="@+id/TextViewTitre"
+        app:layout_constraintTop_toBottomOf="@+id/buttonObtenirPosition" />
+
+    <TextView
+        android:id="@+id/textViewLatitude"
+        android:layout_width="118dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textViewLongitude"
+        android:layout_width="118dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLatitude" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
