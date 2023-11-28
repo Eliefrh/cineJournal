@@ -30,6 +30,9 @@ interface FilmDao {
     @Query("SELECT image FROM Film WHERE uid = :filmId")
     suspend fun getImage(filmId: Int): String?
 
+//    @Query("UPDATE Film SET image = :newImageUri WHERE uid = :filmId")
+//    suspend fun setImage(filmId: Int, newImageUri: String): Int
+
     @Query("SELECT * FROM Film WHERE uid IN (:userIds)")
     suspend fun loadAllByIds(userIds: IntArray): List<ItemFilm>
 

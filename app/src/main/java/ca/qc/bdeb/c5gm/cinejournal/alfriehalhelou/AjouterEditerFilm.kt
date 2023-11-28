@@ -19,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +33,40 @@ import java.util.Locale
 @Suppress("NAME_SHADOWING")
 class AjouterEditerFilm : AppCompatActivity() {
 
+    override fun onResume() {
+        super.onResume()
+
+        filmViewModel.selectedImageUri.observe(this) { uri ->
+            uri?.let {
+                imageNouveauFilm.setImageURI(it)
+                // filmViewModel.updateSelectedImageUri(it)
+            }
+        }
+        filmViewModel.filmTitle.observe(this) { title ->
+            title?.let {
+                modifierNomFilm.setText(it)
+                // filmViewModel.updateFilmTitle(it)
+            }
+        }
+        filmViewModel.filmSlogan.observe(this) { slogan ->
+            slogan?.let {
+                modifierSloganFilm.setText(it)
+                //  filmViewModel.updateFilmSlogan(it)
+            }
+        }
+        filmViewModel.filmYear.observe(this) { year ->
+            year?.let {
+                modifierAnneeFilm.setText(it.toString())
+                //filmViewModel.updateFilmYear(it)
+            }
+        }
+        filmViewModel.filmRating.observe(this) { rating ->
+            rating?.let {
+                modifierNoteFilm.rating = it
+                //filmViewModel.updateFilmRating(it)
+            }
+        }
+    }
 
     var film: Film? = null
     private lateinit var modifierNomFilm: EditText
@@ -44,6 +79,9 @@ class AjouterEditerFilm : AppCompatActivity() {
     private lateinit var boutonSauvegarder: Button
     private lateinit var modifierImageFilm: ImageView
     private var image: Uri? = null
+
+
+    private lateinit var filmViewModel: FilmViewModel
 
     //creation d'uri pour l'image choisi
     private fun creerUriPhoto(): Uri {
@@ -77,6 +115,8 @@ class AjouterEditerFilm : AppCompatActivity() {
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
         val text: TextView = findViewById(R.id.textViewNouveauFilm)
 
+        filmViewModel = ViewModelProvider(this)[FilmViewModel::class.java]
+
 
         val selectionPhoto =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
@@ -93,9 +133,12 @@ class AjouterEditerFilm : AppCompatActivity() {
                         }
                     }
 
-                    imageNouveauFilm.setImageURI(imageLocale)
-                    image = imageLocale
+
+                    filmViewModel.updateSelectedImageUri(imageLocale)
+                    imageNouveauFilm.setImageURI(filmViewModel.selectedImageUri.value)
+                    image = filmViewModel.selectedImageUri.value
                     Log.d("AAA", imageLocale.toString())
+
 
                 }
             }
@@ -114,21 +157,27 @@ class AjouterEditerFilm : AppCompatActivity() {
             lifecycleScope.launch {
                 film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
                 text.text = "Modifier Un Film"
+
                 film?.let {
+                    filmViewModel.initializeWithFilmData(it)
+
                     val anneeFilm = film?.annee?.toString() ?: ""
                     // Mettez à jour les champs avec les données du film
-                    modifierNomFilm.setText(it.titre)
-                    modifierSloganFilm.setText(it.slogan)
-                    modifierAnneeFilm.setText(anneeFilm)
-                    modifierNoteFilm.rating = it.note ?: 0.0f
-                    image = database.FilmDao().getImage(filmId)?.toUri()
-                    modifierImageFilm.setImageURI(Uri.parse(image.toString()))
+                    modifierNomFilm.setText(filmViewModel.filmTitle.value)
+                    modifierSloganFilm.setText(filmViewModel.filmSlogan.value)
+                    modifierAnneeFilm.setText(filmViewModel.filmYear.value.toString())
+                    modifierNoteFilm.rating = filmViewModel.filmRating.value ?: 0.0f
+                    filmViewModel.updateSelectedImageUri(image)
+                    image = filmViewModel.selectedImageUri.value
+                    //database.FilmDao().getImage(filmId).toString().toUri()
+                    imageNouveauFilm.setImageURI(image)
 
 //
 //                    Log.d("Elie uri", image.toString())
 
 
                 }
+
             }
         }
 
