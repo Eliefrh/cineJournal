@@ -28,7 +28,7 @@ class RechercheFilm : AppCompatActivity() {
                 slogan = film.overview ?: "",
                 annee = film.release_date?.substringBefore("-")?.toIntOrNull() ?: 0,
                 note = film.vote_average.toFloat(),
-                image = film.poster_path ?: ""
+                image = "https://image.tmdb.org/t/p/w500" + film.poster_path ?: ""
             )
         }
     }
@@ -77,10 +77,14 @@ class RechercheFilm : AppCompatActivity() {
                         pageVide.visibility = View.VISIBLE
                     } else {
                         pageVide.visibility = View.INVISIBLE
+
                     }
                     Log.d("Elie liste", liste.toString())
                     adapteur = FilmAdapteur(applicationContext, RechercheFilm(), liste)
+
                     recyclerView.adapter = adapteur
+
+
                 })
             }
         }

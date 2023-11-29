@@ -7,6 +7,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<ItemFilm>) :
 
@@ -39,11 +40,19 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
         holder.noteFilm.rating = film.note
 
         holder.imagFilm.setImageURI(Uri.parse(film.image))
+        if (activity is RechercheFilm) {
+            holder.sloganFilm.visibility = android.view.View.INVISIBLE
+            holder.noteFilm.rating = 0f
+            Picasso.get().load(film.image).into(holder.imagFilm)
+
+        }
     }
 
     fun mettreAJour(films: List<ItemFilm>) {
         this.films = films
         notifyDataSetChanged()
+
+
     }
 }
 
