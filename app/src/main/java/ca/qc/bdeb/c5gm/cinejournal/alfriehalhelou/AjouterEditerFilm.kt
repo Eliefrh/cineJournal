@@ -162,6 +162,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                     modifierNoteFilm.rating = data.filmRating.value ?: 0.0f
                     image = data.selectedImageUri.value
                     imageNouveauFilm.setImageURI(image)
+                    Picasso.get().load(image).into(imageNouveauFilm)
+
                     textLatitude.text = (data.lattitude.value).toString()
                     textLongitude.text = (data.longitude.value).toString()
 
