@@ -159,8 +159,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                     modifierNoteFilm.rating = data.filmRating.value ?: 0.0f
                     image = data.selectedImageUri.value
                     imageNouveauFilm.setImageURI(image)
-                    textLatitude.text = (it.latitude?: 0.0f).toString()
-                    textLongitude.text = (it.longitude?: 0.0f).toString()
+                    textLatitude.text = (data.lattitude.value).toString()
+                    textLongitude.text = (data.longitude.value).toString()
 
                     Log.d("Elie uri", image.toString())
 
