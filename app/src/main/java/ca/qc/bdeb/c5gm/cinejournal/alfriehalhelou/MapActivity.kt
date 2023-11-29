@@ -30,6 +30,7 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import java.util.EnumSet.range
 
 class MapActivity : AppCompatActivity(), MapListener {
     lateinit var mMap: MapView
@@ -108,15 +109,15 @@ class MapActivity : AppCompatActivity(), MapListener {
 
         mMyLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(this), mMap)
         controller = mMap.controller
-
+        controller.setCenter(GeoPoint(45.5017, -73.5673))
         mMyLocationOverlay.enableMyLocation()
-        mMyLocationOverlay.enableFollowLocation()
+//        mMyLocationOverlay.enableFollowLocation()
         mMyLocationOverlay.isDrawAccuracyEnabled = true
-        mMyLocationOverlay.runOnFirstFix {
-            runOnUiThread {
-                controller.setCenter(GeoPoint(45.5017, -73.5673))
-            }
-        }
+//        mMyLocationOverlay.runOnFirstFix {
+//            runOnUiThread {
+//                controller.setCenter(GeoPoint(45.5017, -73.5673))
+//            }
+//        }
 
         controller.setZoom(12.0)
         mMap.overlays.add(mMyLocationOverlay)
@@ -133,16 +134,11 @@ class MapActivity : AppCompatActivity(), MapListener {
                 val latitude = mMyLocationOverlay.myLocation.latitude
                 val longitude = mMyLocationOverlay.myLocation.longitude
 
-//                val message = "Latitude: $latitude\nLongitude: $longitude"
-//                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
-                // Créer un Intent pour retourner les données à l'activité appelante (AjouterEditerFilm)
                 val resultIntent = Intent()
                 resultIntent.putExtra("latitude", latitude)
                 resultIntent.putExtra("longitude", longitude)
                 setResult(Activity.RESULT_OK, resultIntent)
 
-                // Terminer l'activité courante
                 finish()
             } else {
                 Toast.makeText(this, "Location n'est pas encore disponible", Toast.LENGTH_SHORT).show()
@@ -170,23 +166,22 @@ class MapActivity : AppCompatActivity(), MapListener {
     //Ajouter les pins sur la carte
     private fun addHardcodedPins() {
         val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
-        val intent = intent
-        val filmId = intent.getIntExtra("FILM_ID", -1)
+//        val intent = intent
+//        val filmId = intent.getIntExtra("FILM_ID", -1)
         lifecycleScope.launch {
-            val film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
+            val film = withContext(Dispatchers.IO) { database.FilmDao().getPosition() }
 
-            if (film != null && film.latitude != null && film.longitude != null) {
-                val latitude = film.latitude
-                val longitude = film.longitude
+            for (i in film) {
+                val latitude = i.latitude
+                val longitude = i.longitude
 
                 val pinMarker = org.osmdroid.views.overlay.Marker(mMap)
                 pinMarker.icon =
                     ResourcesCompat.getDrawable(resources, R.mipmap.ic_position_film_foreground, null)
                 if (latitude != null && longitude!= null) {
-                    pinMarker.position = GeoPoint(latitude.toDouble(), longitude.toDouble())
+                    pinMarker.position = GeoPoint(latitude, longitude)
                 }
-                mMap.overlays.add(pinMarker)
-            }
+                mMap.overlays.add(pinMarker) }
         }
     }
 

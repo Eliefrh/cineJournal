@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RechercheFilm : AppCompatActivity() {
+class RechercheFilm : AppCompatActivity(){
 
     private lateinit var adapteur: FilmAdapteur
     private lateinit var recyclerView: RecyclerView
@@ -45,7 +45,7 @@ class RechercheFilm : AppCompatActivity() {
         val butounRechercher: ImageButton = findViewById(R.id.imageButtonRechercher)
         val barDeRecherche: EditText = findViewById(R.id.editTextRecherche)
         var pageVide: TextView = findViewById(R.id.pageVide)
-        adapteur = FilmAdapteur(applicationContext, RechercheFilm(), listOf())
+        adapteur = FilmAdapteur(applicationContext, this, listOf())
 
 
         // le jeton de l'API
@@ -67,10 +67,12 @@ class RechercheFilm : AppCompatActivity() {
 
                 // Mappez la réponse de l'API vers la liste d'ItemFilm
                 val listeFilms = mapApiResultToItemFilms(reponse.body()!!)
+
                 Log.d("Liste des films", listeFilms.toString())
 
                 val recycleThread = (lifecycleScope.launch {
                     recyclerView = findViewById(R.id.listeFilms)
+
                     var liste = listeFilms
 
                     if (liste.isEmpty()) {
@@ -87,5 +89,7 @@ class RechercheFilm : AppCompatActivity() {
 
 
     }
+
+
 
 }

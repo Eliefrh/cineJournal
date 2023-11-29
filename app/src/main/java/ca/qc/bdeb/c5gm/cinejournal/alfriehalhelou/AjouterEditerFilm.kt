@@ -154,12 +154,12 @@ class AjouterEditerFilm : AppCompatActivity() {
 
             val titre = modifierNomFilm.text.toString()
             val slogan = modifierSloganFilm.text.toString()
-            val annee = modifierAnneeFilm.text.toString().toIntOrNull()
+            val annee = modifierAnneeFilm.text.toString().toInt()
             val note = modifierNoteFilm.rating
-            val latitude = textLatitude.text.toString().toFloatOrNull()
-            val longitude = textLongitude.text.toString().toFloatOrNull()
+            val latitude = textLatitude.text.toString().toDoubleOrNull()
+            val longitude = textLongitude.text.toString().toDoubleOrNull()
 
-            if (titre != "" && annee != null) {
+            if (titre != "" && annee != 0) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
                         val nouveauFilm = Film(null, titre, slogan, annee, note, image.toString(),
