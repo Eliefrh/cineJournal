@@ -17,6 +17,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -30,6 +31,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 class
 ListeDeFilms : AppCompatActivity() {
@@ -60,6 +62,9 @@ ListeDeFilms : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activite_liste_film)
+
+        val data: FilmViewModel by viewModels()
+        data.dejaCharge = false
 
         prefsTri = preferencesTri(this)
         val triEnCours = prefsTri.getTriPreference()

@@ -35,6 +35,11 @@ interface FilmDao {
     @Query("SELECT latitude, longitude FROM Film")
     suspend fun getPosition(): List<PositionData>
 
+//    @Query("UPDATE Film SET image = :newImageUri WHERE uid = :filmId")
+//    suspend fun setImage(filmId: Int, newImageUri: String): Int
+
+    @Query("SELECT * FROM Film WHERE uid IN (:userIds)")
+    suspend fun loadAllByIds(userIds: IntArray): List<ItemFilm>
 
     @Query("SELECT * FROM Film WHERE uid = :filmId")
     suspend fun loadById(filmId: Int): Film

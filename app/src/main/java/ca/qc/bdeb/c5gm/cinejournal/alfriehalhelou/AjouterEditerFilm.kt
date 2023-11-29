@@ -16,6 +16,7 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
@@ -46,6 +47,9 @@ class AjouterEditerFilm : AppCompatActivity() {
     private lateinit var modifierImageFilm: ImageView
     private var image: Uri? = null
 
+
+    val data: FilmViewModel by viewModels()
+
     //creation d'uri pour l'image choisi
     private fun creerUriPhoto(): Uri {
         val timeStamp: String =
@@ -67,6 +71,9 @@ class AjouterEditerFilm : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
 
+
+
+
         modifierNomFilm = findViewById(R.id.editTextTitreFilm)
         modifierSloganFilm = findViewById(R.id.editTextSloganFilm)
         modifierAnneeFilm = findViewById(R.id.editTextAnneeFilm)
@@ -77,6 +84,8 @@ class AjouterEditerFilm : AppCompatActivity() {
         boutonSauvegarder = findViewById(R.id.buttonSauvegarder)
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
         val text: TextView = findViewById(R.id.textViewNouveauFilm)
+        imageNouveauFilm.setImageURI(data.selectedImageUri.value)
+        //modifierSloganFilm.setText(data.filmSlogan.value.toString())
 
         var textLatitude: TextView = findViewById(R.id.textViewLatitude)
         var textLongitude: TextView = findViewById(R.id.textViewLongitude)
@@ -105,9 +114,13 @@ class AjouterEditerFilm : AppCompatActivity() {
                         }
                     }
 
-                    imageNouveauFilm.setImageURI(imageLocale)
-                    image = imageLocale
+
+                    data.updateSelectedImageUri(imageLocale)
+                    imageNouveauFilm.setImageURI(data.selectedImageUri.value)
+                    modifierSloganFilm.setText(data.filmSlogan.value.toString())
+                    image = data.selectedImageUri.value
                     Log.d("AAA", imageLocale.toString())
+
 
                 }
             }
@@ -120,32 +133,47 @@ class AjouterEditerFilm : AppCompatActivity() {
         val filmId = intent.getIntExtra("FILM_ID", -1)
         film?.annee?.toString() ?: ""
 
-        if (filmId != -1) {
+        imageNouveauFilm.setImageURI(data.selectedImageUri.value)
 
+
+        if (filmId != -1) {
             // Si l'ID du film est valide, c'est une édition
             lifecycleScope.launch {
                 film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
+
+                if (!data.estDejaCharge()) {
+                    film?.let {
+                        data.initializeWithFilmData(it)
+                    }
+                }
+
                 text.text = "Modifier Un Film"
+
                 film?.let {
+                    Log.d("Elie uri 1 ", image.toString())
+
                     val anneeFilm = film?.annee?.toString() ?: ""
                     // Mettez à jour les champs avec les données du film
-                    modifierNomFilm.setText(it.titre)
-                    modifierSloganFilm.setText(it.slogan)
-                    modifierAnneeFilm.setText(anneeFilm)
-                    modifierNoteFilm.rating = it.note ?: 0.0f
-                    image = database.FilmDao().getImage(filmId)?.toUri()
+                    modifierNomFilm.setText(data.filmTitle.value)
+                    modifierSloganFilm.setText(data.filmSlogan.value)
+                    modifierAnneeFilm.setText(data.filmYear.value.toString())
+                    modifierNoteFilm.rating = data.filmRating.value ?: 0.0f
+                    image = data.selectedImageUri.value
+                    imageNouveauFilm.setImageURI(image)
                     textLatitude.text = (it.latitude?: 0.0f).toString()
                     textLongitude.text = (it.longitude?: 0.0f).toString()
 
-                    modifierImageFilm.setImageURI(Uri.parse(image.toString()))
-
-//
-//                    Log.d("Elie uri", image.toString())
+                    Log.d("Elie uri", image.toString())
 
 
                 }
+
+                data.filmSlogan.value = modifierSloganFilm.text.toString()
+
+
             }
         }
+
 
         //listener boutonsauvegarder
         //faire un film et l'inserer dans la base de donnees
@@ -158,12 +186,15 @@ class AjouterEditerFilm : AppCompatActivity() {
             val note = modifierNoteFilm.rating
             val latitude = textLatitude.text.toString().toDoubleOrNull()
             val longitude = textLongitude.text.toString().toDoubleOrNull()
+            val image = data.selectedImageUri.value
+            data.dejaCharge = false
+
 
             if (titre != "" && annee != 0) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
-                        val nouveauFilm = Film(null, titre, slogan, annee, note, image.toString(),
-                            latitude, longitude)
+                        val nouveauFilm =
+                            Film(null, titre, slogan, annee, note, image.toString(),latitude, longitude)
                         withContext(Dispatchers.IO) {
                             database.FilmDao().insertAll(nouveauFilm)
                         }
@@ -188,6 +219,8 @@ class AjouterEditerFilm : AppCompatActivity() {
 
                 //correction du premiere tp ( affichage de toast en cas de succes)
                 if (text.text == "Modifier Un Film") {
+                    data.dejaCharge = false
+
                     val toast = Toast.makeText(
                         applicationContext,
                         "Film modifié avec succès",
@@ -195,6 +228,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                     )
                     toast.show()
                 } else {
+                    data.dejaCharge = false
+
                     val toast = Toast.makeText(
                         applicationContext,
                         "Film ajouté avec succès",
@@ -207,6 +242,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                 val intent = Intent(this, ListeDeFilms::class.java)
                 startActivity(intent)
             } else {
+                data.dejaCharge = false
+
                 val toast = Toast.makeText(
                     applicationContext,
                     "Remplissez au moins les champs avec un etoile (*) svp",
@@ -214,11 +251,15 @@ class AjouterEditerFilm : AppCompatActivity() {
                 )
                 toast.show()
             }
+            data.dejaCharge = false
+
         }
 
         boutonAnnuler.setOnClickListener {
+            data.dejaCharge = false
             val intent = Intent(this, ListeDeFilms::class.java)
             startActivity(intent)
+
         }
     }
 
