@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -49,6 +50,8 @@ class AjouterEditerFilm : AppCompatActivity() {
 
 
     val data: FilmViewModel by viewModels()
+    val rechercheFilm: RechercheFilm = RechercheFilm()
+
 
     //creation d'uri pour l'image choisi
     private fun creerUriPhoto(): Uri {
@@ -91,7 +94,7 @@ class AjouterEditerFilm : AppCompatActivity() {
         var textLongitude: TextView = findViewById(R.id.textViewLongitude)
 
         boutonPosition = findViewById(R.id.buttonObtenirPosition)
-        boutonPosition.setOnClickListener(){
+        boutonPosition.setOnClickListener() {
             val intent = Intent(this, MapActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_MAP)
             intent.putExtra("FILM_ID", film?.uid)
@@ -171,6 +174,38 @@ class AjouterEditerFilm : AppCompatActivity() {
 
 
             }
+
+
+
+            if (modifierNomFilm.text != null) {
+                val filmId = intent.extras?.getInt("FILM_ID", -1)
+
+                val filmTitre = intent.extras?.getString("FILM_TITRE", "")
+                val filmSlogan = intent.extras?.getString("FILM_SLOGAN", "")
+                val filmAnnee = intent.extras?.getInt("FILM_ANNEE", 0)
+                val filmNote = intent.extras?.getFloat("FILM_NOTE", 0.0f)
+                val filmImage = intent.extras?.getString("FILM_IMAGE", "")
+
+
+                modifierNomFilm.setText(filmTitre)
+                modifierSloganFilm.setText(filmSlogan)
+                modifierAnneeFilm.setText(filmAnnee.toString())
+                modifierNoteFilm.rating = filmNote ?: 0.0f
+                image= filmImage?.toUri()
+                data.updateSelectedImageUri(image)
+
+                Log.d("update viewmodel uri", data.selectedImageUri.value.toString())
+
+                Picasso.get().load(image).into(imageNouveauFilm)
+                //imageNouveauFilm.setImageURI(image)
+                textLatitude.text = (data.lattitude.value).toString()
+                textLongitude.text = (data.longitude.value).toString()
+
+
+
+            }
+
+
         }
 
 
@@ -186,6 +221,10 @@ class AjouterEditerFilm : AppCompatActivity() {
             val latitude = textLatitude.text.toString().toDoubleOrNull()
             val longitude = textLongitude.text.toString().toDoubleOrNull()
             val image = data.selectedImageUri.value
+
+//            if (filmInternet == true){
+//
+//            }
             data.dejaCharge = false
 
 
@@ -193,7 +232,16 @@ class AjouterEditerFilm : AppCompatActivity() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
                         val nouveauFilm =
-                            Film(null, titre, slogan, annee, note, image.toString(),latitude, longitude)
+                            Film(
+                                null,
+                                titre,
+                                slogan,
+                                annee,
+                                note,
+                                image.toString(),
+                                latitude,
+                                longitude
+                            )
                         withContext(Dispatchers.IO) {
                             database.FilmDao().insertAll(nouveauFilm)
                         }
@@ -266,7 +314,7 @@ class AjouterEditerFilm : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         var textLatitude: TextView = findViewById(R.id.textViewLatitude)
-        var textLongitude:TextView = findViewById(R.id.textViewLongitude)
+        var textLongitude: TextView = findViewById(R.id.textViewLongitude)
         if (requestCode == REQUEST_CODE_MAP && resultCode == Activity.RESULT_OK) {
             // Récupérer les données retournées par l'activité MapActivity
             val latitude = data?.getDoubleExtra("latitude", 0.0)
