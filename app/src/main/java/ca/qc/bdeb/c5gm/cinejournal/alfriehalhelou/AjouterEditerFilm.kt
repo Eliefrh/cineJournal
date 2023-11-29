@@ -117,7 +117,6 @@ class AjouterEditerFilm : AppCompatActivity() {
 
                     data.updateSelectedImageUri(imageLocale)
                     imageNouveauFilm.setImageURI(data.selectedImageUri.value)
-                    modifierSloganFilm.setText(data.filmSlogan.value.toString())
                     image = data.selectedImageUri.value
                     Log.d("AAA", imageLocale.toString())
 

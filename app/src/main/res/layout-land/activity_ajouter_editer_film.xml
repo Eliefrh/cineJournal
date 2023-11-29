@@ -23,27 +23,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_ajouter_editer" />
 
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="238dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toEndOf="@+id/textViewNouveauFilm"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNote" />
+
     <TextView
         android:id="@+id/textViewNote"
         android:layout_width="43sp"
         android:layout_height="16sp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="292dp"
         android:text="Note"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.737"
+        app:layout_constraintStart_toEndOf="@+id/textViewNouveauFilm"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_ajouter_editer" />
-
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="238dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.803"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNote" />
 
     <EditText
         android:id="@+id/editTextAnneeFilm"
@@ -134,23 +136,23 @@
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonAnnuler"
         app:layout_constraintEnd_toStartOf="@+id/buttonAjouterImage"
-        app:layout_constraintHorizontal_bias="0.757"
+        app:layout_constraintHorizontal_bias="0.942"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBar"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.033"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/buttonAjouterImage"
         android:layout_width="113dp"
         android:layout_height="53dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginBottom="176dp"
         android:backgroundTint="#037F8E"
         android:drawableLeft="@android:drawable/ic_menu_add"
         android:drawableTint="#FFFF00 "
         android:text="Image"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSauvegarder"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
@@ -183,5 +185,51 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="66dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="8dp"
+        android:text="Position"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.988"
+        app:layout_constraintStart_toEndOf="@+id/TextViewTitre"
+        app:layout_constraintTop_toBottomOf="@+id/buttonObtenirPosition" />
+
+    <Button
+        android:id="@+id/buttonObtenirPosition"
+        android:layout_width="45dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/location_film"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.962"
+        app:layout_constraintStart_toEndOf="@+id/textViewNouveauFilm"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_ajouter_editer" />
+
+    <TextView
+        android:id="@+id/textViewLatitude"
+        android:layout_width="118dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSauvegarder"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewLongitude"
+        android:layout_width="118dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSauvegarder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLatitude"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
