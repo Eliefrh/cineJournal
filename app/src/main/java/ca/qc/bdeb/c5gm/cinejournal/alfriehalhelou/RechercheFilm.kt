@@ -21,12 +21,12 @@ class RechercheFilm : AppCompatActivity() {
     var listeFilms: List<ItemFilm> = listOf()
 
 
-    fun mapApiResultToItemFilms(apiResponse: ApiResponse): List<ItemFilm> {
+    fun mapApiResultToItemFilms(apiResponse: ApiResponse ): List<ItemFilm> {
         return apiResponse.results.map { film ->
             ItemFilm(
                 uid = film.id,
                 titre = film.title,
-                slogan = film.overview ?: "",
+                slogan = "" ,
                 annee = film.release_date?.substringBefore("-")?.toIntOrNull() ?: 0,
                 note = film.vote_average.toFloat(),
                 image = "https://image.tmdb.org/t/p/w500" + (film.poster_path ?: "")
@@ -58,6 +58,7 @@ class RechercheFilm : AppCompatActivity() {
                 val reponse = withContext(Dispatchers.IO) {
                     ApiClient.apiService.getFilmBySearch(chercheFilm)
                 }
+
                 Log.d("Elie recherche de film", reponse.toString())
 
                 if (!reponse.isSuccessful) return@launch
@@ -66,7 +67,9 @@ class RechercheFilm : AppCompatActivity() {
                     return@launch
 
                 // Mappez la réponse de l'API vers la liste d'ItemFilm
+                mapApiResultToItemFilms(reponse.body()!!)
                 val nouveauxFilms = mapApiResultToItemFilms(reponse.body()!!)
+
                 remplirListe(nouveauxFilms)
 //
 //                listeFilms.clear()

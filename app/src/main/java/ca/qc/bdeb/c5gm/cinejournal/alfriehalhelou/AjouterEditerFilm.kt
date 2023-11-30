@@ -92,6 +92,8 @@ class AjouterEditerFilm : AppCompatActivity() {
 
         var textLatitude: TextView = findViewById(R.id.textViewLatitude)
         var textLongitude: TextView = findViewById(R.id.textViewLongitude)
+        var sloganSet = false
+
 
         boutonPosition = findViewById(R.id.buttonObtenirPosition)
         boutonPosition.setOnClickListener() {
@@ -196,6 +198,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                 charSequence: CharSequence?, start: Int, before: Int, count: Int
             ) {
             }
+
             override fun afterTextChanged(editable: Editable?) {
                 val nouveauLongitude = editable.toString()
                 data.longitude.value = nouveauLongitude.toDoubleOrNull()
@@ -240,6 +243,9 @@ class AjouterEditerFilm : AppCompatActivity() {
 
 
         if (filmId != -1) {
+
+
+
             // Si l'ID du film est valide, c'est une édition
             lifecycleScope.launch {
                 film = withContext(Dispatchers.IO) { database.FilmDao().loadById(filmId) }
@@ -274,7 +280,7 @@ class AjouterEditerFilm : AppCompatActivity() {
 
                 }
 
-                data.filmSlogan.value = modifierSloganFilm.text.toString()
+                modifierSloganFilm.setText(data.filmSlogan.value)
 
 
             }
@@ -282,17 +288,37 @@ class AjouterEditerFilm : AppCompatActivity() {
 
 
             if (modifierNomFilm.text != null) {
+
+                // le jeton de l'API
+                BuildConfig.API_KEY_TMBD
+
+                lifecycleScope.launch {
+                    val reponse = withContext(Dispatchers.IO) {
+                        ApiClient.apiService.getMovieDetailsById(filmId)
+                    }
+
+                    if (reponse.isSuccessful) {
+                        data.updateFilmSlogan(reponse.body()!!.tagline)
+                        Log.d("Elie slogan", reponse.body()!!.tagline)
+                        modifierSloganFilm.setText(reponse.body()!!.tagline)
+                    }else{
+                        data.updateFilmSlogan("")
+                    }
+                    sloganSet = true
+
+                }
+
                 val filmId = intent.extras?.getInt("FILM_ID", -1)
 
                 val filmTitre = intent.extras?.getString("FILM_TITRE", "")
-                val filmSlogan = intent.extras?.getString("FILM_SLOGAN", "")
+               // val filmSlogan = data.filmSlogan.value.toString()?:""
                 val filmAnnee = intent.extras?.getInt("FILM_ANNEE", 0)
                 val filmNote = intent.extras?.getFloat("FILM_NOTE", 0.0f)
                 val filmImage = intent.extras?.getString("FILM_IMAGE", "")
 
 
                 modifierNomFilm.setText(filmTitre)
-                modifierSloganFilm.setText(filmSlogan)
+              //  modifierSloganFilm.setText(filmSlogan)
                 modifierAnneeFilm.setText(filmAnnee.toString())
                 modifierNoteFilm.rating = filmNote ?: 0.0f
                 image = filmImage?.toUri()
