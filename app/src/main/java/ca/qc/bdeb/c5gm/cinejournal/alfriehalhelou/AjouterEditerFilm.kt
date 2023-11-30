@@ -50,7 +50,6 @@ class AjouterEditerFilm : AppCompatActivity() {
 
 
     val data: FilmViewModel by viewModels()
-    val rechercheFilm: RechercheFilm = RechercheFilm()
 
 
     //creation d'uri pour l'image choisi
@@ -88,7 +87,6 @@ class AjouterEditerFilm : AppCompatActivity() {
         modifierImageFilm = findViewById(R.id.imageNouveauFilm)
         val text: TextView = findViewById(R.id.textViewNouveauFilm)
         imageNouveauFilm.setImageURI(data.selectedImageUri.value)
-        //modifierSloganFilm.setText(data.filmSlogan.value.toString())
 
         var textLatitude: TextView = findViewById(R.id.textViewLatitude)
         var textLongitude: TextView = findViewById(R.id.textViewLongitude)
@@ -203,7 +201,6 @@ class AjouterEditerFilm : AppCompatActivity() {
                 Log.d("update viewmodel uri", data.selectedImageUri.value.toString())
 
                 Picasso.get().load(image).into(imageNouveauFilm)
-                //imageNouveauFilm.setImageURI(image)
                 textLatitude.text = (data.lattitude.value).toString()
                 textLongitude.text = (data.longitude.value).toString()
 
