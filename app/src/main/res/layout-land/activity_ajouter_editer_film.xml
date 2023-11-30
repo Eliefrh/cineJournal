@@ -28,10 +28,12 @@
         android:layout_width="238dp"
         android:layout_height="43dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAnnuler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toEndOf="@+id/textViewNouveauFilm"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNote" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewNote"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textViewNote"
@@ -146,14 +148,16 @@
         android:id="@+id/buttonAjouterImage"
         android:layout_width="113dp"
         android:layout_height="53dp"
-        android:layout_marginEnd="108dp"
-        android:layout_marginBottom="176dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="116dp"
         android:backgroundTint="#037F8E"
         android:drawableLeft="@android:drawable/ic_menu_add"
         android:drawableTint="#FFFF00 "
         android:text="Image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/buttonSauvegarder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+        app:layout_constraintVertical_bias="0.06" />
 
     <Button
         android:id="@+id/buttonAnnuler"
@@ -214,22 +218,19 @@
 
     <TextView
         android:id="@+id/textViewLatitude"
-        android:layout_width="118dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSauvegarder"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_width="80dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="16dp"
+        android:textSize="6sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textViewLongitude"
-        android:layout_width="118dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSauvegarder"
+        android:layout_width="81dp"
+        android:layout_height="17dp"
+        android:textSize="6sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLatitude"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewLatitude" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
