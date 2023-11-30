@@ -74,7 +74,7 @@ class AjouterEditerFilm : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
 
-
+        Log.d("uri image ", data.selectedImageUri.value.toString())
 
 
         modifierNomFilm = findViewById(R.id.editTextTitreFilm)
@@ -169,6 +169,7 @@ class AjouterEditerFilm : AppCompatActivity() {
 
                     Log.d("Elie uri", image.toString())
 
+                    data.updateSelectedImageUri(image)
 
                 }
 
@@ -193,8 +194,11 @@ class AjouterEditerFilm : AppCompatActivity() {
                 modifierSloganFilm.setText(filmSlogan)
                 modifierAnneeFilm.setText(filmAnnee.toString())
                 modifierNoteFilm.rating = filmNote ?: 0.0f
-                image= filmImage?.toUri()
-                data.updateSelectedImageUri(image)
+                image = filmImage?.toUri()
+
+                if (image != null && image != Uri.EMPTY) {
+                    data.updateSelectedImageUri(image)
+                }
 
                 Log.d("update viewmodel uri", data.selectedImageUri.value.toString())
 
@@ -202,7 +206,6 @@ class AjouterEditerFilm : AppCompatActivity() {
                 //imageNouveauFilm.setImageURI(image)
                 textLatitude.text = (data.lattitude.value).toString()
                 textLongitude.text = (data.longitude.value).toString()
-
 
 
             }
