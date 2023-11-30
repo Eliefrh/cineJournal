@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -99,6 +101,107 @@ class AjouterEditerFilm : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             this.startActivity(intent)
         }
+
+        //watchers pour les changement des textes
+        //titre
+        modifierNomFilm.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                charSequence: CharSequence?, start: Int, before: Int, count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                val nouveauTitre = editable.toString()
+                data.updateFilmTitle(nouveauTitre)
+
+
+            }
+        })
+
+        //slogan
+        modifierSloganFilm.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                charSequence: CharSequence?, start: Int, before: Int, count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                val nouveauSlogan = editable.toString()
+                data.updateFilmSlogan(nouveauSlogan)
+            }
+        })
+
+        //annee
+        modifierAnneeFilm.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                charSequence: CharSequence?, start: Int, before: Int, count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                val nouveauAnnee = editable.toString()
+
+                if (nouveauAnnee.length > 4) {
+                    modifierAnneeFilm.setText(nouveauAnnee.substring(0, 4))
+                    modifierAnneeFilm.setSelection(4)   // placer le curseur à la fin
+                    Toast.makeText(applicationContext, "4 chiffres maximum", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    data.updateFilmYear(nouveauAnnee.toIntOrNull() ?: 0)
+                }
+            }
+        })
+
+        //latitude
+        textLatitude.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                charSequence: CharSequence?, start: Int, before: Int, count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                val nouveauLatitude = editable.toString()
+                data.lattitude.value = nouveauLatitude.toDoubleOrNull()
+            }
+        })
+
+        //longitude
+        textLongitude.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                charSequence: CharSequence?, start: Int, before: Int, count: Int
+            ) {
+            }
+            override fun afterTextChanged(editable: Editable?) {
+                val nouveauLongitude = editable.toString()
+                data.longitude.value = nouveauLongitude.toDoubleOrNull()
+            }
+        })
+
 
         val selectionPhoto =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
@@ -233,17 +336,9 @@ class AjouterEditerFilm : AppCompatActivity() {
             if (titre != "" && annee != 0) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (film == null) {
-                        val nouveauFilm =
-                            Film(
-                                null,
-                                titre,
-                                slogan,
-                                annee,
-                                note,
-                                image.toString(),
-                                latitude,
-                                longitude
-                            )
+                        val nouveauFilm = Film(
+                            null, titre, slogan, annee, note, image.toString(), latitude, longitude
+                        )
                         withContext(Dispatchers.IO) {
                             database.FilmDao().insertAll(nouveauFilm)
                         }
@@ -271,18 +366,14 @@ class AjouterEditerFilm : AppCompatActivity() {
                     data.dejaCharge = false
 
                     val toast = Toast.makeText(
-                        applicationContext,
-                        "Film modifié avec succès",
-                        LENGTH_SHORT
+                        applicationContext, "Film modifié avec succès", LENGTH_SHORT
                     )
                     toast.show()
                 } else {
                     data.dejaCharge = false
 
                     val toast = Toast.makeText(
-                        applicationContext,
-                        "Film ajouté avec succès",
-                        LENGTH_SHORT
+                        applicationContext, "Film ajouté avec succès", LENGTH_SHORT
                     )
                     toast.show()
                 }

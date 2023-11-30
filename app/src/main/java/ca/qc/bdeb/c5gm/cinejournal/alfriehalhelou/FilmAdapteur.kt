@@ -32,7 +32,7 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
 
         if (activity is RechercheFilm) {
             holder.layout.setOnClickListener {
-             //   film = films[position]
+                //   film = films[position]
                 val intent = Intent(ctx, AjouterEditerFilm::class.java)
 //                intent.replaceExtras(Bundle().apply {
 //                    putInt("FILM_ID", film.uid)
@@ -61,7 +61,17 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
 
 
         holder.nomFilm.text = film.titre + " (" + film.annee + ")"
+        if (film.titre.length > 10) {
+            holder.nomFilm.text = film.titre.substring(0, 10) + "  ..." + " (" + film.annee + ")"
+        }
+
+
         holder.sloganFilm.text = film.slogan
+        if (film.slogan.length > 30) {
+            holder.sloganFilm.text = film.slogan.substring(0, 30) + " ..."
+        }
+
+
         holder.noteFilm.rating = film.note
 
         holder.imagFilm.setImageURI(Uri.parse(film.image))
