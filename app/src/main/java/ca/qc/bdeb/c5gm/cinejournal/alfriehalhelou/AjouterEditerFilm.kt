@@ -53,6 +53,7 @@ class AjouterEditerFilm : AppCompatActivity() {
     private lateinit var textLatitude: TextView
     private lateinit var textLongitude: TextView
 
+
     val data: FilmViewModel by viewModels()
 
     //creation d'uri pour l'image choisi

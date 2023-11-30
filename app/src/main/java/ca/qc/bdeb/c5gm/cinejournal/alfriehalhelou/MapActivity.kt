@@ -60,8 +60,15 @@ class MapActivity : AppCompatActivity(), MapListener {
 
         var toolbar: Toolbar = findViewById(R.id.toolbar_map)
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = "Map"
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            title = "Map"
+            setDisplayHomeAsUpEnabled(true)
+        }
+
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+
 
     }
 
@@ -112,6 +119,8 @@ class MapActivity : AppCompatActivity(), MapListener {
 
         // Recherche de la localisation actuelle de l'utilisateur
         val buttonGetLocation = findViewById<Button>(R.id.buttonObtenirLocation)
+        val disableButton = intent.getBooleanExtra("disableButton", false)
+        buttonGetLocation.isEnabled = !disableButton
         buttonGetLocation.setOnClickListener {
             if (mMyLocationOverlay.myLocation != null) {
                 val latitude = mMyLocationOverlay.myLocation.latitude
@@ -132,7 +141,10 @@ class MapActivity : AppCompatActivity(), MapListener {
 
 
         val buttonMyLocationView = findViewById<Button>(R.id.buttonMyLocationView)
+//        val disableButton = intent.getBooleanExtra("disableButton", false)
+        buttonMyLocationView.isEnabled = !disableButton
         buttonMyLocationView.setOnClickListener {
+
             centerMapToMyLocation()
         }
 
