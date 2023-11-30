@@ -265,8 +265,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                     imageNouveauFilm.setImageURI(image)
                     Picasso.get().load(image).into(imageNouveauFilm)
 
-                    textLatitude.text = (data.lattitude.value).toString()
-                    textLongitude.text = (data.longitude.value).toString()
+                    textLatitude.text = data.lattitude.value?.toString() ?: "0"
+                    textLongitude.text = data.longitude.value?.toString() ?: "0"
 
                     Log.d("Elie uri", image.toString())
 
@@ -304,8 +304,8 @@ class AjouterEditerFilm : AppCompatActivity() {
                 Log.d("update viewmodel uri", data.selectedImageUri.value.toString())
 
                 Picasso.get().load(image).into(imageNouveauFilm)
-                textLatitude.text = (data.lattitude.value).toString()
-                textLongitude.text = (data.longitude.value).toString()
+                textLatitude.text = data.lattitude.value?.toString() ?: "0"
+                textLongitude.text = data.longitude.value?.toString() ?: "0"
 
 
             }
