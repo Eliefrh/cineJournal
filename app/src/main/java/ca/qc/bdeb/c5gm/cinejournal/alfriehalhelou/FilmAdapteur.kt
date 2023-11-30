@@ -28,6 +28,7 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
     }
 
     override fun onBindViewHolder(holder: ItemFilmHolder, position: Int) {
+     try{
         var film = films[position]
 
         if (activity is RechercheFilm) {
@@ -84,6 +85,9 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
             Picasso.get().load(film.image).into(holder.imagFilm)
 
         }
+    }catch (e:Exception){
+
+     }
     }
 
     fun mettreAJour(films: List<ItemFilm>) {
@@ -99,6 +103,7 @@ class FilmAdapteur(val ctx: Context, val activity: Activity, var films: List<Ite
         notifyDataSetChanged()
     }
 }
+
 
 
 
