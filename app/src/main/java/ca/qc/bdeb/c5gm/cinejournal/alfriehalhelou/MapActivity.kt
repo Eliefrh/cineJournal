@@ -1,17 +1,18 @@
 package ca.qc.bdeb.c5gm.cinejournal.alfriehalhelou
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.net.Uri
+import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -30,7 +31,6 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-import java.util.EnumSet.range
 
 class MapActivity : AppCompatActivity(), MapListener {
     lateinit var mMap: MapView
@@ -38,13 +38,8 @@ class MapActivity : AppCompatActivity(), MapListener {
     lateinit var mMyLocationOverlay: MyLocationNewOverlay
     private var userMarker: org.osmdroid.views.overlay.Marker? = null
     private val LOCATION_PERMISSION_CODE = 1
-
-    private val STATE_USER_MARKER_LATITUDE = "userMarkerLatitude"
-    private val STATE_USER_MARKER_LONGITUDE = "userMarkerLongitude"
     private var savedUserMarkerLatitude: Double? = null
     private var savedUserMarkerLongitude: Double? = null
-
-
     override fun onResume() {
         super.onResume()
 
@@ -68,13 +63,6 @@ class MapActivity : AppCompatActivity(), MapListener {
         supportActionBar!!.title = "Map"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-
-//        val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
-
-        if (savedInstanceState != null) {
-            savedUserMarkerLatitude = savedInstanceState.getDouble(STATE_USER_MARKER_LATITUDE)
-            savedUserMarkerLongitude = savedInstanceState.getDouble(STATE_USER_MARKER_LONGITUDE)
-        }
     }
 
     //Demander la permission de la localisation
@@ -113,11 +101,6 @@ class MapActivity : AppCompatActivity(), MapListener {
         mMyLocationOverlay.enableMyLocation()
 //        mMyLocationOverlay.enableFollowLocation()
         mMyLocationOverlay.isDrawAccuracyEnabled = true
-//        mMyLocationOverlay.runOnFirstFix {
-//            runOnUiThread {
-//                controller.setCenter(GeoPoint(45.5017, -73.5673))
-//            }
-//        }
 
         controller.setZoom(12.0)
         mMap.overlays.add(mMyLocationOverlay)
@@ -133,15 +116,17 @@ class MapActivity : AppCompatActivity(), MapListener {
             if (mMyLocationOverlay.myLocation != null) {
                 val latitude = mMyLocationOverlay.myLocation.latitude
                 val longitude = mMyLocationOverlay.myLocation.longitude
+                Log.d("Location", "Latitude: $latitude, Longitude: $longitude")
 
                 val resultIntent = Intent()
                 resultIntent.putExtra("latitude", latitude)
                 resultIntent.putExtra("longitude", longitude)
                 setResult(Activity.RESULT_OK, resultIntent)
-
                 finish()
             } else {
-                Toast.makeText(this, "Location n'est pas encore disponible", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this, "La localisation n'est pas encore disponible", Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -152,22 +137,11 @@ class MapActivity : AppCompatActivity(), MapListener {
         }
 
     }
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        // Sauvegarder l'état de l'utilisateur
-        userMarker?.let {
-            outState.putDouble(STATE_USER_MARKER_LATITUDE, it.position.latitude)
-            outState.putDouble(STATE_USER_MARKER_LONGITUDE, it.position.longitude)
-        }
-    }
 
 
     //Ajouter les pins sur la carte
     private fun addHardcodedPins() {
         val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
-//        val intent = intent
-//        val filmId = intent.getIntExtra("FILM_ID", -1)
         lifecycleScope.launch {
             val film = withContext(Dispatchers.IO) { database.FilmDao().getPosition() }
 
@@ -176,15 +150,16 @@ class MapActivity : AppCompatActivity(), MapListener {
                 val longitude = i.longitude
 
                 val pinMarker = org.osmdroid.views.overlay.Marker(mMap)
-                pinMarker.icon =
-                    ResourcesCompat.getDrawable(resources, R.mipmap.ic_position_film_foreground, null)
-                if (latitude != null && longitude!= null) {
+                pinMarker.icon = ResourcesCompat.getDrawable(
+                    resources, R.mipmap.ic_position_film_foreground, null
+                )
+                if (latitude != null && longitude != null) {
                     pinMarker.position = GeoPoint(latitude, longitude)
                 }
-                mMap.overlays.add(pinMarker) }
+                mMap.overlays.add(pinMarker)
+            }
         }
     }
-
 
 
     override fun onScroll(event: ScrollEvent?): Boolean {
@@ -226,9 +201,7 @@ class MapActivity : AppCompatActivity(), MapListener {
             val myLocation = mMyLocationOverlay.myLocation
             val myLocationPoint = GeoPoint(myLocation.latitude, myLocation.longitude)
             controller.animateTo(
-                myLocationPoint,
-                15.0,
-                2000L
+                myLocationPoint, 15.0, 2000L
             )
         }
     }
