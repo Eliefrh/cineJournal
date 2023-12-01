@@ -40,6 +40,13 @@ class MapActivity : AppCompatActivity(), MapListener {
     private val LOCATION_PERMISSION_CODE = 1
     private var savedUserMarkerLatitude: Double? = null
     private var savedUserMarkerLongitude: Double? = null
+
+    override fun onStart() {
+        super.onStart()
+        //demander la permission de la localisation
+        requestLocationPermission()
+
+    }
     override fun onResume() {
         super.onResume()
 
@@ -55,8 +62,7 @@ class MapActivity : AppCompatActivity(), MapListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //demander la permission de la localisation
-        requestLocationPermission()
+        setContentView(R.layout.activity_map)
 
         var toolbar: Toolbar = findViewById(R.id.toolbar_map)
         setSupportActionBar(toolbar)

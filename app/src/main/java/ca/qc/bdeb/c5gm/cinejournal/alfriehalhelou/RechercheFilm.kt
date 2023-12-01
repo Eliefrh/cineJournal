@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.google.android.material.snackbar.Snackbar
 
 class RechercheFilm : AppCompatActivity() {
 
@@ -21,16 +22,21 @@ class RechercheFilm : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recherche_film)
 
-        var toolbar: Toolbar = findViewById(R.id.toolbar_recherche)
+        val toolbar: Toolbar = findViewById(R.id.toolbar_recherche)
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = "Ciné Journal"
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
+        supportActionBar?.title = "Ciné Journal"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
 }
 
 
 
+    private fun afficherSnackbar(message: String) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).setAction("Réessayer")
+        {
+            // Réessayer la recherche
 
+        }.show()
+    }
 
