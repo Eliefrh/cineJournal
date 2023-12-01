@@ -95,7 +95,6 @@ class MapActivity : AppCompatActivity(), MapListener {
 
     // Création de la carte et recherche de la localisation après l'obtention de l'autorisation.
     private fun initializeMap() {
-        setContentView(R.layout.activity_map)
         mMap = findViewById(R.id.osmmap)
 
         Configuration.getInstance().load(

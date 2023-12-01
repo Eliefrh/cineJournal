@@ -32,11 +32,11 @@ class RechercheFilm : AppCompatActivity() {
 
 
 
-    private fun afficherSnackbar(message: String) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).setAction("Réessayer")
-        {
-            // Réessayer la recherche
-
-        }.show()
-    }
+//    private fun afficherSnackbar(message: String) {
+//        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).setAction("Réessayer")
+//        {
+//            // Réessayer la recherche
+//
+//        }.show()
+//    }
 

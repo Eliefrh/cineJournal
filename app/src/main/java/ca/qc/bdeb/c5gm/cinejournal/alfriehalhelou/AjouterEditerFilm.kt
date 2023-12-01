@@ -108,9 +108,9 @@ class AjouterEditerFilm : AppCompatActivity() {
             boutonPosition.setOnClickListener() {
                 val intent = Intent(this, MapActivity::class.java)
                 startActivityForResult(intent, REQUEST_CODE_MAP)
-                intent.putExtra("FILM_ID", film?.uid)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                this.startActivity(intent)
+//                intent.putExtra("FILM_ID", film?.uid)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                this.startActivity(intent)
             }
 
             //watchers pour les changement des textes
