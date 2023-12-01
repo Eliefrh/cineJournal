@@ -39,7 +39,7 @@ ListeDeFilms : AppCompatActivity() {
     lateinit var prefsTri: preferencesTri
     lateinit var recyclerView: RecyclerView
     lateinit var adapteur: FilmAdapteur
-    
+
 
     private fun creerUriPhoto(): Uri {
         val timeStamp: String =

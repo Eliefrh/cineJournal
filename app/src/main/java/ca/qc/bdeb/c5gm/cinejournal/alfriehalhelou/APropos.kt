@@ -10,9 +10,6 @@ class APropos : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activite_apropos)
 
-        //SupportActionBar avec un fleche pour revenir a la page principale
-        //parentActivityName est ajouté dans AndroidManifest.xml pour retourner a la page parente
-
         var toolbar: Toolbar = findViewById(R.id.toolbar_apropos)
         setSupportActionBar(toolbar)
         supportActionBar!!.title = "À propos"

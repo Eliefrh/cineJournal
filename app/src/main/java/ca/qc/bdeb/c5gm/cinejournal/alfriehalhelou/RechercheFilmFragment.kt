@@ -61,7 +61,6 @@ class RechercheFilmFragment : Fragment() {
                     Log.d("Liste des films", listeFilms.toString())
 
                     lifecycleScope.launch {
-//                    recyclerView = findViewById(R.id.listeFilms)
 
                         var liste = listeFilms
 
@@ -75,11 +74,6 @@ class RechercheFilmFragment : Fragment() {
 
                         data.listFilmApi.value = liste
 
-//                    adapteur = FilmAdapteur(applicationContext, RechercheFilm(), liste)
-//
-//                    recyclerView.adapter = adapteur
-//
-//
                     }
                 } catch (e: SocketTimeoutException) {
                     Toast.makeText(
@@ -88,8 +82,6 @@ class RechercheFilmFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
-
             }
         }
     }

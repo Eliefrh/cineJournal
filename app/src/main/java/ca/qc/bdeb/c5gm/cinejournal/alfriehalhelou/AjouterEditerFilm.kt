@@ -52,8 +52,6 @@ class AjouterEditerFilm : AppCompatActivity() {
     private lateinit var modifierImageFilm: ImageView
     private var image: Uri? = null
 
-    private lateinit var mapActivityResultLauncher: ActivityResultLauncher<Intent>
-
     private lateinit var textLatitude: TextView
     private lateinit var textLongitude: TextView
 
@@ -84,9 +82,8 @@ class AjouterEditerFilm : AppCompatActivity() {
 
             Log.d("uri image ", data.selectedImageUri.value.toString())
 
-        textLatitude = findViewById(R.id.textViewLatitude)
-        textLongitude = findViewById(R.id.textViewLongitude)
-
+            textLatitude = findViewById(R.id.textViewLatitude)
+            textLongitude = findViewById(R.id.textViewLongitude)
             modifierNomFilm = findViewById(R.id.editTextTitreFilm)
             modifierSloganFilm = findViewById(R.id.editTextSloganFilm)
             modifierAnneeFilm = findViewById(R.id.editTextAnneeFilm)
@@ -98,19 +95,14 @@ class AjouterEditerFilm : AppCompatActivity() {
             modifierImageFilm = findViewById(R.id.imageNouveauFilm)
             val text: TextView = findViewById(R.id.textViewNouveauFilm)
             imageNouveauFilm.setImageURI(data.selectedImageUri.value)
-
             var textLatitude: TextView = findViewById(R.id.textViewLatitude)
             var textLongitude: TextView = findViewById(R.id.textViewLongitude)
             var sloganSet = false
-
 
             boutonPosition = findViewById(R.id.buttonObtenirPosition)
             boutonPosition.setOnClickListener() {
                 val intent = Intent(this, MapActivity::class.java)
                 startActivityForResult(intent, REQUEST_CODE_MAP)
-//                intent.putExtra("FILM_ID", film?.uid)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                this.startActivity(intent)
             }
 
             //watchers pour les changement des textes
@@ -129,7 +121,6 @@ class AjouterEditerFilm : AppCompatActivity() {
                 override fun afterTextChanged(editable: Editable?) {
                     val nouveauTitre = editable.toString()
                     data.updateFilmTitle(nouveauTitre)
-
 
                 }
             })
@@ -214,7 +205,6 @@ class AjouterEditerFilm : AppCompatActivity() {
                 }
             })
 
-
             val selectionPhoto =
                 registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
                     if (uri != null) {
@@ -230,12 +220,10 @@ class AjouterEditerFilm : AppCompatActivity() {
                             }
                         }
 
-
                         data.updateSelectedImageUri(imageLocale)
                         imageNouveauFilm.setImageURI(data.selectedImageUri.value)
                         image = data.selectedImageUri.value
                         Log.d("AAA", imageLocale.toString())
-
 
                     }
                 }
@@ -247,12 +235,9 @@ class AjouterEditerFilm : AppCompatActivity() {
             val intent = intent
             val filmId = intent.getIntExtra("FILM_ID", -1)
             film?.annee?.toString() ?: ""
-
             imageNouveauFilm.setImageURI(data.selectedImageUri.value)
 
-
             if (filmId != -1) {
-
 
                 // Si l'ID du film est valide, c'est une édition
                 lifecycleScope.launch {
@@ -287,13 +272,9 @@ class AjouterEditerFilm : AppCompatActivity() {
                         data.updateSelectedImageUri(image)
 
                     }
-
                     modifierSloganFilm.setText(data.filmSlogan.value)
 
-
                 }
-
-
 
                 if (modifierNomFilm.text != null) {
 
@@ -313,7 +294,6 @@ class AjouterEditerFilm : AppCompatActivity() {
                             data.updateFilmSlogan("")
                         }
                         sloganSet = true
-
                     }
 
                     val filmId = intent.extras?.getInt("FILM_ID", -1)
@@ -323,7 +303,6 @@ class AjouterEditerFilm : AppCompatActivity() {
                     val filmAnnee = intent.extras?.getInt("FILM_ANNEE", 0)
                     val filmNote = intent.extras?.getFloat("FILM_NOTE", 0.0f)
                     val filmImage = intent.extras?.getString("FILM_IMAGE", "")
-
 
                     modifierNomFilm.setText(filmTitre)
                     //  modifierSloganFilm.setText(filmSlogan)
@@ -341,10 +320,7 @@ class AjouterEditerFilm : AppCompatActivity() {
                     textLatitude.text = data.lattitude.value?.toString() ?: "0"
                     textLongitude.text = data.longitude.value?.toString() ?: "0"
 
-
                 }
-
-
             }
 
 
@@ -361,9 +337,6 @@ class AjouterEditerFilm : AppCompatActivity() {
                 val longitude = textLongitude.text.toString().toDoubleOrNull()
                 val image = data.selectedImageUri.value
 
-//            if (filmInternet == true){
-//
-//            }
                 data.dejaCharge = false
 
 

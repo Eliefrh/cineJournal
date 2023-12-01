@@ -47,6 +47,7 @@ class MapActivity : AppCompatActivity(), MapListener {
         requestLocationPermission()
 
     }
+
     override fun onResume() {
         super.onResume()
 
@@ -109,9 +110,7 @@ class MapActivity : AppCompatActivity(), MapListener {
 
         mMyLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(this), mMap)
         controller = mMap.controller
-//        controller.setCenter(GeoPoint(45.5017, -73.5673))
         mMyLocationOverlay.enableMyLocation()
-//        mMyLocationOverlay.enableFollowLocation()
         mMyLocationOverlay.isDrawAccuracyEnabled = true
         mMyLocationOverlay.runOnFirstFix {
             runOnUiThread {
