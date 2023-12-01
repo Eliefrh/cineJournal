@@ -48,18 +48,20 @@
         android:layout_width="347dp"
         android:layout_height="57dp"
         android:layout_marginTop="44dp"
-        android:text="Par Khalil Alhelou (1895560) et Elie Alfrieh (2067396), dans le cadre de cours 420-5GM-RE, Automne 2023, Collège de Bois-de-Boulogne."
+        android:text="Par Khalil Alhelou (1895560) et Elie Alfrieh (2067396), dans le cadre de cours
+         420-5GM-RE, Automne 2023, Collège de Bois-de-Boulogne."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewCine" />
 
     <TextView
         android:id="@+id/textAPropos2"
-        android:layout_width="347dp"
-        android:layout_height="57dp"
+        android:layout_width="358dp"
+        android:layout_height="69dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="16dp"
-        android:text="Cette application sert à journalisé les films que vous écoutez et combien vous les appréciez"
+        android:text="Cette application sert à journalisé les films que vous écoutez et combien vous
+        les appréciez. Cette application utilise l’API The Movie Database (TMDB). "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
