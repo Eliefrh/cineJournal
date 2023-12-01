@@ -21,7 +21,7 @@
         <activity
             android:name=".MapActivity"
             android:exported="false"
-            android:parentActivityName=".AjouterEditerFilm" />
+            android:parentActivityName=".ListeDeFilms" />
         <activity
             android:name=".RechercheFilm"
             android:exported="false"

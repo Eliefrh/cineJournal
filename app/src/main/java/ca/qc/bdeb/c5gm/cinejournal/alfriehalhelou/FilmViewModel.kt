@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 class FilmViewModel : ViewModel() {
 
     var dejaCharge = false
+    var listFilmApi = MutableLiveData<List<ItemFilm>>()
 
 
     private val _selectedImageUri = MutableLiveData<Uri?>()

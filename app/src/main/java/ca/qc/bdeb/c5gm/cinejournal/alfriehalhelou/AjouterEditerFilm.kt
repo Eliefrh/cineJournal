@@ -16,6 +16,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -51,6 +52,11 @@ class AjouterEditerFilm : AppCompatActivity() {
     private lateinit var modifierImageFilm: ImageView
     private var image: Uri? = null
 
+    private lateinit var mapActivityResultLauncher: ActivityResultLauncher<Intent>
+
+    private lateinit var textLatitude: TextView
+    private lateinit var textLongitude: TextView
+
 
     val data: FilmViewModel by viewModels()
 
@@ -78,6 +84,8 @@ class AjouterEditerFilm : AppCompatActivity() {
 
             Log.d("uri image ", data.selectedImageUri.value.toString())
 
+        textLatitude = findViewById(R.id.textViewLatitude)
+        textLongitude = findViewById(R.id.textViewLongitude)
 
             modifierNomFilm = findViewById(R.id.editTextTitreFilm)
             modifierSloganFilm = findViewById(R.id.editTextSloganFilm)
@@ -100,9 +108,9 @@ class AjouterEditerFilm : AppCompatActivity() {
             boutonPosition.setOnClickListener() {
                 val intent = Intent(this, MapActivity::class.java)
                 startActivityForResult(intent, REQUEST_CODE_MAP)
-                intent.putExtra("FILM_ID", film?.uid)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                this.startActivity(intent)
+//                intent.putExtra("FILM_ID", film?.uid)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                this.startActivity(intent)
             }
 
             //watchers pour les changement des textes

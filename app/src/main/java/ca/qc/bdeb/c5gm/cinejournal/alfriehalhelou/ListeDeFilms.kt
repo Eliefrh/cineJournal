@@ -39,6 +39,8 @@ ListeDeFilms : AppCompatActivity() {
     lateinit var prefsTri: preferencesTri
     lateinit var recyclerView: RecyclerView
     lateinit var adapteur: FilmAdapteur
+    
+
     private fun creerUriPhoto(): Uri {
         val timeStamp: String =
             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
@@ -120,6 +122,14 @@ ListeDeFilms : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
+            R.id.map -> {
+                Log.d("MonTag", "Clic sur Carte de films")
+                val intent = Intent(this, MapActivity::class.java);
+                intent.putExtra("disableButton", true)
+                startActivity(intent)
+            }
+
             //ouvrir page a propos
             R.id.aPropos -> {
                 Log.d("MonTag", "Clic sur À Propos")
