@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 
 class FilmViewModel : ViewModel() {
 
-     var dejaCharge = false
+    var dejaCharge = false
 
 
     private val _selectedImageUri = MutableLiveData<Uri?>()
@@ -24,12 +24,21 @@ class FilmViewModel : ViewModel() {
     private val _filmRating = MutableLiveData<Float>()
     val filmRating: MutableLiveData<Float> get() = _filmRating
 
+    private val _lattitude = MutableLiveData<Double?>()
+    val lattitude: MutableLiveData<Double?> get() = _lattitude
+
+    private val _longitude = MutableLiveData<Double?>()
+    val longitude: MutableLiveData<Double?> get() = _longitude
+
     fun initializeWithFilmData(film: Film) {
         _selectedImageUri.value = film.image.toUri()
         _filmTitle.value = film.titre
         _filmSlogan.value = film.slogan
         _filmYear.value = film.annee ?: 0
         _filmRating.value = film.note ?: 0.0f
+        _lattitude.value = film.latitude ?: 0.0
+        _longitude.value = film.longitude ?: 0.0
+
 
         dejaCharge = true
     }

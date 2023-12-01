@@ -13,22 +13,25 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.google.android.material.snackbar.Snackbar
+
 
 class RechercheFilm : AppCompatActivity() {
 
     private lateinit var adapteur: FilmAdapteur
     private lateinit var recyclerView: RecyclerView
+    var listeFilms: List<ItemFilm> = listOf()
 
 
-    private fun mapApiResultToItemFilms(apiResponse: ApiResponse): List<ItemFilm> {
+    fun mapApiResultToItemFilms(apiResponse: ApiResponse): List<ItemFilm> {
         return apiResponse.results.map { film ->
             ItemFilm(
                 uid = film.id,
                 titre = film.title,
-                slogan = film.overview ?: "",
+                slogan = "",
                 annee = film.release_date?.substringBefore("-")?.toIntOrNull() ?: 0,
                 note = film.vote_average.toFloat(),
-                image = "https://image.tmdb.org/t/p/w500" + film.poster_path ?: ""
+                image = "https://image.tmdb.org/t/p/w500" + (film.poster_path ?: "")
             )
         }
     }
@@ -37,59 +40,82 @@ class RechercheFilm : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recherche_film)
 
-        var toolbar: Toolbar = findViewById(R.id.toolbar_recherche)
+        val toolbar: Toolbar = findViewById(R.id.toolbar_recherche)
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = "Ciné Journal"
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Ciné Journal"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val butounRechercher: ImageButton = findViewById(R.id.imageButtonRechercher)
+        val boutonRechercher: ImageButton = findViewById(R.id.imageButtonRechercher)
         val barDeRecherche: EditText = findViewById(R.id.editTextRecherche)
-        var pageVide: TextView = findViewById(R.id.pageVide)
-        adapteur = FilmAdapteur(applicationContext, RechercheFilm(), listOf())
-
+        val pageVide: TextView = findViewById(R.id.pageVide)
+        adapteur = FilmAdapteur(applicationContext, this, listOf())
 
         // le jeton de l'API
         BuildConfig.API_KEY_TMBD
 
-        butounRechercher.setOnClickListener {
+        boutonRechercher.setOnClickListener {
             val chercheFilm = barDeRecherche.text.toString()
 
             lifecycleScope.launch {
-                val reponse = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.getFilmBySearch(chercheFilm)
-                }
-                Log.d("Elie recerche de film", reponse.toString())
+                try {
+                    val reponse = withContext(Dispatchers.IO) {
+                        ApiClient.apiService.getFilmBySearch(chercheFilm)
+                    }
 
-                if (!reponse.isSuccessful) return@launch
+                    Log.d("Elie recherche de film", reponse.toString())
 
-                if (reponse.body() == null)
-                    return@launch
+                    if (!reponse.isSuccessful) {
+                        // Afficher une Snackbar en cas d'erreur
+                        afficherSnackbar("Erreur lors de la recherche.")
+                        return@launch
+                    }
 
-                // Mappez la réponse de l'API vers la liste d'ItemFilm
-                val listeFilms = mapApiResultToItemFilms(reponse.body()!!)
-                Log.d("Liste des films", listeFilms.toString())
+                    if (reponse.body() == null) return@launch
 
-                val recycleThread = (lifecycleScope.launch {
+                    // Mappez la réponse de l'API vers la liste d'ItemFilm
+                    mapApiResultToItemFilms(reponse.body()!!)
+                    val nouveauxFilms = mapApiResultToItemFilms(reponse.body()!!)
+
+                    remplirListe(nouveauxFilms)
+//
+//                listeFilms.clear()
+//                listeFilms.(nouveauxFilms)
+                    adapteur.mettreAJour(listeFilms)
+
+                    Log.d("Liste des films", nouveauxFilms.toString())
+
                     recyclerView = findViewById(R.id.listeFilms)
-                    var liste = listeFilms
 
-                    if (liste.isEmpty()) {
+                    if (listeFilms.isEmpty()) {
                         pageVide.visibility = View.VISIBLE
                     } else {
                         pageVide.visibility = View.INVISIBLE
-
                     }
-                    Log.d("Elie liste", liste.toString())
-                    adapteur = FilmAdapteur(applicationContext, RechercheFilm(), liste)
 
+                    Log.d("Elie liste", listeFilms.toString())
+                    adapteur = FilmAdapteur(applicationContext, RechercheFilm(), nouveauxFilms)
                     recyclerView.adapter = adapteur
+                    adapteur.ajouterFilm(nouveauxFilms)
 
-
-                })
+                    //snackbar en cas d'exception
+                } catch (e: Exception) {
+                    afficherSnackbar("Une erreur est survenue.")
+                }
             }
         }
-
-
     }
 
+    private fun afficherSnackbar(message: String) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).setAction("Réessayer")
+        {
+            // Réessayer la recherche
+
+        }.show()
+    }
+
+    fun remplirListe(liste: List<ItemFilm>): List<ItemFilm> {
+        listeFilms = liste
+        Log.d("liste Remplie", listeFilms.toString())
+        return listeFilms
+    }
 }

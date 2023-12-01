@@ -26,9 +26,6 @@ data class Films(
      */
     val adult: Boolean,
     val backdrop_path: String,
-//    val budget : Int,
-//    val id : String,
-//    val name : String
     val id: Int,
     val original_language: String,
     val original_title: String,
@@ -41,6 +38,35 @@ data class Films(
     val vote_average: Double,
     val vote_count: Int
 
+
+)
+
+data class Details (
+//    val adult: Boolean,
+//    val backdrop_path: String,
+//    val belongs_to_collection: String,
+//    val budget: Int,
+//    val genres: List<String>,
+//    val homepage: String,
+//    val id: Int,
+//    val imdb_id: String,
+//    val original_language: String,
+//    val original_title: String,
+//    val overview: String,
+//    val popularity: Double,
+//    val poster_path: String,
+//    val production_companies: List<String>,
+//    val production_countries: List<String>,
+//    val release_date: String,
+//    val revenue: Int,
+//    val runtime: Int,
+//    val spoken_languages: List<String>,
+//    val status: String,
+    val tagline: String,
+//    val title: String,
+//    val video: Boolean,
+//    val vote_average: Double,
+//    val vote_count: Int
 
 )
 
@@ -62,7 +88,9 @@ data class ApiResponse(
 interface ApiService {
     @GET("movie/{movie_id}")
     suspend fun getMovieById(@Path("movie_id") movieId: Int): Response<Films>
+    @GET("movie/{movie_id}")
 
+    suspend fun getMovieDetailsById(@Path("movie_id") movieId: Int): Response<Details>
 
     @GET("search/movie")
     suspend fun getFilmBySearch(

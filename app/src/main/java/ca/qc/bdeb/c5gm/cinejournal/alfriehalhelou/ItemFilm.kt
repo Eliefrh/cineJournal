@@ -7,6 +7,6 @@ data class ItemFilm(
     val annee: Int,
     val note: Float,
     val image: String
-) {
+){
 
 }

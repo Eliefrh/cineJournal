@@ -15,11 +15,13 @@ import androidx.room.Update
 @Entity
 data class Film(
     @PrimaryKey(autoGenerate = true) val uid: Int?,
-    var titre: String?,
-    var slogan: String?,
-    var annee: Int?,
-    var note: Float?,
-    var image: String
+    var titre: String = "",
+    var slogan: String = "",
+    var annee: Int = 0,
+    var note: Float = 0.0f,
+    var image: String = "",
+    var latitude: Double?,
+    var longitude: Double?
 )
 
 @Dao
@@ -29,6 +31,9 @@ interface FilmDao {
 
     @Query("SELECT image FROM Film WHERE uid = :filmId")
     suspend fun getImage(filmId: Int): String?
+
+    @Query("SELECT latitude, longitude FROM Film")
+    suspend fun getPosition(): List<PositionData>
 
 //    @Query("UPDATE Film SET image = :newImageUri WHERE uid = :filmId")
 //    suspend fun setImage(filmId: Int, newImageUri: String): Int
@@ -65,7 +70,7 @@ interface FilmDao {
 
 }
 
-@Database(entities = [Film::class], version = 7)
+@Database(entities = [Film::class], version = 21)
 
 abstract class AppDatabase : RoomDatabase() {
     abstract fun FilmDao(): FilmDao
