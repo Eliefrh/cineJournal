@@ -64,12 +64,10 @@ class RechercheFilmFragment : Fragment() {
 
                         var liste = listeFilms
 
-                        if (liste.isEmpty()) {
-                            pageVide.visibility = View.VISIBLE
-                        } else {
+
                             pageVide.visibility = View.INVISIBLE
 
-                        }
+
                         Log.d("Film liste", liste.toString())
 
                         data.listFilmApi.value = liste

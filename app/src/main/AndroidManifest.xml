@@ -17,7 +17,8 @@
         android:roundIcon="@drawable/icon_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.CineJournal"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:windowSoftInputMode="adjustResize">
         <activity
             android:name=".MapActivity"
             android:exported="false"

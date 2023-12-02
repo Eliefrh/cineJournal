@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -128,7 +129,7 @@ class MapActivity : AppCompatActivity(), MapListener {
         // Recherche de la localisation actuelle de l'utilisateur
         val buttonGetLocation = findViewById<Button>(R.id.buttonObtenirLocation)
         val disableButton = intent.getBooleanExtra("disableButton", false)
-        buttonGetLocation.isEnabled = !disableButton
+        buttonGetLocation.isVisible = !disableButton
         buttonGetLocation.setOnClickListener {
             if (mMyLocationOverlay.myLocation != null) {
                 val latitude = mMyLocationOverlay.myLocation.latitude
@@ -150,7 +151,7 @@ class MapActivity : AppCompatActivity(), MapListener {
 
         val buttonMyLocationView = findViewById<Button>(R.id.buttonMyLocationView)
 //        val disableButton = intent.getBooleanExtra("disableButton", false)
-        buttonMyLocationView.isEnabled = !disableButton
+        //buttonMyLocationView.isEnabled = !disableButton
         buttonMyLocationView.setOnClickListener {
 
             centerMapToMyLocation()

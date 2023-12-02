@@ -404,13 +404,14 @@ class AjouterEditerFilm : AppCompatActivity() {
                     toast.show()
                 }
                 data.dejaCharge = false
-
+                sloganSet = false
             }
 
             boutonAnnuler.setOnClickListener {
                 data.dejaCharge = false
                 val intent = Intent(this, ListeDeFilms::class.java)
                 startActivity(intent)
+                sloganSet= false
 
             }
         } catch (e: Exception) {
