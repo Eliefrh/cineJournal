@@ -124,7 +124,7 @@ class MapActivity : AppCompatActivity(), MapListener {
         mMap.addMapListener(this)
 
         //Ajouter les pins sur la carte
-        addHardcodedPins()
+        addPins()
 
         // Recherche de la localisation actuelle de l'utilisateur
         val buttonGetLocation = findViewById<Button>(R.id.buttonObtenirLocation)
@@ -161,7 +161,7 @@ class MapActivity : AppCompatActivity(), MapListener {
 
 
     //Ajouter les pins sur la carte
-    private fun addHardcodedPins() {
+    private fun addPins() {
         val database: AppDatabase = AppDatabase.getDatabase(applicationContext)
         lifecycleScope.launch {
             val film = withContext(Dispatchers.IO) { database.FilmDao().getPosition() }

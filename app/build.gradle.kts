@@ -76,11 +76,16 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    //osm
     implementation("org.osmdroid:osmdroid-android:6.1.14")
     implementation("org.osmdroid:osmdroid-android:6.1.8")
 
+    //fragment
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
+
+    //picasso
     implementation("com.squareup.picasso:picasso:2.71828")
 
     //snackbar
